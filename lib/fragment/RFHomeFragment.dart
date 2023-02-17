@@ -164,7 +164,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Khu vực', style: boldTextStyle()),
+                Text('Sản phẩm bán', style: boldTextStyle()),
                 TextButton(
                   onPressed: () {
                     RFLocationViewAllScreen(locationWidth: true).launch(context);
@@ -173,17 +173,10 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 )
               ],
             ).paddingOnly(left: 16, right: 16, bottom: 8),
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: List.generate(locationListData.length, (index) {
-                return RFLocationComponent(locationData: locationListData[index]);
-              }),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Sản phẩm tiềm năng', style: boldTextStyle()),
+                Text('Sản phẩm cho thuê', style: boldTextStyle()),
                 TextButton(
                   onPressed: () {
                     RFRecentUpdateViewAllScreen().launch(context);
@@ -192,17 +185,6 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 )
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: hotelListData.take(3).length,
-              itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = hotelListData[index];
-                return RFRecentUpdateComponent(recentUpdateData: data);
-              },
-            ),
           ],
         ),
       ),

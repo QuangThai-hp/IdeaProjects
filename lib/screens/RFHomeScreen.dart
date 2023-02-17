@@ -30,9 +30,10 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
-      selectedLabelStyle: boldTextStyle(size: 14),
-      selectedFontSize: 14,
-      unselectedFontSize: 14,
+      selectedLabelStyle: boldTextStyle(size: 12),
+      selectedFontSize: 12,
+      unselectedFontSize: 12,
+      selectedItemColor: rf_primaryColor,
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -46,14 +47,14 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
           activeIcon: Icon(Icons.person, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.backup_table, size: 22), //rf_search.iconImage(),
-          label: 'Sản phẩm',
-          activeIcon: Icon(Icons.backup_table_outlined, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
+          icon: Icon(Icons.send_and_archive_outlined, size: 22), //rf_search.iconImage(),
+          label: 'Cần bán',
+          activeIcon: Icon(Icons.send_and_archive, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.currency_exchange, size: 22), //rf_search.iconImage(),
-          label: 'Giao dịch',
-          activeIcon: Icon(Icons.currency_exchange_outlined, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
+          icon: Icon(Icons.change_circle_outlined, size: 22), //rf_search.iconImage(),
+          label: 'Cho thuê',
+          activeIcon: Icon(Icons.change_circle, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings_outlined, size: 22), //rf_search.iconImage(),
