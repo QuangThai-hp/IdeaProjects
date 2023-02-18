@@ -13,6 +13,8 @@ class SanPham with ChangeNotifier {
   final int field_sale;
   final String? field_phan_loai_nhom_san_pham;
   final double? field_dien_tich;
+  final String? field_phuong_xa;
+  // Thuộc tính sp cho thuê
   final String? field_tinh_trang_noi_that;
   final double? field_so_tien_coc;
   final double? field_dien_tich_su_dung;
@@ -32,6 +34,7 @@ class SanPham with ChangeNotifier {
     required this.field_sale,
     this.field_phan_loai_nhom_san_pham,
     this.field_dien_tich,
+    this.field_phuong_xa,
     this.field_tinh_trang_noi_that,
     this.field_so_tien_coc,
     this.field_dien_tich_su_dung,
