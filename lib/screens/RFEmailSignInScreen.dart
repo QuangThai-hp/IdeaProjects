@@ -5,17 +5,15 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFConformationDialog.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
-import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFResetPasswordScreen.dart';
-import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
-import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 
 import '../components/RFCongratulatedDialog.dart';
 import '../models/http_exeption.dart';
+import '../utils/RFWidget.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -85,26 +83,26 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
       _isLoading = true;
     });
 
-    try{
-      if(_authMode == AuthMode.Login){
-        await Provider.of<Auth>(context, listen: false).login(
-            emailController.text,
-            passwordController.text
-        );
-        Navigator.of(context).pushNamedAndRemoveUntil('/home', (route)=>false);
-      }
+    try
+    {
+      await Provider.of<Auth>(context, listen: false).login(
+          emailController.text,
+          passwordController.text,
+        context
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil('/home', (route)=>false);
       // showInDialog(context, barrierDismissible: true, builder: (context) {
       //   return RFCongratulatedDialog('Thông báo', 'Đăng nhập thành công');
       // });
 
-    } on HttpException catch(error){
+    }
+    on HttpException catch(error){
       RFWidget.showErrorDialog(error.message, context);
-      // _showE(error.message);
     } catch (error){
       print(error);
-      // showInDialog(context, barrierDismissible: true, builder: (context) {
-      //   return RFCongratulatedDialog();
-      // });
+      showInDialog(context, barrierDismissible: true, builder: (context) {
+        return RFCongratulatedDialog();
+      });
       RFWidget.showErrorDialog('Could not authentication you. Please again later', context);
     }
     setState(() {

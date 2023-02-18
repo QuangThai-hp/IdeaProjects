@@ -142,9 +142,10 @@ class _RFChoThueFragmentState extends State<RFChoThueFragment> {
         heroTag: '1',
         elevation: 5,
         onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil('/form-bua-an', (route)=>false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/form-them-sp-cho-thue', (route)=>false);
           // toasty(context, 'Default FAB Button');
         },
+        backgroundColor: rf_primaryColor,
         child: Icon(
           Icons.add,
           color: Colors.white,
