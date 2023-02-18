@@ -23,7 +23,7 @@ class RFSanPhamListComponent extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          rfCommonCachedNetworkImage(sanPhamData!.field_image.validate(), height: 100, width: 100, fit: BoxFit.cover).cornerRadiusWithClipRRect(8),
+       //   rfCommonCachedNetworkImage(sanPhamData!.field_image.validate(), height: 100, width: 100, fit: BoxFit.cover).cornerRadiusWithClipRRect(8),
           16.width,
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
