@@ -33,7 +33,7 @@ class RFSanPhamListComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
+                  Column(//
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(sanPhamData!.title.validate(), style: boldTextStyle()),
