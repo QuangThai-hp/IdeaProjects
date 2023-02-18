@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:room_finder_flutter/models/http_exeption.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
+import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 
 class Auth with ChangeNotifier{
   late String _token = '';
@@ -21,14 +23,14 @@ class Auth with ChangeNotifier{
     return _userId;
   }
 
-  Future<void> _authenticate(String url, String email, String password, String type) async{
-    try{
+  Future<void> _authenticate(String url, String email, String password) async{
+    try
+    {
       final response = await http.post(
           Uri.parse(url),
           body: json.encode({
             'username': email,
             'password': password,
-            'returnSecureToken': true
           }),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
@@ -47,7 +49,6 @@ class Auth with ChangeNotifier{
     catch(error){
       throw error;
     }
-
   }
 
   Future<void> _authenticateDangKy(
@@ -105,8 +106,8 @@ class Auth with ChangeNotifier{
       nhapLaiMatKhau,
     );
   }
-  Future<void> login(String email, String password) async {
+  Future<void> login(String email, String password, BuildContext context) async {
     const url = RFBaseLogin;
-    return _authenticate(url, email, password, 'signin');
+    return _authenticate(url, email, password);
   }
 }
