@@ -6,8 +6,8 @@ import 'package:room_finder_flutter/providers/customer.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
-class RFViewAllCustomersListScreen extends StatelessWidget {
-  final List<Customer> customerListData = customersList();
+class RFViewAllSanPhamsListScreen extends StatelessWidget {
+  final List<Customer> customerListData = SanPhamsList();
 
   @override
   Widget build(BuildContext context) {

@@ -42,7 +42,7 @@ class RFSanPhamListComponent extends StatelessWidget {
                         children: [
                           Icon(Icons.money_off, color: Colors.brown, size: 20),
                           3.width,
-                          Text(sanPhamData!.field_gia.validate(), style: primaryTextStyle()),
+                          // Text(sanPhamData!.field_gia.validate(), style: primaryTextStyle()),
                           8.width,
                           Icon(Icons.line_axis, color: Colors.brown, size: 20),
                           3.width,

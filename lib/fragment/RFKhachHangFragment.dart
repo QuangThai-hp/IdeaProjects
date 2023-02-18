@@ -5,24 +5,20 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/common/constants.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
-// import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
 
-import '../components/RFConformationDialog.dart';
-
-class RFSearchFragment extends StatefulWidget {
-  static const routeName = '/lich-su-bua-an';
+class RFKhachHangFragment extends StatefulWidget {
+  static const routeName = '/khach-hang';
 
   @override
-  _RFSearchFragmentState createState() => _RFSearchFragmentState();
+  _RFKhachHangFragmentState createState() => _RFKhachHangFragmentState();
 }
 
-class _RFSearchFragmentState extends State<RFSearchFragment> {
+class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
   TextEditingController tenSanPhamController = TextEditingController();
   FocusNode tenSanPhamFocusNode = FocusNode();
   DateTime? selectedDate;
@@ -47,56 +43,26 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
     super.dispose();
   }
 
-  String formatDate(String? dateTime, {String format = DATE_FORMAT_2, bool isFromMicrosecondsSinceEpoch = false}) {
-    if (isFromMicrosecondsSinceEpoch) {
-      return DateFormat(format).format(DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000));
-    } else {
-      return DateFormat(format).format(DateTime.parse(dateTime.validate()));
-    }
-  }
-
-  void selectDateAndTime(BuildContext context) async {
-    await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(DateTime.now().year - 100, DateTime.now().month, DateTime.now().day),
-      lastDate: DateTime(3000),
-      builder: (_, child) {
-        return Theme(
-          data: appStore.isDarkModeOn ? ThemeData.dark() : AppThemeData.lightTheme,
-          child: child!,
-        );
-      },
-    ).then((date) async {
-      if (date != null) {
-        selectedDate = date;
-        tenSanPhamController.text = "${formatDate(selectedDate.toString(), format: DATE_FORMAT_VN)}";
-      }
-    }).catchError((e) {
-      toast(e.toString());
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
-        subTitle: 'Sản phẩm cho thuê',
+        subTitle: 'Danh sách khách hàng',
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Tìm kiếm bữa ăn theo ngày', style: boldTextStyle(size: 18)),
+            Text('Tìm kiếm SĐT khách hàng', style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
               controller: tenSanPhamController,
               focus: tenSanPhamFocusNode,
               textFieldType: TextFieldType.NAME,
               decoration: rfInputDecoration(
-                lableText: "Họ tên",
+                lableText: "Nhập số điện thoại",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -112,7 +78,6 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
               child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
-                RFSearchDetailScreen().launch(context);
               },
             ),
           ],
@@ -127,8 +92,18 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Lịch sử bữa ăn", style: boldTextStyle(size: 18)),
-                    // BangDinhDuongNgayList(),
+                    Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              child: Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),
+                            )
+                          ]
+                      ),
+                      // Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),
+                    )
                   ],
                 ),
               ),

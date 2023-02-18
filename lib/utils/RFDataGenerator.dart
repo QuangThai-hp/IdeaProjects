@@ -36,17 +36,17 @@ List<RoomFinderModel> hotelList() {
   return hotelListData;
 }
 
-List<Customer> customersList() {
-  List<Customer> customersListData = [];
-  customersListData.add(Customer(hoTen: 'ANH TIẾN', field_dien_thoai: '0982703783', field_dia_chi: '', field_trang_thai: 'Đã xem lần 1', field_nhu_cau_khoang_gia: '2.0 - 3.0', field_nhu_cau_dien_tich: '30 - 40'));
-  customersListData.add(Customer(hoTen: 'CHỊ HUỆ', field_dien_thoai: '0358023818', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2', field_nhu_cau_khoang_gia: '3.0 - 3.5', field_nhu_cau_dien_tich: '40 - 60'));
-  customersListData.add(Customer(hoTen: 'CHỊ YẾN', field_dien_thoai: '0366898770', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '0.8 - 1.5', field_nhu_cau_dien_tich: '30 - 35'));
-  customersListData.add(Customer(hoTen: 'CHỊ THANH', field_dien_thoai: '0342389023', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '1.2 - 1.5', field_nhu_cau_dien_tich: '40 - 45'));
-  customersListData.add(Customer(hoTen: 'Hằng Hằng', field_dien_thoai: '0973125028', field_dia_chi: '', field_trang_thai: 'Đang giao dịch', field_nhu_cau_khoang_gia: '1.0 - 1.5', field_nhu_cau_dien_tich: '50 - 55'));
-  customersListData.add(Customer(hoTen: 'Nguyễn Hoàng My', field_dien_thoai: '0357306896', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '1.5 - 2.0', field_nhu_cau_dien_tich: '40 - 50'));
-  customersListData.add(Customer(hoTen: 'Mai Hương', field_dien_thoai: '0983201976', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2', field_nhu_cau_khoang_gia: '2.5 - 3.0', field_nhu_cau_dien_tich: '40 - 45'));
+List<Customer> SanPhamsList() {
+  List<Customer> SanPhamsListData = [];
+  SanPhamsListData.add(Customer(hoTen: 'ANH TIẾN', field_dien_thoai: '0982703783', field_dia_chi: '', field_trang_thai: 'Đã xem lần 1', field_nhu_cau_khoang_gia: '2.0 - 3.0', field_nhu_cau_dien_tich: '30 - 40'));
+  SanPhamsListData.add(Customer(hoTen: 'CHỊ HUỆ', field_dien_thoai: '0358023818', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2', field_nhu_cau_khoang_gia: '3.0 - 3.5', field_nhu_cau_dien_tich: '40 - 60'));
+  SanPhamsListData.add(Customer(hoTen: 'CHỊ YẾN', field_dien_thoai: '0366898770', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '0.8 - 1.5', field_nhu_cau_dien_tich: '30 - 35'));
+  SanPhamsListData.add(Customer(hoTen: 'CHỊ THANH', field_dien_thoai: '0342389023', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '1.2 - 1.5', field_nhu_cau_dien_tich: '40 - 45'));
+  SanPhamsListData.add(Customer(hoTen: 'Hằng Hằng', field_dien_thoai: '0973125028', field_dia_chi: '', field_trang_thai: 'Đang giao dịch', field_nhu_cau_khoang_gia: '1.0 - 1.5', field_nhu_cau_dien_tich: '50 - 55'));
+  SanPhamsListData.add(Customer(hoTen: 'Nguyễn Hoàng My', field_dien_thoai: '0357306896', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '1.5 - 2.0', field_nhu_cau_dien_tich: '40 - 50'));
+  SanPhamsListData.add(Customer(hoTen: 'Mai Hương', field_dien_thoai: '0983201976', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2', field_nhu_cau_khoang_gia: '2.5 - 3.0', field_nhu_cau_dien_tich: '40 - 45'));
 
-  return customersListData;
+  return SanPhamsListData;
 }
 
 List<RoomFinderModel> locationList() {
@@ -130,11 +130,6 @@ List<RoomFinderModel> appliedHotelList() {
 
 List<SanPham> sanPhamList() {
   List<SanPham> sanPhamListData = [];
-  sanPhamListData.add(SanPham(field_image: rf_hotel1, title: 'nhà độc lập 3 tầng miếu 2 xã', field_dia_chi: '4/20/52', field_so_tang: '2', field_duong: '2.50 m', field_huong: 'Tây Nam', field_gia: '1 - 1.1 tỷ'));
-  sanPhamListData.add(SanPham(field_image: rf_hotel2, title: 'nhà 2 tầng 47m2 ngõ 109 trại lẻ', field_dia_chi: 'ngõ 109 trại lẻ', field_so_tang: '2', field_duong: '3.0 m', field_huong: 'Đông', field_gia: '2 tỷ'));
-  sanPhamListData.add(SanPham(field_image: rf_hotel3, title: 'Bán nhà ngõ trung tâm ở Minh Khai', field_dia_chi: '14/7 Minh Khai', field_so_tang: '4', field_duong: '4.0 m', field_huong: 'Tây', field_gia: '5 - 5.5 tỷ'));
-  sanPhamListData.add(SanPham(field_image: rf_hotel4, title: 'Nhà 30m* 3 ,5 tầng Trần Nguyên Hãn', field_dia_chi: '78/430 Trần nguyên hãn', field_so_tang: '3', field_duong: '3.0 m', field_huong: 'Nam', field_gia: '4 tỷ'));
-  sanPhamListData.add(SanPham(field_image: rf_hotel5, title: 'nhà 4 tầng 162 trung lực', field_dia_chi: '', field_so_tang: '3', field_duong: '2.0 m', field_huong: 'Tây Nam', field_gia: '2 tỷ'));
 
   return sanPhamListData;
 }

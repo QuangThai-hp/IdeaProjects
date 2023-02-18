@@ -5,24 +5,25 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/common/constants.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
+// import 'package:room_finder_flutter/screens/RFChoThueDetailScreen.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
+import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
 // import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
 
 import '../components/RFConformationDialog.dart';
 
-class RFSearchFragment extends StatefulWidget {
-  static const routeName = '/lich-su-bua-an';
+class RFChoThueFragment extends StatefulWidget {
+  static const routeName = '/san-pham-cho-thue';
 
   @override
-  _RFSearchFragmentState createState() => _RFSearchFragmentState();
+  _RFChoThueFragmentState createState() => _RFChoThueFragmentState();
 }
 
-class _RFSearchFragmentState extends State<RFSearchFragment> {
+class _RFChoThueFragmentState extends State<RFChoThueFragment> {
   TextEditingController tenSanPhamController = TextEditingController();
   FocusNode tenSanPhamFocusNode = FocusNode();
   DateTime? selectedDate;
@@ -89,14 +90,14 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Tìm kiếm bữa ăn theo ngày', style: boldTextStyle(size: 18)),
+            Text('Tìm kiếm tiêu đề sản phẩm', style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
               controller: tenSanPhamController,
               focus: tenSanPhamFocusNode,
               textFieldType: TextFieldType.NAME,
               decoration: rfInputDecoration(
-                lableText: "Họ tên",
+                lableText: "Tên sản phẩm",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -112,7 +113,7 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
               child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
-                RFSearchDetailScreen().launch(context);
+                // RFChoThueDetailScreen().launch(context);
               },
             ),
           ],
@@ -127,8 +128,8 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Lịch sử bữa ăn", style: boldTextStyle(size: 18)),
-                    // BangDinhDuongNgayList(),
+                    Text("Danh sách sản phẩm", style: boldTextStyle(size: 18)),
+                    BangSanPhamChoThueList(),
                   ],
                 ),
               ),
