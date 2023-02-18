@@ -11,11 +11,16 @@ class SanPham with ChangeNotifier {
   final String? field_phuong_xa;
   final String? field_quan_huyen;
   final double field_gia;
-  final String? field_image;
   final String? field_don_vi_tinh;
   final int field_sale;
   final String? field_phan_loai_nhom_san_pham;
   final double? field_dien_tich;
+  final String? field_tinh_trang_noi_that;
+  final double? field_so_tien_coc;
+  final double? field_dien_tich_su_dung;
+  final int? field_so_phong_ve_sinh;
+  final int? field_so_phong_ngu;
+  final String? field_anh_san_pham;
 
   SanPham({
     this.nid = '',
@@ -27,10 +32,15 @@ class SanPham with ChangeNotifier {
     this.field_phuong_xa,
     this.field_quan_huyen,
     required this.field_gia,
-    this.field_image,
-    required this.field_sale,
     this.field_don_vi_tinh,
+    required this.field_sale,
     this.field_phan_loai_nhom_san_pham,
-    this.field_dien_tich
+    this.field_dien_tich,
+    this.field_tinh_trang_noi_that,
+    this.field_so_tien_coc,
+    this.field_dien_tich_su_dung,
+    this.field_so_phong_ve_sinh,
+    this.field_so_phong_ngu,
+    this.field_anh_san_pham,
   });
 }

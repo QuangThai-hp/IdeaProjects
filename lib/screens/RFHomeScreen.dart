@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
@@ -14,6 +16,18 @@ import 'package:room_finder_flutter/fragment/RFMuaBanTestFragment.dart';
 
 class RFHomeScreen extends StatefulWidget {
   static const routeName = '/home';
+
+  int _selectedIndex = 0;
+
+  int get selectedIndex => _selectedIndex;
+
+  set selectedIndex(int value) {
+    _selectedIndex = value;
+  }
+
+  late bool showDialog = false;
+  String contentAlert = '';
+  Timer? timer;
 
   @override
   _RFHomeScreenState createState() => _RFHomeScreenState();

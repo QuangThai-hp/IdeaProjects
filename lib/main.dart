@@ -5,7 +5,9 @@ import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/providers/KhachHangs.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
+import 'package:room_finder_flutter/providers/customers.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/RFFormSanPhamChoThueScreen.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
@@ -69,6 +71,16 @@ class MyApp extends StatelessWidget {
           },
           // create: ,
         ),
+        ChangeNotifierProxyProvider<Auth, Customers>(
+          create: (_) => Customers('',  []),
+          update: (_, auth, previousSanPhams) {
+            return Customers(
+              auth.token,
+              previousSanPhams == null ? [] : previousSanPhams.items,
+            );
+          },
+          // create: ,
+        ),
 
       ],
       child: Consumer<Auth>(
@@ -85,6 +97,7 @@ class MyApp extends StatelessWidget {
             RFHomeScreen.routeName: (ctx) => RFHomeScreen(),
             RFEmailSignInScreen.routeName: (ctx) => RFEmailSignInScreen(),
             RFSignUpScreen.routeName: (ctx) => RFSignUpScreen(),
+            RFFormSanPhamChoThueScreen.routeName: (ctx) => RFFormSanPhamChoThueScreen(),
           },
         ),
       ),
