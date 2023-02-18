@@ -14,14 +14,14 @@ class BangSanPhamChoThueList extends StatefulWidget {
 
 class _BangSanPhamChoThueListState extends State<BangSanPhamChoThueList> {
   late List<SanPham> sanPhams = [];
-  late String trangThaiCu = '';
+  late String isLoadedData = '';
 
   Future<void> _reloadSanPhamsChoThue(BuildContext context) async{
     final provider = Provider.of<SanPhams>(context);
     provider.getListSanPham('Cho thuê').then((value){
       setState(() {
         sanPhams = provider.items;
-        trangThaiCu = '1';
+        isLoadedData = '1';
       });
     });
   }
@@ -31,10 +31,10 @@ class _BangSanPhamChoThueListState extends State<BangSanPhamChoThueList> {
     double c_width = MediaQuery.of(context).size.width*0.65;
     double img_width_height = 60;
 
-    if(trangThaiCu == '')
+    if(isLoadedData == '')
       _reloadSanPhamsChoThue(context);
     return
-      trangThaiCu == '' ? Center(
+      isLoadedData == '' ? Center(
         child: CircularProgressIndicator(),
       ) :
       ListView.builder(

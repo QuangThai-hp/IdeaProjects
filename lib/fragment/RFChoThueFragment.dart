@@ -17,8 +17,6 @@ import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
 import '../components/RFConformationDialog.dart';
 
 class RFChoThueFragment extends StatefulWidget {
-  static const routeName = '/san-pham-cho-thue';
-
   @override
   _RFChoThueFragmentState createState() => _RFChoThueFragmentState();
 }
