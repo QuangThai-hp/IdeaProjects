@@ -57,7 +57,7 @@ class SanPhams with ChangeNotifier {
             // field_phan_loai_nhom_san_pham: element['field_phan_loai_nhom_san_pham'],
             // field_dien_tich: element['field_dien_tich'].toString().toDouble(),
         ));
-      });
+      });//
       _items = loadedSanPhams;
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
