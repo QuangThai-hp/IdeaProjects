@@ -54,8 +54,8 @@ class SanPhams with ChangeNotifier {
             field_gia: element['field_gia'].toString().toDouble(),
             field_don_vi_tinh: element['field_don_vi_tinh'],
             field_sale: element['field_sale'].toString().toInt(),
-            field_phan_loai_nhom_san_pham: element['field_phan_loai_nhom_san_pham'],
-            field_dien_tich: element['field_dien_tich'].toString().toDouble(),
+            // field_phan_loai_nhom_san_pham: element['field_phan_loai_nhom_san_pham'],
+            // field_dien_tich: element['field_dien_tich'].toString().toDouble(),
         ));
       });
       _items = loadedSanPhams;
