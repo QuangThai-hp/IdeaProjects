@@ -94,6 +94,7 @@ class _BangSanPhamMuaBanListState extends State<BangSanPhamMuaBanList> {
                         Text("Giá: ", style: TextStyle(fontWeight: FontWeight.bold)),
                         Text('${data.field_gia.toString()}/${data.field_don_vi_tinh}', style: TextStyle(color: Colors.blue),),
                         10.width,
+                        Text("Diện tích: ", style: TextStyle(fontWeight: FontWeight.bold),),
                         Text("Hướng: ", style: TextStyle(fontWeight: FontWeight.bold),),
                         Text(data.field_dien_tich.toString(), style: TextStyle(color: Colors.blue),),
 
@@ -102,6 +103,8 @@ class _BangSanPhamMuaBanListState extends State<BangSanPhamMuaBanList> {
                     4.height,
                     Row(
                       children: [
+                        Text("Số tầng: ", style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(data.field_so_tang.toString(), style: TextStyle(color: Colors.blue),),
                         Text("Khu vực: ", style: TextStyle(fontWeight: FontWeight.bold),),
                         Text('${data.field_phuong_xa}-${data.field_quan_huyen}', style: TextStyle(color: Colors.blue),),
                       ],
