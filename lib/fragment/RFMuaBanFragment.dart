@@ -5,24 +5,28 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/common/constants.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
+// import 'package:room_finder_flutter/screens/RFMuaBanDetailScreen.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
-import 'package:room_finder_flutter/widgets/BangKhachHangList.dart';
+import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
+import 'package:room_finder_flutter/widgets/BangSanPhamMuaBanList.dart';
+// import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
 
+import '../components/RFConformationDialog.dart';
 
-class RFKhachHangFragment extends StatefulWidget {
-  static const routeName = '/khach-hang';
+class RFMuaBanFragment extends StatefulWidget {
+  static const routeName = '/san-pham-mua-ban';
 
   @override
-  _RFKhachHangFragmentState createState() => _RFKhachHangFragmentState();
+  _RFMuaBanFragmentState createState() => _RFMuaBanFragmentState();
 }
 
-class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
-  TextEditingController tenKhachHangController = TextEditingController();
-  FocusNode tenKhachHangFocusNode = FocusNode();
+class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
+  TextEditingController tenSanPhamController = TextEditingController();
+  FocusNode tenSanPhamFocusNode = FocusNode();
   DateTime? selectedDate;
   FocusNode f4 = FocusNode();
 
@@ -45,26 +49,56 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
     super.dispose();
   }
 
+  String formatDate(String? dateTime, {String format = DATE_FORMAT_2, bool isFromMicrosecondsSinceEpoch = false}) {
+    if (isFromMicrosecondsSinceEpoch) {
+      return DateFormat(format).format(DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000));
+    } else {
+      return DateFormat(format).format(DateTime.parse(dateTime.validate()));
+    }
+  }
+
+  void selectDateAndTime(BuildContext context) async {
+    await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(DateTime.now().year - 100, DateTime.now().month, DateTime.now().day),
+      lastDate: DateTime(3000),
+      builder: (_, child) {
+        return Theme(
+          data: appStore.isDarkModeOn ? ThemeData.dark() : AppThemeData.lightTheme,
+          child: child!,
+        );
+      },
+    ).then((date) async {
+      if (date != null) {
+        selectedDate = date;
+        tenSanPhamController.text = "${formatDate(selectedDate.toString(), format: DATE_FORMAT_VN)}";
+      }
+    }).catchError((e) {
+      toast(e.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
-        subTitle: 'Danh sách khách hàng',
+        subTitle: 'Sản phẩm Mua Bán',
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Tìm kiếm SĐT khách hàng', style: boldTextStyle(size: 18)),
+            Text('Tìm kiếm tiêu đề sản phẩm', style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
-              controller: tenKhachHangController,
-              focus: tenKhachHangFocusNode,
+              controller: tenSanPhamController,
+              focus: tenSanPhamFocusNode,
               textFieldType: TextFieldType.NAME,
               decoration: rfInputDecoration(
-                lableText: "Nhập số điện thoại",
+                lableText: "Tên sản phẩm",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -80,6 +114,7 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
               child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
+                // RFMuaBanDetailScreen().launch(context);
               },
             ),
           ],
@@ -94,20 +129,8 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              child: Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),
-                            ),
-                            BangKhachHangList(),
-
-                          ]
-                      ),
-                      // Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),
-                    )
+                    Text("Danh sách sản phẩm", style: boldTextStyle(size: 18)),
+                    BangSanPhamMuaBanList(),
                   ],
                 ),
               ),
