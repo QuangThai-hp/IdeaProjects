@@ -13,9 +13,6 @@ import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
 
-import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
-
-
 class RFHomeScreen extends StatefulWidget {
   static const routeName = '/home';
 
@@ -36,6 +33,7 @@ class RFHomeScreen extends StatefulWidget {
 }
 
 class _RFHomeScreenState extends State<RFHomeScreen> {
+  int _selectedIndex = 0;
 
   var _pages = [
     RFHomeFragment(),
@@ -47,7 +45,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
 
   Widget _bottomTab() {
     return BottomNavigationBar(
-      currentIndex: widget._selectedIndex,
+      currentIndex: _selectedIndex,
       onTap: _onItemTapped,
       selectedLabelStyle: boldTextStyle(size: 12),
       selectedFontSize: 12,
@@ -86,7 +84,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      widget._selectedIndex = index;
+      _selectedIndex = index;
     });
   }
 
@@ -109,7 +107,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: _bottomTab(),
-      body: Center(child: _pages.elementAt(widget._selectedIndex)),
+      body: Center(child: _pages.elementAt(_selectedIndex)),
     );
   }
 }

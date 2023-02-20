@@ -11,9 +11,8 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
 import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
+import 'package:room_finder_flutter/widgets/BangSanPhamMuaBanList.dart';
 // import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
 
 import '../components/RFConformationDialog.dart';
@@ -26,7 +25,6 @@ class RFMuaBanFragment extends StatefulWidget {
 }
 
 class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
-  TabController? tabController;
   TextEditingController tenSanPhamController = TextEditingController();
   FocusNode tenSanPhamFocusNode = FocusNode();
   DateTime? selectedDate;
@@ -39,7 +37,6 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
   }
 
   void init() async {
-
   }
 
   @override
@@ -86,77 +83,60 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RFCommonAppComponent(
-          title: RFAppName,
-          subTitle: 'Sản phẩm mua bán',
-          mainWidgetHeight: 150,
-          subWidgetHeight: 115,
-          cardWidget: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Tìm kiếm tiêu đề sản phẩm', style: boldTextStyle(size: 18)),
-              16.height,
-              AppTextField(
-                controller: tenSanPhamController,
-                focus: tenSanPhamFocusNode,
-                textFieldType: TextFieldType.NAME,
-                decoration: rfInputDecoration(
-                  lableText: "Tên sản phẩm",
-                  showLableText: true,
-                  suffixIcon: Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: boxDecorationWithRoundedCorners(boxShape: BoxShape.circle, backgroundColor: rf_rattingBgColor),
-                    child: Icon(Icons.done, color: Colors.white, size: 14),
-                  ),
+        title: RFAppName,
+        subTitle: 'Sản phẩm Mua Bán',
+        mainWidgetHeight: 150,
+        subWidgetHeight: 115,
+        cardWidget: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Tìm kiếm tiêu đề sản phẩm', style: boldTextStyle(size: 18)),
+            16.height,
+            AppTextField(
+              controller: tenSanPhamController,
+              focus: tenSanPhamFocusNode,
+              textFieldType: TextFieldType.NAME,
+              decoration: rfInputDecoration(
+                lableText: "Tên sản phẩm",
+                showLableText: true,
+                suffixIcon: Container(
+                  padding: EdgeInsets.all(2),
+                  decoration: boxDecorationWithRoundedCorners(boxShape: BoxShape.circle, backgroundColor: rf_rattingBgColor),
+                  child: Icon(Icons.done, color: Colors.white, size: 14),
                 ),
               ),
-              16.height,
-              AppButton(
-                color: rf_primaryColor,
-                elevation: 0.0,
-                child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
-                width: context.width(),
-                onTap: () {
-                  // RFChoThueDetailScreen().launch(context);
-                },
-              ),
-            ],
-          ),
-          subWidget: DefaultTabController(
-
-            length: 2,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  child: TabBar(unselectedLabelColor: gray.withOpacity(0.6),
-                      labelColor: Colors.red,
-                      labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      unselectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      indicatorColor: context.iconColor,tabs: [
-                        Tab(text: "Nhu cầu bán"),
-                        Tab(text: "Nhu cầu mua"),
-
-                      ]),
-                ),
-                Container(
-                  //Add this to give height
-                  height: MediaQuery.of(context).size.height,
-                  child: TabBarView(children: [
-                    Container(
-                      child: BangNhuCauBanList(),
-                    ),
-                    Container(
-                      child: BangNhuCauCanMuaList(),
-                    ),
-
-                  ]),
-                ),
-              ],
             ),
-
-
-          )
+            16.height,
+            AppButton(
+              color: rf_primaryColor,
+              elevation: 0.0,
+              child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
+              width: context.width(),
+              onTap: () {
+                // RFMuaBanDetailScreen().launch(context);
+              },
+            ),
+          ],
+        ),
+        subWidget: Stack(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              // height: context.height(),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(left: 20 , right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Danh sách sản phẩm", style: boldTextStyle(size: 18)),
+                    BangSanPhamMuaBanList(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       // bottomNavigationBar: _bottomTab(),
       floatingActionButton: FloatingActionButton(
@@ -174,4 +154,3 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
     );
   }
 }
-
