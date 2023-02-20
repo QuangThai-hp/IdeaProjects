@@ -11,6 +11,7 @@ import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
 
 class RFHomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -37,7 +38,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   var _pages = [
     RFHomeFragment(),
     RFKhachHangFragment(),
-    RFSettingsFragment(),
+    RFMuaBanFragment(),
     RFChoThueFragment(),
     RFAccountFragment(),
   ];
