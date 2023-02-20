@@ -103,16 +103,6 @@ class MyApp extends StatelessWidget {
           },
           // create: ,
         ),
-        ChangeNotifierProxyProvider<Auth, Customers>(
-          create: (_) => Customers('',  []),
-          update: (_, auth, previousSanPhams) {
-            return Customers(
-              auth.token,
-              previousSanPhams == null ? [] : previousSanPhams.items,
-            );
-          },
-          // create: ,
-        ),
 
       ],
       child: Consumer<Auth>(

@@ -87,7 +87,11 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
+<<<<<<< HEAD
         subTitle: 'Sản phẩm mua bán',
+=======
+        subTitle: 'Sản phẩm Mua Bán',
+>>>>>>> e5d4032 (Hiển thị khách hàng)
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
@@ -117,11 +121,16 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
               child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
+<<<<<<< HEAD
                 // RFChoThueDetailScreen().launch(context);
+=======
+                // RFMuaBanDetailScreen().launch(context);
+>>>>>>> e5d4032 (Hiển thị khách hàng)
               },
             ),
           ],
         ),
+<<<<<<< HEAD
         subWidget: DefaultTabController(
 
           length: 2,
@@ -157,6 +166,26 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
 
 
         )
+=======
+        subWidget: Stack(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              // height: context.height(),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(left: 20 , right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Danh sách sản phẩm", style: boldTextStyle(size: 18)),
+                    BangSanPhamMuaBanList(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+>>>>>>> e5d4032 (Hiển thị khách hàng)
       ),
       // bottomNavigationBar: _bottomTab(),
       floatingActionButton: FloatingActionButton(
@@ -173,5 +202,9 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
       ),
     );
   }
+<<<<<<< HEAD
   }
 
+=======
+}
+>>>>>>> e5d4032 (Hiển thị khách hàng)
