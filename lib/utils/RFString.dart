@@ -7,3 +7,4 @@ const RFGetCustomerWithStatus = "https://happyhomehaiphong.com/api/get-list-khac
 const RFGetSanPhamByType = "https://happyhomehaiphong.com/api/get-san-pham";
 const RFBaseSignUp = "https://happyhomehaiphong.com/api/register";
 const RFBaseSanPhamChoThue = "https://happyhomehaiphong.com/api/san-pham-cho-thue";
+const RFGetKhachHang="https://happyhomehaiphong.com/api/get-list-khach-hang";

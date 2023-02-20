@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
+import 'package:room_finder_flutter/providers/KhachHangs.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
@@ -42,6 +43,17 @@ class MyApp extends StatelessWidget {
               auth.token,
               auth.userId,
               previousSanPhams == null ? [] : previousSanPhams.items,
+            );
+          },
+          // create: ,
+        ),
+        ChangeNotifierProxyProvider<Auth, KhachHangs>(
+          create: (_) => KhachHangs('', '', []),
+          update: (_, auth, previousKhachHangs) {
+            return KhachHangs(
+              auth.token,
+              auth.userId,
+              previousKhachHangs == null ? [] : previousKhachHangs.items,
             );
           },
           // create: ,
