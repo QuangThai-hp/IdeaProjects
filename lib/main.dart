@@ -1,15 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
-import 'package:room_finder_flutter/providers/SanPham.dart';
-import 'package:room_finder_flutter/providers/customers.dart';
-import 'package:room_finder_flutter/providers/donViTinhs.dart';
-import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
-import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
@@ -92,6 +87,17 @@ class MyApp extends StatelessWidget {
           },
           // create: ,
         ),
+        ChangeNotifierProxyProvider<Auth, KhachHangs>(
+          create: (_) => KhachHangs('', '', []),
+          update: (_, auth, previousKhachHangs) {
+            return KhachHangs(
+              auth.token,
+              auth.userId,
+              previousKhachHangs == null ? [] : previousKhachHangs.items,
+            );
+          },
+          // create: ,
+        ),
 
       ],
       child: Consumer<Auth>(
@@ -115,6 +121,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-//
