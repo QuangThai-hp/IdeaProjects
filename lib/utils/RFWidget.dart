@@ -328,7 +328,6 @@ Widget appBarTitleWidget(context, String title, {Color? color, Color? textColor}
   );
 }
 
-
 void showErrorDialog(String message, BuildContext context){
   showDialog(context: context, builder: (ctx) => AlertDialog(
     title: Text('Thông báo'),
@@ -339,4 +338,46 @@ void showErrorDialog(String message, BuildContext context){
       }, child: Text('Đóng lại'))
     ],
   ));
+}
+
+InputDecoration inputDecoration(
+    BuildContext context, {
+      IconData? prefixIcon,
+      Widget? suffixIcon,
+      String? labelText,
+      double? borderRadius,
+      String? hintText,
+    }) {
+  return InputDecoration(
+    counterText: "",
+    contentPadding: EdgeInsets.only(left: 12, bottom: 10, top: 10, right: 10),
+    labelText: labelText,
+    labelStyle: secondaryTextStyle(),
+    alignLabelWithHint: true,
+    hintText: hintText.validate(),
+    hintStyle: secondaryTextStyle(),
+    isDense: true,
+    prefixIcon: prefixIcon != null ? Icon(prefixIcon, size: 16, color: appStore.isDarkModeOn ? white : gray) : null,
+    suffixIcon: suffixIcon.validate(),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: radius(borderRadius ?? defaultRadius),
+      borderSide: BorderSide(color: Colors.transparent, width: 0.0),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: radius(borderRadius ?? defaultRadius),
+      borderSide: BorderSide(color: Colors.red, width: 0.0),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: radius(borderRadius ?? defaultRadius),
+      borderSide: BorderSide(color: Colors.red, width: 1.0),
+    ),
+    errorMaxLines: 2,
+    errorStyle: primaryTextStyle(color: Colors.red, size: 12),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: radius(borderRadius ?? defaultRadius),
+      borderSide: BorderSide(color: Colors.transparent, width: 0.0),
+    ),
+    filled: true,
+    fillColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+  );
 }

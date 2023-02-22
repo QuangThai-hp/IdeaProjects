@@ -17,8 +17,6 @@ import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
 import '../components/RFConformationDialog.dart';
 
 class RFChoThueFragment extends StatefulWidget {
-  static const routeName = '/san-pham-cho-thue';
-
   @override
   _RFChoThueFragmentState createState() => _RFChoThueFragmentState();
 }
@@ -142,9 +140,10 @@ class _RFChoThueFragmentState extends State<RFChoThueFragment> {
         heroTag: '1',
         elevation: 5,
         onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil('/form-bua-an', (route)=>false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/form-sp-cho-thue', (route)=>false);
           // toasty(context, 'Default FAB Button');
         },
+        backgroundColor: rf_primaryColor,
         child: Icon(
           Icons.add,
           color: Colors.white,

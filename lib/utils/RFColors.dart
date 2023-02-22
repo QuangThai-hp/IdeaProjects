@@ -25,3 +25,4 @@ const appColorPrimaryLight = Color(0xFFF9FAFF);
 const appTextColorPrimary = Color(0xFF212121);
 const appTextColorSecondary = Color(0xFF5A5C5E);
 const appShadowColor = Color(0x95E9EBF0);
+const editTextBgColor = Color(0xFFF8F8F8);

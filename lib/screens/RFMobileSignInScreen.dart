@@ -72,7 +72,8 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
       if(_authMode == AuthMode.Login){
         await Provider.of<Auth>(context, listen: false).login(
             _authData['email']!,
-            _authData['password']!
+            _authData['password']!,
+          context
         );
       }
 

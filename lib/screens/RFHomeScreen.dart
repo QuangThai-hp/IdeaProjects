@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
@@ -13,12 +15,23 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 class RFHomeScreen extends StatefulWidget {
   static const routeName = '/home';
 
+  int _selectedIndex = 0;
+
+  int get selectedIndex => _selectedIndex;
+
+  set selectedIndex(int value) {
+    _selectedIndex = value;
+  }
+
+  late bool showDialog = false;
+  String contentAlert = '';
+  Timer? timer;
+
   @override
   _RFHomeScreenState createState() => _RFHomeScreenState();
 }
 
 class _RFHomeScreenState extends State<RFHomeScreen> {
-  int _selectedIndex = 0;
 
   var _pages = [
     RFHomeFragment(),
@@ -30,7 +43,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
 
   Widget _bottomTab() {
     return BottomNavigationBar(
-      currentIndex: _selectedIndex,
+      currentIndex: widget._selectedIndex,
       onTap: _onItemTapped,
       selectedLabelStyle: boldTextStyle(size: 12),
       selectedFontSize: 12,
@@ -69,7 +82,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      widget._selectedIndex = index;
     });
   }
 
@@ -92,7 +105,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: _bottomTab(),
-      body: Center(child: _pages.elementAt(_selectedIndex)),
+      body: Center(child: _pages.elementAt(widget._selectedIndex)),
     );
   }
 }
