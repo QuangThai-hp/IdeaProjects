@@ -11,6 +11,7 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
+import 'package:room_finder_flutter/widgets/BangNhuCauCanMuaList.dart';
 import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
 import 'package:room_finder_flutter/widgets/BangSanPhamMuaBanList.dart';
 // import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
@@ -25,6 +26,7 @@ class RFMuaBanFragment extends StatefulWidget {
 }
 
 class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
+  TabController? tabController;
   TextEditingController tenSanPhamController = TextEditingController();
   FocusNode tenSanPhamFocusNode = FocusNode();
   DateTime? selectedDate;
@@ -37,6 +39,7 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
   }
 
   void init() async {
+
   }
 
   @override
@@ -84,7 +87,7 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
-        subTitle: 'Sản phẩm Mua Bán',
+        subTitle: 'Sản phẩm mua bán',
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
@@ -114,29 +117,46 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
               child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
-                // RFMuaBanDetailScreen().launch(context);
+                // RFChoThueDetailScreen().launch(context);
               },
             ),
           ],
         ),
-        subWidget: Stack(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              // height: context.height(),
-              child: SingleChildScrollView(
-                padding: EdgeInsets.only(left: 20 , right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Danh sách sản phẩm", style: boldTextStyle(size: 18)),
-                    BangSanPhamMuaBanList(),
-                  ],
-                ),
+        subWidget: DefaultTabController(
+
+          length: 2,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                child: TabBar(unselectedLabelColor: gray.withOpacity(0.6),
+                    labelColor: Colors.red,
+                    labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    unselectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    indicatorColor: context.iconColor,tabs: [
+                  Tab(text: "Nhu cầu bán"),
+                  Tab(text: "Nhu cầu mua"),
+
+                ]),
               ),
-            ),
-          ],
-        ),
+              Container(
+                //Add this to give height
+                height: MediaQuery.of(context).size.height,
+                child: TabBarView(children: [
+                  Container(
+                    child: BangSanPhamMuaBanList(),
+                  ),
+                  Container(
+                    child: BangNhuCauCanMuaList(),
+                  ),
+
+                ]),
+              ),
+            ],
+          ),
+
+
+        )
       ),
       // bottomNavigationBar: _bottomTab(),
       floatingActionButton: FloatingActionButton(
@@ -153,4 +173,5 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
       ),
     );
   }
-}
+  }
+

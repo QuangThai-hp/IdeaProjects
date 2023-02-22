@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
-import 'package:room_finder_flutter/providers/KhachHangs.dart';
-import 'package:room_finder_flutter/providers/CaNhans.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
-import 'package:room_finder_flutter/screens/RFFormChoThueScreen.dart';
+import 'package:room_finder_flutter/screens/RFFormSanPhamChoThueScreen.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
@@ -17,7 +15,6 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/providers/NhuCaus.dart';
-import 'package:room_finder_flutter/providers/thems.dart';
 
 AppStore appStore = AppStore();
 
@@ -51,47 +48,13 @@ class MyApp extends StatelessWidget {
             );
           },
           // create: ,
-        ), ChangeNotifierProxyProvider<Auth, ThemCaNhans>(
-          create: (_) => ThemCaNhans('', '', []),
-          update: (_, auth, previousSanPhams) {
-            return ThemCaNhans(
-              auth.token,
-              auth.userId,
-              previousSanPhams == null ? [] : previousSanPhams.items,
-            );
-          },
-          // create: ,
-        ),
-        ChangeNotifierProxyProvider<Auth, NhuCaus>(
+        ),ChangeNotifierProxyProvider<Auth, NhuCaus>(
           create: (_) => NhuCaus('', '', []),
           update: (_, auth, previousNhuCaus) {
             return NhuCaus(
               auth.token,
               auth.userId,
               previousNhuCaus == null ? [] : previousNhuCaus.items,
-            );
-          },
-          // create: ,
-        ),
-
-        ChangeNotifierProxyProvider<Auth, CaNhans>(
-          create: (_) => CaNhans('', '', []),
-          update: (_, auth, previousLoaiBatDongSans) {
-            return CaNhans(
-              auth.token,
-              auth.userId,
-              previousLoaiBatDongSans == null ? [] : previousLoaiBatDongSans.items,
-            );
-          },
-          // create: ,
-        ),
-        ChangeNotifierProxyProvider<Auth, KhachHangs>(
-          create: (_) => KhachHangs('', '', []),
-          update: (_, auth, previousKhachHangs) {
-            return KhachHangs(
-              auth.token,
-              auth.userId,
-              previousKhachHangs == null ? [] : previousKhachHangs.items,
             );
           },
           // create: ,
@@ -122,7 +85,7 @@ class MyApp extends StatelessWidget {
             RFHomeScreen.routeName: (ctx) => RFHomeScreen(),
             RFEmailSignInScreen.routeName: (ctx) => RFEmailSignInScreen(),
             RFSignUpScreen.routeName: (ctx) => RFSignUpScreen(),
-            RFFormChoThueScreen.routeName: (ctx) => RFFormChoThueScreen(),
+            RFFormSanPhamChoThueScreen.routeName: (ctx) => RFFormSanPhamChoThueScreen(),
           },
         ),
       ),
