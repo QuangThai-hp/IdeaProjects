@@ -17,7 +17,7 @@ class SanPham with ChangeNotifier {
   final String? field_phap_ly;
   final String? field_phan_loai_nhom_san_pham;
   final double? field_dien_tich;
-
+  final String? field_phuong_xa;
   final String? field_nhom_nhu_cau;
 
   // Thuộc tính sp cho thuê
@@ -45,7 +45,7 @@ class SanPham with ChangeNotifier {
     this.field_phap_ly,
     this.field_phan_loai_nhom_san_pham,
     this.field_dien_tich,
-    
+    this.field_phuong_xa,
     this.field_nhom_nhu_cau,
     this.field_tinh_trang_noi_that,
     this.field_so_tien_coc,
