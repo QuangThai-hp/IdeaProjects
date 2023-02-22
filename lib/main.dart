@@ -6,7 +6,7 @@ import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
-import 'package:room_finder_flutter/screens/RFFormSanPhamChoThueScreen.dart';
+import 'package:room_finder_flutter/screens/RFFormChoThueScreen.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
             RFHomeScreen.routeName: (ctx) => RFHomeScreen(),
             RFEmailSignInScreen.routeName: (ctx) => RFEmailSignInScreen(),
             RFSignUpScreen.routeName: (ctx) => RFSignUpScreen(),
-            RFFormSanPhamChoThueScreen.routeName: (ctx) => RFFormSanPhamChoThueScreen(),
+            RFFormChoThueScreen.routeName: (ctx) => RFFormChoThueScreen(),
           },
         ),
       ),
