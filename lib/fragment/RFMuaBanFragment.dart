@@ -39,7 +39,6 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
   }
 
   void init() async {
-
   }
 
   @override
@@ -87,11 +86,7 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
-<<<<<<< HEAD
-        subTitle: 'Sản phẩm mua bán',
-=======
         subTitle: 'Sản phẩm Mua Bán',
->>>>>>> e5d4032 (Hiển thị khách hàng)
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
@@ -121,52 +116,11 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
               child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
-<<<<<<< HEAD
-                // RFChoThueDetailScreen().launch(context);
-=======
                 // RFMuaBanDetailScreen().launch(context);
->>>>>>> e5d4032 (Hiển thị khách hàng)
               },
             ),
           ],
         ),
-<<<<<<< HEAD
-        subWidget: DefaultTabController(
-
-          length: 2,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                child: TabBar(unselectedLabelColor: gray.withOpacity(0.6),
-                    labelColor: Colors.red,
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    unselectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    indicatorColor: context.iconColor,tabs: [
-                  Tab(text: "Nhu cầu bán"),
-                  Tab(text: "Nhu cầu mua"),
-
-                ]),
-              ),
-              Container(
-                //Add this to give height
-                height: MediaQuery.of(context).size.height,
-                child: TabBarView(children: [
-                  Container(
-                    child: BangSanPhamMuaBanList(),
-                  ),
-                  Container(
-                    child: BangNhuCauCanMuaList(),
-                  ),
-
-                ]),
-              ),
-            ],
-          ),
-
-
-        )
-=======
         subWidget: Stack(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -185,7 +139,6 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
             ),
           ],
         ),
->>>>>>> e5d4032 (Hiển thị khách hàng)
       ),
       // bottomNavigationBar: _bottomTab(),
       floatingActionButton: FloatingActionButton(
@@ -202,9 +155,4 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
       ),
     );
   }
-<<<<<<< HEAD
-  }
-
-=======
 }
->>>>>>> e5d4032 (Hiển thị khách hàng)
