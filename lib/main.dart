@@ -13,6 +13,7 @@ import 'package:room_finder_flutter/store/AppStore.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/providers/NhuCaus.dart';
 
 AppStore appStore = AppStore();
 
@@ -43,6 +44,16 @@ class MyApp extends StatelessWidget {
               auth.token,
               auth.userId,
               previousSanPhams == null ? [] : previousSanPhams.items,
+            );
+          },
+          // create: ,
+        ),ChangeNotifierProxyProvider<Auth, NhuCaus>(
+          create: (_) => NhuCaus('', '', []),
+          update: (_, auth, previousNhuCaus) {
+            return NhuCaus(
+              auth.token,
+              auth.userId,
+              previousNhuCaus == null ? [] : previousNhuCaus.items,
             );
           },
           // create: ,
