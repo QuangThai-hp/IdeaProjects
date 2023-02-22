@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 class ImageUpload extends StatefulWidget {
@@ -120,8 +120,5 @@ class _ImageUploadState extends State<ImageUpload> {
       ),
     );
   }
-///////
+
 }
-
-
-// 111
