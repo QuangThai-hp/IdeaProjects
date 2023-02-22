@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 
 class SanPham with ChangeNotifier {
   String? nid;
@@ -11,9 +12,12 @@ class SanPham with ChangeNotifier {
   final double field_gia;
   final String? field_don_vi_tinh;
   final int field_sale;
+  final String? field_phap_ly;
   final String? field_phan_loai_nhom_san_pham;
   final double? field_dien_tich;
   final String? field_phuong_xa;
+  final String? field_nhom_nhu_cau;
+
   // Thuộc tính sp cho thuê
   final String? field_tinh_trang_noi_that;
   final double? field_so_tien_coc;
@@ -21,6 +25,8 @@ class SanPham with ChangeNotifier {
   final int? field_so_phong_ve_sinh;
   final int? field_so_phong_ngu;
   final String? field_anh_san_pham;
+
+  final KhachHangChuNha? khachHangChuNha;
 
   SanPham({
     this.nid = '',
@@ -32,14 +38,17 @@ class SanPham with ChangeNotifier {
     required this.field_gia,
     this.field_don_vi_tinh,
     required this.field_sale,
+    this.field_phap_ly,
     this.field_phan_loai_nhom_san_pham,
     this.field_dien_tich,
     this.field_phuong_xa,
+    this.field_nhom_nhu_cau,
     this.field_tinh_trang_noi_that,
     this.field_so_tien_coc,
     this.field_dien_tich_su_dung,
     this.field_so_phong_ve_sinh,
     this.field_so_phong_ngu,
     this.field_anh_san_pham,
+    this.khachHangChuNha
   });
 }
