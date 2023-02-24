@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-
+import 'package:room_finder_flutter/providers/SanPham.dart';
+import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
-import 'package:room_finder_flutter/providers/NhuCau.dart';
-import 'package:room_finder_flutter/providers/NhuCaus.dart';
+
 import 'package:provider/provider.dart';
 
-class BangNhuCauCanMuaList extends StatefulWidget {
+class BangNhuCauBanList extends StatefulWidget {
   @override
-  State<BangNhuCauCanMuaList> createState() => _BangNhuCauCanMuaListState();
+  State<BangNhuCauBanList> createState() => _BangNhuCauBanListState();
 }
 
-class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
-  late List<NhuCau> nhuCaus = [];
+class _BangNhuCauBanListState extends State<BangNhuCauBanList> {
+  late List<SanPham> sanPhams = [];
   late String trangThaiCu = '';
 
-  Future<void> _reloadNhuCauCanMua(BuildContext context) async{
-    final provider = Provider.of<NhuCaus>(context);
-    provider.getListNhuCau('Mua bán').then((value){
+  Future<void> _reloadSanPhamsBan(BuildContext context) async{
+    final provider = Provider.of<SanPhams>(context);
+    provider.getListSanPham('Mua bán').then((value){
       setState(() {
-        nhuCaus = provider.items;
+        sanPhams = provider.items;
         trangThaiCu = '1';
       });
     });
@@ -32,18 +32,18 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
     double img_width_height = 60;
 
     if(trangThaiCu == '')
-      _reloadNhuCauCanMua(context);
+      _reloadSanPhamsBan(context);
     return
       trangThaiCu == '' ? Center(
         child: CircularProgressIndicator(),
       ) :
       ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: nhuCaus.length,
+      itemCount: sanPhams.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        NhuCau data = nhuCaus[index];
+        SanPham data = sanPhams[index];
         return
           GestureDetector(
             child: Container(
@@ -75,7 +75,9 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           alignment: Alignment.topLeft,
                           width: c_width,
                           child: Column(
+
                             children: [
+
                               Text('${data.title}', style: TextStyle(
                                   fontWeight: FontWeight.bold, color: rf_primaryColor,
                                 fontSize: 14
@@ -88,16 +90,38 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                     4.height,
                     Row(
                       children: [
-
-                        Text("Khoảng giá: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('${data.field_khoang_gia.toString()}', style: TextStyle(color: Colors.blue),),
+                        Text("Mã: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('${data.nid.toString()}', style: TextStyle(color: Colors.blue),),
                         10.width,
-                        Text("Diện tích: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(data.field_khoang_dien_tich.toString(), style: TextStyle(color: Colors.blue),),
+                        Text("Giá: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('${data.field_gia.toString()}/${data.field_don_vi_tinh}', style: TextStyle(color: Colors.blue),),
+
+                        10.width,
+                        Text("Hướng: ", style: TextStyle(fontWeight: FontWeight.bold),),
+
+                        Text(data.field_dien_tich.toString(), style: TextStyle(color: Colors.blue),),
 
                       ],
                     ),
+                    4.height,
+                    Row(
+                      children: [
+                        Text("Số tầng: ", style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(data.field_so_tang.toString(), style: TextStyle(color: Colors.blue),),
+                        10.width,
+                        Text("Diện tích: ", style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(data.field_dien_tich.toString(), style: TextStyle(color: Colors.blue),),
 
+
+                      ],
+                    ),
+                    4.height,
+                    Row(
+                      children: [
+                        Text("Khu vực: ", style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text('${data.field_phuong_xa}-${data.field_quan_huyen}', style: TextStyle(color: Colors.blue),),
+                      ],
+                    )
                   ],
                 ).expand(),
               ],
