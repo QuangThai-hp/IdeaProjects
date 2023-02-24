@@ -132,12 +132,36 @@ class CitiesService {
     });
     // matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
   }
+  void getHuong(String query, BuildContext context) {
+    print(query);
+    final provider = Provider.of<CaNhans>(context, listen: false);
+    provider.getHuong();
+    provider.addListener(() async {
+      matches.addAll(provider.Huong);
+      // return matches;
+      // matches = [...{...matches}];
+      // print(matches);
+    });
+    // matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+  }
   void getNhanSu(String query, BuildContext context) {
     print(query);
     final provider = Provider.of<CaNhans>(context, listen: false);
     provider.getNhanSu('3');
     provider.addListener(() async {
       matches.addAll(provider.NhanSu);
+      // return matches;
+      // matches = [...{...matches}];
+      // print(matches);
+    });
+    // matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+  }
+  void getPhuongXa(String query, BuildContext context) {
+    print(query);
+    final provider = Provider.of<CaNhans>(context, listen: false);
+    provider.getPhuongxa('116');
+    provider.addListener(() async {
+      matches.addAll(provider.PhuongXa);
       // return matches;
       // matches = [...{...matches}];
       // print(matches);

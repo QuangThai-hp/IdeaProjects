@@ -47,6 +47,9 @@ class CaNhans with ChangeNotifier {
   late List<String> _PhuongXa = [];
   List<String> get PhuongXa => _PhuongXa;
 
+  late List<String> _Huong = [];
+  List<String> get Huong => _Huong;
+
   CaNhans(this.authToken, this.uid, this._items);
   List<CaNhan> get items{
     return [..._items];
@@ -452,7 +455,43 @@ class CaNhans with ChangeNotifier {
         loadedDatas.add('${element['name']}');
       });
 
-      _QuanHuyen=loadedDatas;
+      _PhuongXa=loadedDatas;
+      // if(!responseData['success'])
+      //   throw HttpException(responseData['content']);
+      notifyListeners();
+    }
+    // catch(error){
+    //   throw error;
+    // }
+  }
+  Future<void> getHuong() async{
+    // try
+    {
+      final response = await http.post(
+          Uri.parse(RFLoadCaNhan),
+          body: json.encode({
+            'uid': this.uid,
+            'auth': this.authToken,
+
+
+          }),
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+          }
+      );
+
+      print(jsonDecode(response.body));
+      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['huong']); //json.decode(response.body) as Map<String, dynamic>;
+
+      final List<String> loadedDatas = [];
+      extractedData.forEach((element) {
+
+
+        loadedDatas.add('${element['name']}');
+      });
+
+      _Huong=loadedDatas;
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
       notifyListeners();
