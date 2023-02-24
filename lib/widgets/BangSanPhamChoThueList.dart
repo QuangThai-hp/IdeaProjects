@@ -19,10 +19,10 @@ class _BangSanPhamChoThueListState extends State<BangSanPhamChoThueList> {
   Future<void> _reloadSanPhamsChoThue(BuildContext context) async{
     final provider = Provider.of<SanPhams>(context);
     provider.getListSanPham('Cho thuê').then((value){
-      setState(() {
-        sanPhams = provider.items;
-        isLoadedData = '1';
-      });
+      // setState(() {
+      //   sanPhams = provider.items;
+      //   isLoadedData = '1';
+      // });
     });
   }
 
