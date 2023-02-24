@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/providers/KhachHangs.dart';
+import 'package:room_finder_flutter/providers/CaNhans.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
@@ -16,6 +17,7 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/providers/NhuCaus.dart';
+import 'package:room_finder_flutter/providers/thems.dart';
 
 AppStore appStore = AppStore();
 
@@ -49,13 +51,36 @@ class MyApp extends StatelessWidget {
             );
           },
           // create: ,
-        ),ChangeNotifierProxyProvider<Auth, NhuCaus>(
+        ), ChangeNotifierProxyProvider<Auth, ThemCaNhans>(
+          create: (_) => ThemCaNhans('', '', []),
+          update: (_, auth, previousSanPhams) {
+            return ThemCaNhans(
+              auth.token,
+              auth.userId,
+              previousSanPhams == null ? [] : previousSanPhams.items,
+            );
+          },
+          // create: ,
+        ),
+        ChangeNotifierProxyProvider<Auth, NhuCaus>(
           create: (_) => NhuCaus('', '', []),
           update: (_, auth, previousNhuCaus) {
             return NhuCaus(
               auth.token,
               auth.userId,
               previousNhuCaus == null ? [] : previousNhuCaus.items,
+            );
+          },
+          // create: ,
+        ),
+
+        ChangeNotifierProxyProvider<Auth, CaNhans>(
+          create: (_) => CaNhans('', '', []),
+          update: (_, auth, previousLoaiBatDongSans) {
+            return CaNhans(
+              auth.token,
+              auth.userId,
+              previousLoaiBatDongSans == null ? [] : previousLoaiBatDongSans.items,
             );
           },
           // create: ,

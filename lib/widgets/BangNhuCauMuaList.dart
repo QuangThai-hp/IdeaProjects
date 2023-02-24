@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/providers/SanPham.dart';
-import 'package:room_finder_flutter/providers/SanPhams.dart';
+
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
-
+import 'package:room_finder_flutter/providers/NhuCau.dart';
+import 'package:room_finder_flutter/providers/NhuCaus.dart';
 import 'package:provider/provider.dart';
 
-class BangSanPhamMuaBanList extends StatefulWidget {
+class BangNhuCauCanMuaList extends StatefulWidget {
   @override
-  State<BangSanPhamMuaBanList> createState() => _BangSanPhamMuaBanListState();
+  State<BangNhuCauCanMuaList> createState() => _BangNhuCauCanMuaListState();
 }
 
-class _BangSanPhamMuaBanListState extends State<BangSanPhamMuaBanList> {
-  late List<SanPham> sanPhams = [];
+class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
+  late List<NhuCau> nhuCaus = [];
   late String trangThaiCu = '';
 
-  Future<void> _reloadSanPhamsMuaBan(BuildContext context) async{
-    final provider = Provider.of<SanPhams>(context);
-    provider.getListSanPham('Mua bán').then((value){
+  Future<void> _reloadNhuCauCanMua(BuildContext context) async{
+    final provider = Provider.of<NhuCaus>(context);
+    provider.getListNhuCau('Mua bán').then((value){
       setState(() {
-        sanPhams = provider.items;
+        nhuCaus = provider.items;
         trangThaiCu = '1';
       });
     });
@@ -32,18 +32,18 @@ class _BangSanPhamMuaBanListState extends State<BangSanPhamMuaBanList> {
     double img_width_height = 60;
 
     if(trangThaiCu == '')
-      _reloadSanPhamsMuaBan(context);
+      _reloadNhuCauCanMua(context);
     return
       trangThaiCu == '' ? Center(
         child: CircularProgressIndicator(),
       ) :
       ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: sanPhams.length,
+      itemCount: nhuCaus.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        SanPham data = sanPhams[index];
+        NhuCau data = nhuCaus[index];
         return
           GestureDetector(
             child: Container(
@@ -88,30 +88,16 @@ class _BangSanPhamMuaBanListState extends State<BangSanPhamMuaBanList> {
                     4.height,
                     Row(
                       children: [
-                        Text("Mã: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('${data.nid.toString()}', style: TextStyle(color: Colors.blue),),
-                        10.width,
-                        Text("Giá: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('${data.field_gia.toString()}/${data.field_don_vi_tinh}', style: TextStyle(color: Colors.blue),),
+                        Text("Số tầng: ", style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(data.field_so_tang.toString(), style: TextStyle(color: Colors.blue),),
                         10.width,
                         Text("Diện tích: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text("Hướng: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text("Hướng: ", style: TextStyle(fontWeight: FontWeight.bold),),
                         Text(data.field_dien_tich.toString(), style: TextStyle(color: Colors.blue),),
+
 
                       ],
                     ),
-                    4.height,
-                    Row(
-                      children: [
-                        Text("Số tầng: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(data.field_so_tang.toString(), style: TextStyle(color: Colors.blue),),
-                        Text("Khu vực: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_phuong_xa}-${data.field_quan_huyen}', style: TextStyle(color: Colors.blue),),
-                        Text("Khu vực: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_phuong_xa}-${data.field_quan_huyen}', style: TextStyle(color: Colors.blue),),
-                      ],
-                    ),
+
                   ],
                 ).expand(),
               ],
