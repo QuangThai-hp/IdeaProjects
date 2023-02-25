@@ -714,6 +714,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                     AppTextField(
                       controller: duongPhoController,
                       focus: duongPhoFocusNode,
+                      nextFocus: diaChiFocusNode,
                       textFieldType: TextFieldType.NAME,
                       decoration: rfInputDecoration(
                         lableText: "Đường Phố",
@@ -725,6 +726,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                     AppTextField(
                       controller: diaChiController,
                       focus: diaChiFocusNode,
+                      nextFocus: tieuDeSanPhamFocusNode,
                       textFieldType: TextFieldType.NAME,
                       decoration: rfInputDecoration(
                         lableText: "Địa chỉ",
@@ -803,7 +805,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                     AppTextField(
                       controller: tinhTrangNoiThatController,
                       focus: tinhTrangNoiThatFocusNode,
-                      nextFocus: giaFocusNode,
+                      nextFocus: chieuDaiFocusNode,
                       textFieldType: TextFieldType.NAME,
                       decoration: rfInputDecoration(
                         lableText: "Tình trạng nội thất",
@@ -834,7 +836,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: chieuRongController,
                           focus: chieuRongFocusNode,
-                          nextFocus: dienTichSuDugFocusNode,
+                          nextFocus: dienTichFocusNode,
                           decoration: rfInputDecoration(
                             showLableText: true,
                             lableText: 'Chiều rộng',
@@ -854,7 +856,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: dienTichController,
                           focus: dienTichFocusNode,
-                          nextFocus: chieuDaiFocusNode,
+                          nextFocus: dienTichSuDugFocusNode,
                           decoration: rfInputDecoration(
                             showLableText: true,
                             lableText: 'Diện tích đất',
@@ -869,7 +871,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: dienTichSuDungController,
                           focus: dienTichSuDugFocusNode,
-                          nextFocus: tienDatCocFocusNode,
+                          nextFocus: soTangFocusNode,
                           decoration: rfInputDecoration(
                             showLableText: true,
                             lableText: 'Diện tích sử dụng',
@@ -889,7 +891,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: soTangController,
                           focus: soTangFocusNode,
-                          nextFocus: phapLyFocusNode,
+                          nextFocus: soCanFocusNode,
                           decoration: rfInputDecoration(
                             showLableText: true,
                             lableText: 'Số tầng',
@@ -904,7 +906,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: soCanController,
                           focus: soCanFocusNode,
-
+                          nextFocus: duongNgoTruocNhaFocusNode,
                           decoration: rfInputDecoration(
                             showLableText: true,
                             lableText: 'Số căn',
@@ -923,6 +925,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                     AppTextField(
                       controller: duongNgoTruocNhaController,
                       focus: duongNgoTruocNhaFocusNode,
+                      nextFocus: soPhongNguFocusNode,
                       textFieldType: TextFieldType.NUMBER,
                       decoration: rfInputDecoration(
                         lableText: "Đường/Ngõ trước nhà",
@@ -947,7 +950,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: soPhongVeSinhController,
                           focus: soPhongVeSinhFocusNode,
-                          nextFocus: soTangFocusNode,
+                          nextFocus: giaFocusNode,
                           textFieldType: TextFieldType.PHONE,
                           decoration: rfInputDecoration(
                             lableText: "Số phòng vệ sinh",
@@ -964,7 +967,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: giaController,
                           focus: giaFocusNode,
-                          nextFocus: dienTichFocusNode,
+                          nextFocus: tienDatCocFocusNode,
                           decoration: rfInputDecoration(
                             showLableText: true,
                             lableText: 'Giá (triệu đồng)',
@@ -1083,7 +1086,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                     AppTextField(
                       controller: hoaHongController,
                       focus: hoaHongFocusNode,
-                      
+                      nextFocus: ghiChuFocusNode,
                       decoration: rfInputDecoration(
                         showLableText: true,
                         lableText: 'Hoa hồng',
@@ -1098,7 +1101,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                     AppTextField(
                       controller: ghiChuController,
                       focus: ghiChuFocusNode,
-                      nextFocus: tinhTrangNoiThatFocusNode,
+
                       textFieldType: TextFieldType.NAME,
                       decoration: rfInputDecoration(
                         lableText: "Ghi chú",
