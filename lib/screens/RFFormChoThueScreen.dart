@@ -53,57 +53,57 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
   TextEditingController duongNgoTruocNhaController = TextEditingController();
   TextEditingController hoaHongController = TextEditingController();
   TextEditingController ghiChuController = TextEditingController();
-
+  TextEditingController LoaiBatDongSanController = TextEditingController();
+   TextEditingController NguonKhachController = TextEditingController();
+  TextEditingController ChiNhanhController = TextEditingController();
+   TextEditingController NhanSuController = TextEditingController();
+   TextEditingController NhomSanPhamController = TextEditingController();
+   TextEditingController NhomNhuCauController = TextEditingController();
+   TextEditingController LoaiHinhController = TextEditingController();
+   TextEditingController QuanHuyenController = TextEditingController();
+   TextEditingController PhuongXaController = TextEditingController();
+   TextEditingController DonViTinhController = TextEditingController();
+   TextEditingController LoaiHoaHongController = TextEditingController();
+   TextEditingController HuongController = TextEditingController();
 
 
   CupertinoSuggestionsBoxController _suggestionsLoaiBatDongSanController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeLoaiBatDongSanController = TextEditingController();
+
 
   CupertinoSuggestionsBoxController _suggestionsNguonKhachController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeNguonKhachController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsChiNhanhController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeChiNhanhController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsNhanSuController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeNhanSuController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsNhomSanPhamController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeNhomSanPhamController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsNhomNhuCauController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeNhomNhuCauController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsLoaiHinhController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeLoaiHinhController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsQuanHuyenController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeQuanHuyenController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsPhuongXaController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typePhuongXaController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsDonViTinhController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeDonViTinhController = TextEditingController();
 
 
   CupertinoSuggestionsBoxController _suggestionsLoaiHoaHongController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController LoaiHoaHongController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsHuongController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeHuongController = TextEditingController();
 
 
   String nguonKhachNhuCau='--Nguồn khách--';
@@ -173,9 +173,9 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
         '3',
         '56',
         '841',
-        _typeNhomSanPhamController.text,
-        _typeNhomNhuCauController.text,
-        _typeLoaiHinhController.text,
+        NhomSanPhamController.text,
+       NhomNhuCauController.text,
+        LoaiHinhController.text,
 
         '116',
           '165',
@@ -195,7 +195,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
         soPhongNguController.text,
         soPhongVeSinhController.text,
         tienDatCocController.text,
-        _typeDonViTinhController.text,
+        DonViTinhController.text,
         LoaiHoaHongController.text,
         ghiChuController.text,
         'link',
@@ -313,7 +313,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
 
                       suggestionsBoxController: _suggestionsNguonKhachController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeNguonKhachController,
+                          controller: NguonKhachController,
 
                           style: TextStyle(
                             fontSize: 16,
@@ -350,7 +350,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       },
                       
                       onSuggestionSelected: (String suggestion) {
-                        _typeNguonKhachController.text = suggestion;
+                        NguonKhachController.text = suggestion;
 
                       },
                       validator: (value) =>
@@ -362,7 +362,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsChiNhanhController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeChiNhanhController,
+                          controller: ChiNhanhController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -392,7 +392,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeChiNhanhController.text = suggestion;
+                        ChiNhanhController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn Chi Nhánh' : null,
@@ -406,7 +406,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsNhanSuController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeNhanSuController,
+                          controller: NhanSuController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -437,7 +437,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeNhanSuController.text = suggestion;
+                        NhanSuController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn Nhân Sự' : null,
@@ -457,7 +457,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
 
                       suggestionsBoxController: _suggestionsLoaiBatDongSanController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeLoaiBatDongSanController,
+                          controller: LoaiBatDongSanController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -490,7 +490,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeLoaiBatDongSanController.text = suggestion;
+                        LoaiBatDongSanController.text = suggestion;
                       },
 
                       validator: (value) =>
@@ -503,7 +503,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsNhomSanPhamController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeNhomSanPhamController,
+                          controller: NhomSanPhamController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -536,7 +536,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeNhomSanPhamController.text = suggestion;
+                        NhomSanPhamController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn loại bất động sản' : null,
@@ -547,7 +547,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsNhomNhuCauController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeNhomNhuCauController,
+                          controller: NhomNhuCauController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -577,7 +577,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeNhomNhuCauController.text = suggestion;
+                        NhomNhuCauController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn loại bất động sản' : null,
@@ -588,7 +588,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsLoaiHinhController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeLoaiHinhController,
+                          controller: LoaiHinhController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -618,7 +618,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeLoaiHinhController.text = suggestion;
+                        LoaiHinhController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn loại bất động sản' : null,
@@ -631,7 +631,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                           getImmediateSuggestions: true,
                           suggestionsBoxController: _suggestionsQuanHuyenController,
                           textFieldConfiguration: CupertinoTextFieldConfiguration(
-                              controller: _typeQuanHuyenController,
+                              controller: QuanHuyenController,
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -661,7 +661,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                             );
                           },
                           onSuggestionSelected: (String suggestion) {
-                            _typeQuanHuyenController.text = suggestion;
+                            QuanHuyenController.text = suggestion;
                           },
                           validator: (value) =>
                           value!.isEmpty ? 'Chọn loại bất động sản' : null,
@@ -671,7 +671,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                           getImmediateSuggestions: true,
                           suggestionsBoxController: _suggestionsPhuongXaController,
                           textFieldConfiguration: CupertinoTextFieldConfiguration(
-                              controller: _typePhuongXaController,
+                              controller: PhuongXaController,
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -701,7 +701,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                             );
                           },
                           onSuggestionSelected: (String suggestion) {
-                            _typePhuongXaController.text = suggestion;
+                            PhuongXaController.text = suggestion;
                           },
                           validator: (value) =>
                           value!.isEmpty ? 'Chọn Phường Xã' : null,
@@ -748,7 +748,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsHuongController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeHuongController,
+                          controller: HuongController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -778,7 +778,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeHuongController.text = suggestion;
+                        HuongController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn loại bất động sản' : null,
@@ -999,7 +999,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsDonViTinhController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeDonViTinhController,
+                          controller: DonViTinhController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -1029,7 +1029,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeDonViTinhController.text = suggestion;
+                        DonViTinhController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn đơn vị tính' : null,
