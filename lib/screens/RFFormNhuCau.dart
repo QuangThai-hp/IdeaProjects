@@ -20,14 +20,19 @@ import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
-class RFFormChoThueScreen extends StatefulWidget {
+class RFFormNhuCauScreen extends StatefulWidget {
+  final String? nhom;
+  final String? previousPage;
+
+  RFFormNhuCauScreen({this.nhom, this.previousPage});
+
   static const routeName = '/form-sp-cho-thue';
 
   @override
-  _RFFormChoThueScreenState createState() => _RFFormChoThueScreenState();
+  _RFFormNhuCauScreenState createState() => _RFFormNhuCauScreenState();
 }
 
-class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
+class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   TextEditingController ngayNhapController = TextEditingController();
   TextEditingController hoTenKhachHangController = TextEditingController();
   TextEditingController dienThoaiController = TextEditingController();
@@ -45,7 +50,9 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
   TextEditingController tieuDeSanPhamController = TextEditingController();
 
   String huongNhuCau = '-- Hướng --';
-  String nhomNhuCau = 'Cho thuê';
+  String nhomNhuCau = '-- Loại hình --';
+  String tenForm = '';
+  String doiTuong = '';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -155,16 +162,46 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(widget.nhom == 'Khách hàng'){
+      tenForm = 'Thêm khách và nhu cầu mua / thuê';
+      doiTuong = 'Khách hàng';
+    }
+    else if(widget.nhom == 'Chủ nhà'){
+      tenForm = 'Thêm chủ nhà và nhu cầu bán / thuê';
+      doiTuong = 'Chủ nhà';
+    }
+    else if(widget.nhom == 'Mua'){
+      tenForm = 'Thêm nhu cầu mua và thông tin khách hàng';
+      doiTuong = 'Khách hàng';
+      nhomNhuCau = 'Mua';
+    }
+    else if(widget.nhom == 'Bán'){
+      doiTuong = 'Chủ nhà';
+      tenForm = 'Thêm nhu cầu bán và thông tin chủ nhà';
+      nhomNhuCau = 'Bán';
+    }
+    else if(widget.nhom == 'Cho thuê'){
+      doiTuong = 'Chủ nhà';
+      tenForm = 'Thêm chủ nhà và nhu cầu cho thuê';
+      nhomNhuCau = 'Cho thuê';
+    }
+    else{
+      doiTuong = 'Khách hàng';
+      tenForm = 'Thêm khách hàng và nhu cầu cần thuê';
+      nhomNhuCau = 'Cần thuê';
+    }
+
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
-        subTitle: "Thêm sản phẩm cho thuê / cần thuê",
+        subTitle: 'Thêm nhu cầu',
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Thêm nhu cầu thuê', style: primaryTextStyle(),)
+            Text(tenForm, style: primaryTextStyle(),)
           ],
         ),
         subWidget:
@@ -217,7 +254,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                                   nhomNhuCau = newValue.toString();
                                 });
                               },
-                              items: <String>['Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
+                              items: <String>['-- Loại hình --', 'Mua', 'Bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
@@ -232,7 +269,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                             nextFocus: dienThoaiFocusNode,
                             textFieldType: TextFieldType.NAME,
                             decoration: rfInputDecoration(
-                              lableText: "Họ tên cá nhân",
+                              lableText: "Họ tên ${doiTuong}",
                               showLableText: true,
                             ),
                           ),
@@ -243,7 +280,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                             nextFocus: soPhongNguFocusNode,
                             textFieldType: TextFieldType.PHONE,
                             decoration: rfInputDecoration(
-                              lableText: "Điện thoại cá nhân",
+                              lableText: "Điện thoại ${doiTuong}",
                               showLableText: true,
                             ),
                           ),
@@ -375,19 +412,39 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                             textFieldType: TextFieldType.NUMBER,
                           ),
                           16.height,
-                          AppTextField(
-                            controller: dienTichController,
-                            focus: dienTichFocusNode,
-                            nextFocus: chieuDaiFocusNode,
-                            decoration: rfInputDecoration(
-                              showLableText: true,
-                              lableText: 'Diện tích đất',
-                            ),
-                            inputFormatters: [
-                              ThousandsFormatter(allowFraction: true),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: AppTextField(
+                                controller: dienTichController,
+                                focus: dienTichFocusNode,
+                                nextFocus: chieuDaiFocusNode,
+                                decoration: rfInputDecoration(
+                                  showLableText: true,
+                                  lableText: 'Diện tích đất',
+                                ),
+                                inputFormatters: [
+                                  ThousandsFormatter(allowFraction: true),
+                                ],
+                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                textFieldType: TextFieldType.NUMBER,
+                              )),
+                              8.width,
+                              Expanded(child: AppTextField(
+                                controller: dienTichSuDungController,
+                                focus: dienTichSuDugFocusNode,
+                                nextFocus: tienDatCocFocusNode,
+                                decoration: rfInputDecoration(
+                                  showLableText: true,
+                                  lableText: 'Diện tích sử dụng',
+                                ),
+                                inputFormatters: [
+                                  ThousandsFormatter(allowFraction: true),
+                                ],
+                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                textFieldType: TextFieldType.NUMBER,
+                              ))
                             ],
-                            keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                            textFieldType: TextFieldType.NUMBER,
                           ),
                           16.height,
                           Row(
@@ -422,21 +479,6 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                                 textFieldType: TextFieldType.NUMBER,
                               ))
                             ],
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: dienTichSuDungController,
-                            focus: dienTichSuDugFocusNode,
-                            nextFocus: tienDatCocFocusNode,
-                            decoration: rfInputDecoration(
-                              showLableText: true,
-                              lableText: 'Diện tích sử dụng',
-                            ),
-                            inputFormatters: [
-                              ThousandsFormatter(allowFraction: true),
-                            ],
-                            keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                            textFieldType: TextFieldType.NUMBER,
                           ),
                           16.height,
                           AppTextField(
@@ -479,9 +521,12 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                 8.height,
                 rfCommonRichText(title: "Huỷ nhập dữ liệu. ", subTitle: "Quay lại").paddingAll(8).onTap(
                   () {
-                        RFHomeScreen rf_home = new RFHomeScreen();
-                        rf_home.selectedIndex = 3;
-                        rf_home.launch(context);
+                    if(widget.previousPage == 'home-tab-0'){
+                      RFHomeScreen rf_home = new RFHomeScreen();
+                      rf_home.selectedIndex = 0;
+                      rf_home.launch(context);
+                    }
+
                         // rf_search.
                     // Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route)=>false);
                   },
