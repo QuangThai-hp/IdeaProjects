@@ -73,9 +73,11 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RFCommonAppComponent(
+        chucNang: true,
         title: RFAppName,
-        mainWidgetHeight: 200,
-        subWidgetHeight: 130,
+        subTitle: 'Thêm nhanh',
+        mainWidgetHeight: 250,
+        subWidgetHeight: 220,
         cardWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
