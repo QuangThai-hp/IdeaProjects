@@ -52,7 +52,8 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
               //get new list images
               // getImageServer();
               setState(() {
-                _images = message['fileName'];
+                for(var i = 0; i<message['fileName'].length; i++)
+                  _images.add(message['fileName'][i]);
                 _dangUploadHinhAnh = false;
               });
             });
@@ -65,9 +66,31 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
         }
     }else{
       var img = await picker.pickImage(source: ImageSource.camera);
+
       var request = http.MultipartRequest('POST', Uri.parse(RFImagesUpload));
       if(img != null) {
+        var pic = await http.MultipartFile.fromPath("image[]", img.path);
+        request.files.add(pic);
 
+        await request.send().then((result) {
+          http.Response.fromStream(result).then((response) {
+            var message = jsonDecode(response.body);
+            print(message);
+            // show snackbar if input data successfully
+            final snackBar = SnackBar(content: Text(message['content']));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+            setState(() {
+              _images.add(message['fileName'][0]);
+              _dangUploadHinhAnh = false;
+            });
+          });
+        }).catchError((e) {
+          print(e);
+          setState(() {
+            _dangUploadHinhAnh = false;
+          });
+        });
       }
     }
   }

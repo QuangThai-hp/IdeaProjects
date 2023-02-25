@@ -73,7 +73,6 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RFCommonAppComponent(
-        routeName: 'home-tab-0',
         chucNang: true,
         title: RFAppName,
         subTitle: 'Thêm nhanh',

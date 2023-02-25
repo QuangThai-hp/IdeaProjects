@@ -1,4 +1,4 @@
-const RFAppName = "HappyHome";
+const RFAppName = "HAPPYHOME SOCIAL";
 const RFAppSubTitle = "Quản lý dữ liệu BĐS";
 const RFBaseUrl = "https://happyhomehaiphong.com/api/";
 const RFBaseLogin = "https://happyhomehaiphong.com/api/login";
