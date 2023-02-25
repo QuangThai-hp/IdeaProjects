@@ -42,6 +42,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   TextEditingController phapLyController = TextEditingController();
   TextEditingController tinhTrangNoiThatController = TextEditingController();
   TextEditingController giaController = TextEditingController();
+  TextEditingController giaBangSoController = TextEditingController();
   TextEditingController dienTichController = TextEditingController();
   TextEditingController dienTichSuDungController = TextEditingController();
   TextEditingController chieuDaiController = TextEditingController();
@@ -51,6 +52,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   String huongNhuCau = '-- Hướng --';
   String nhomNhuCau = '-- Loại hình --';
+  String chonDonViTinh = '-- Chọn ĐVT --';
   String tenForm = '';
   String doiTuong = '';
 
@@ -65,6 +67,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   FocusNode phapLyFocusNode = FocusNode();
   FocusNode tinhTrangNoiThatFocusNode = FocusNode();
   FocusNode giaFocusNode = FocusNode();
+  FocusNode giaBangSoFocusNode = FocusNode();
   FocusNode dienTichFocusNode = FocusNode();
   FocusNode dienTichSuDugFocusNode = FocusNode();
   FocusNode chieuDaiFocusNode = FocusNode();
@@ -81,6 +84,9 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   @override
   void initState() {
+    setState(() {
+      ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+    });
     super.initState();
     init();
   }
@@ -172,7 +178,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       doiTuong = 'Chủ nhà';
     }
     else if(widget.nhom == 'Mua'){
-      tenForm = 'Thêm nhu cầu mua và thông tin khách hàng';
+      tenForm = 'Thêm nhu cầu mua và thông tin KH';
       doiTuong = 'Khách hàng';
       nhomNhuCau = 'Mua';
     }
@@ -195,13 +201,13 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
-        subTitle: 'Thêm nhu cầu',
+        subTitle: tenForm,
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(tenForm, style: primaryTextStyle(),)
+            Text('Nhập đầy đủ thông tin có dấu *', style: primaryTextStyle(),)
           ],
         ),
         subWidget:
@@ -215,52 +221,56 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                       padding: EdgeInsets.all(0.0),
                       child: Column(
                         children: <Widget>[
-                          TextFormField(
-                            controller: ngayNhapController,
-                            focusNode: ngayNhapFocusNode,
-                            readOnly: true,
-                            onTap: () {
-                              selectDateAndTime(context);
-                            },
-                            onFieldSubmitted: (v) {
-                              ngayNhapFocusNode.unfocus();
-                              FocusScope.of(context).requestFocus(f4);
-                            },
-                            decoration: inputDecoration(
-                              context,
-                              hintText: "Ngày nhập",
-                              suffixIcon: Icon(Icons.calendar_month_rounded, size: 16, color: appStore.isDarkModeOn ? white : gray),
-                            ),
-                          ),
-                          16.height,
-                          Container(
-                            decoration: boxDecorationWithRoundedCorners(
-                              borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                              backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                            ),
-                            padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                            child: DropdownButton<String>(
-                              value: nhomNhuCau,
-                              elevation: 16,
-                              style: primaryTextStyle(),
-                              hint: Text('Nhóm nhu cầu', style: primaryTextStyle()),
-                              isExpanded: true,
-                              underline: Container(
-                                height: 0,
-                                color: Colors.deepPurpleAccent,
-                              ),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  nhomNhuCau = newValue.toString();
-                                });
-                              },
-                              items: <String>['-- Loại hình --', 'Mua', 'Bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
+                          Row(
+                            children: [
+                              Expanded(child: TextFormField(
+                                controller: ngayNhapController,
+                                focusNode: ngayNhapFocusNode,
+                                readOnly: true,
+                                onTap: () {
+                                  selectDateAndTime(context);
+                                },
+                                onFieldSubmitted: (v) {
+                                  ngayNhapFocusNode.unfocus();
+                                  FocusScope.of(context).requestFocus(f4);
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  hintText: "Ngày nhập",
+                                  suffixIcon: Icon(Icons.calendar_month_rounded, size: 16, color: appStore.isDarkModeOn ? white : gray),
+                                ),
+                              )),
+                              8.width,
+                              Expanded(child: Container(
+                                decoration: boxDecorationWithRoundedCorners(
+                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                ),
+                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                child: DropdownButton<String>(
+                                  value: nhomNhuCau,
+                                  elevation: 16,
+                                  style: primaryTextStyle(),
+                                  hint: Text('Nhóm nhu cầu', style: primaryTextStyle()),
+                                  isExpanded: true,
+                                  underline: Container(
+                                    height: 0,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      nhomNhuCau = newValue.toString();
+                                    });
+                                  },
+                                  items: <String>['-- Loại hình --', 'Mua', 'Bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ))
+                            ],
                           ),
                           16.height,
                           AppTextField(
@@ -269,7 +279,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             nextFocus: dienThoaiFocusNode,
                             textFieldType: TextFieldType.NAME,
                             decoration: rfInputDecoration(
-                              lableText: "Họ tên ${doiTuong}",
+                              lableText: "Họ tên ${doiTuong} *",
                               showLableText: true,
                             ),
                           ),
@@ -280,7 +290,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             nextFocus: soPhongNguFocusNode,
                             textFieldType: TextFieldType.PHONE,
                             decoration: rfInputDecoration(
-                              lableText: "Điện thoại ${doiTuong}",
+                              lableText: "Điện thoại ${doiTuong} *",
                               showLableText: true,
                             ),
                           ),
@@ -290,9 +300,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             focus: tieuDeSanPhamFocusNode,
                             textFieldType: TextFieldType.NAME,
                             decoration: rfInputDecoration(
-                              lableText: "Tiêu đề",
+                              lableText: "Tiêu đề *",
                               showLableText: true,
                             ),
+                            minLines: 3,
+                            maxLines: 100,
                           ),
                           16.height,
                           Row(
@@ -397,13 +409,62 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             maxLines: 100,
                           ),
                           16.height,
+                          Row(
+                            children: [
+                              Expanded(child: AppTextField(
+                                controller: giaController,
+                                focus: giaFocusNode,
+                                nextFocus: dienTichFocusNode,
+                                decoration: rfInputDecoration(
+                                  showLableText: true,
+                                  lableText: 'Giá',
+                                ),
+                                inputFormatters: [
+                                  ThousandsFormatter(allowFraction: true),
+                                ],
+                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                textFieldType: TextFieldType.NUMBER,
+                              )),
+                              8.width,
+                              Expanded(child: Container(
+                                decoration: boxDecorationWithRoundedCorners(
+                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                ),
+                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                child: DropdownButton<String>(
+                                  value: chonDonViTinh,
+                                  elevation: 16,
+                                  style: primaryTextStyle(),
+                                  hint: Text('Đơn vị tính', style: primaryTextStyle()),
+                                  isExpanded: true,
+                                  underline: Container(
+                                    height: 0,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      chonDonViTinh = newValue.toString();
+                                    });
+                                  },
+                                  items: <String>['-- Chọn ĐVT --', 'Tr/tháng', 'Tr/năm', 'Triệu đồng', 'Tỉ đồng'].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ))
+                            ],
+                          ),
+                          16.height,
                           AppTextField(
                             controller: giaController,
                             focus: giaFocusNode,
                             nextFocus: dienTichFocusNode,
                             decoration: rfInputDecoration(
                               showLableText: true,
-                              lableText: 'Giá (triệu đồng)',
+                              lableText: 'Giá bằng số (1000000) *',
                             ),
                             inputFormatters: [
                               ThousandsFormatter(allowFraction: true),
