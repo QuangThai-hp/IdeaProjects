@@ -50,9 +50,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   TextEditingController tienDatCocController = TextEditingController();
   TextEditingController tieuDeSanPhamController = TextEditingController();
 
-  String huongNhuCau = '-- Hướng --';
+  String huongNhuCau = '';
   String nhomNhuCau = '-- Loại hình --';
   String chonDonViTinh = '-- Chọn ĐVT --';
+  String chonQuan = '-- Chọn Quận --';
+  String chonPhuongXa = '-- Chọn Phường xã --';
   String tenForm = '';
   String doiTuong = '';
 
@@ -79,8 +81,13 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   DateTime? selectedDate;
   String buaAn = '';
   bool _isLoading = false;
+  String selectedQuan = '';
+  String selectedPhuongXa = '';
 
   String ngayNhapDefault = '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+
+  List<String> quanHuyen = [];
+  List<String> phuongXa = [];
 
   @override
   void initState() {
@@ -273,6 +280,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             ],
                           ),
                           16.height,
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text('Thông tin ${doiTuong}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),),
+                          ),
+                          16.height,
                           AppTextField(
                             controller: hoTenKhachHangController,
                             focus: hoTenKhachHangFocusNode,
@@ -295,6 +307,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             ),
                           ),
                           16.height,
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text('Thông tin nhu cầu ${nhomNhuCau != '-- Loại hình --' ? nhomNhuCau : ''}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),),
+                          ),
+                          16.height,
                           AppTextField(
                             controller: tieuDeSanPhamController,
                             focus: tieuDeSanPhamFocusNode,
@@ -305,6 +322,70 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             ),
                             minLines: 3,
                             maxLines: 100,
+                          ),
+                          16.height,
+                          Row(
+                            children: [
+                              Expanded(child: Container(
+                                decoration: boxDecorationWithRoundedCorners(
+                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                ),
+                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                child: DropdownButton<String>(
+                                  value: null,
+                                  elevation: 16,
+                                  style: primaryTextStyle(),
+                                  hint: Text('Quận', style: primaryTextStyle()),
+                                  isExpanded: true,
+                                  underline: Container(
+                                    height: 0,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      selectedQuan = newValue.toString();
+                                    });
+                                  },
+                                  items: quanHuyen.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              )),
+                              8.width,
+                              Expanded(child: Container(
+                                decoration: boxDecorationWithRoundedCorners(
+                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                ),
+                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                child: DropdownButton<String>(
+                                  value: null,
+                                  elevation: 16,
+                                  style: primaryTextStyle(),
+                                  hint: Text('Phường xã', style: primaryTextStyle()),
+                                  isExpanded: true,
+                                  underline: Container(
+                                    height: 0,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      selectedPhuongXa = newValue.toString();
+                                    });
+                                  },
+                                  items: phuongXa.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              )),
+                            ],
                           ),
                           16.height,
                           Row(
@@ -343,7 +424,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 ),
                                 padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
                                 child: DropdownButton<String>(
-                                  value: huongNhuCau,
+                                  value: null,
                                   elevation: 16,
                                   style: primaryTextStyle(),
                                   hint: Text('Hướng', style: primaryTextStyle()),
@@ -357,7 +438,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       huongNhuCau = newValue.toString();
                                     });
                                   },
-                                  items: <String>['-- Hướng --', 'Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông tứ trạch', 'Tây tứ trạch'].map<DropdownMenuItem<String>>((String value) {
+                                  items: <String>['','Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông tứ trạch', 'Tây tứ trạch'].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
