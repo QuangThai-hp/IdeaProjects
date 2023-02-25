@@ -377,7 +377,7 @@ class CaNhans with ChangeNotifier {
       final List<String> loadedDatas = [];
       extractedData.forEach((element) {
 
-
+        loadedDatas.add(('${element['tid']}'));
         loadedDatas.add('${element['name']}');
       });
 
