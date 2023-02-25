@@ -116,8 +116,8 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
       body: RFCommonAppComponent(
         title: RFAppName,
         subTitle: RFAppSubTitle,
-        mainWidgetHeight: 180,
-        subWidgetHeight: 130,
+        mainWidgetHeight: 230,
+        subWidgetHeight: 190,
         cardWidget: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
