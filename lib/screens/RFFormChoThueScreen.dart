@@ -99,7 +99,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
 
   CupertinoSuggestionsBoxController _suggestionsLoaiHoaHongController =
   CupertinoSuggestionsBoxController();
-  final TextEditingController _typeLoaiHoaHongController = TextEditingController();
+  final TextEditingController LoaiHoaHongController = TextEditingController();
 
   CupertinoSuggestionsBoxController _suggestionsHuongController =
   CupertinoSuggestionsBoxController();
@@ -109,6 +109,8 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
   String nguonKhachNhuCau='--Nguồn khách--';
   String huongNhuCau = '-- Hướng --';
   String nhomNhuCau = 'Cho thuê';
+
+  late CaNhan selectedcanhan;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -133,6 +135,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
   FocusNode duongNgoTruocNhaFocusNode = FocusNode();
   FocusNode hoaHongFocusNode = FocusNode();
   FocusNode ghiChuFocusNode = FocusNode();
+  FocusNode nguonKhachFocusNode=FocusNode();
 
 
   FocusNode f4 = FocusNode();
@@ -162,12 +165,51 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
     try
     {
       await Provider.of<ThemCaNhans>(context, listen: false).save(
-        'Cần bán',
+
           hoTenKhachHangController.text,
           dienThoaiController.text,
           tieuDeSanPhamController.text,
+        '84',
+        '3',
+        '56',
+        '841',
+        _typeNhomSanPhamController.text,
+        _typeNhomNhuCauController.text,
+        _typeLoaiHinhController.text,
 
-          context
+        '116',
+          '165',
+        duongPhoController.text,
+        diaChiController.text,
+        '31',
+        phapLyController.text,
+        tinhTrangNoiThatController.text,
+
+        chieuDaiController.text,
+        chieuRongController.text,
+        dienTichController.text,
+        dienTichSuDungController.text,
+        soTangController.text,
+        soCanController.text,
+        duongNgoTruocNhaController.text,
+        soPhongNguController.text,
+        soPhongVeSinhController.text,
+        tienDatCocController.text,
+        _typeDonViTinhController.text,
+        LoaiHoaHongController.text,
+        ghiChuController.text,
+        'link',
+        hoaHongController.text,
+        giaController.text,
+        context,
+
+
+
+
+
+
+
+
       );
     }
     on HttpException catch(error){
@@ -257,7 +299,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                     AppTextField(
                       controller: dienThoaiController,
                       focus: dienThoaiFocusNode,
-                      nextFocus: soPhongNguFocusNode,
+                      nextFocus: nguonKhachFocusNode,
                       textFieldType: TextFieldType.PHONE,
                       decoration: rfInputDecoration(
                         lableText: "Điện thoại cá nhân",
@@ -272,6 +314,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       suggestionsBoxController: _suggestionsNguonKhachController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
                           controller: _typeNguonKhachController,
+
                           style: TextStyle(
                             fontSize: 16,
 
@@ -286,6 +329,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         return Future.delayed(
                             Duration(seconds: 1),
                                 () => citis.matches
+
                         );
                       },
 
@@ -293,10 +337,10 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-
                             suggestion,
                             style: TextStyle(
                                 fontSize: 16,
+
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.none,
                                 color: Colors.black
@@ -304,8 +348,10 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                           ),
                         );
                       },
+                      
                       onSuggestionSelected: (String suggestion) {
                         _typeNguonKhachController.text = suggestion;
+
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn nguồn khách hàng' : null,
@@ -430,12 +476,15 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
+
                             suggestion,
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.none,
-                                color: Colors.black
+                                color: Colors.black,
+                              
+                                
                             ),
                           ),
                         );
@@ -443,7 +492,9 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       onSuggestionSelected: (String suggestion) {
                         _typeLoaiBatDongSanController.text = suggestion;
                       },
+
                       validator: (value) =>
+
                       value!.isEmpty ? 'Chọn loại bất động sản' : null,
                     ),
                     8.height,
@@ -468,6 +519,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
 
                       },
+
                       itemBuilder: (context, String suggestion) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -927,7 +979,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         Expanded(child: AppTextField(
                           controller: tienDatCocController,
                           focus: tienDatCocFocusNode,
-                          nextFocus: tieuDeSanPhamFocusNode,
+
                           decoration: rfInputDecoration(
                             showLableText: true,
                             lableText: 'Số tiền cọc (triệu đồng)',
@@ -988,7 +1040,9 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                       getImmediateSuggestions: true,
                       suggestionsBoxController: _suggestionsLoaiHoaHongController,
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
-                          controller: _typeLoaiHoaHongController,
+                          controller: LoaiHoaHongController,
+
+
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -1018,7 +1072,7 @@ class _RFFormChoThueScreenState extends State<RFFormChoThueScreen> {
                         );
                       },
                       onSuggestionSelected: (String suggestion) {
-                        _typeLoaiHoaHongController.text = suggestion;
+                        LoaiHoaHongController.text = suggestion;
                       },
                       validator: (value) =>
                       value!.isEmpty ? 'Chọn loại bất động sản' : null,
