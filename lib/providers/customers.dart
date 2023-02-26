@@ -10,8 +10,9 @@ import 'customer.dart';
 class Customers with ChangeNotifier {
   late List<Customer> _items = [];
   final String authToken;
+  final int uid;
 
-  Customers(this.authToken, this._items);
+  Customers(this.authToken, this.uid, this._items);
   List<Customer> get items{
     return [..._items];
   }
@@ -20,10 +21,13 @@ class Customers with ChangeNotifier {
   }
 
   Future<void> getListCustomerWithStatus(String status) async{
-    try{
+    // try
+    {
       final response = await http.post(
           Uri.parse(RFGetCustomerWithStatus),
           body: json.encode({
+            'uid': this.uid,
+            'auth': this.authToken,
             'status': status,
           }),
           headers: {
@@ -32,17 +36,15 @@ class Customers with ChangeNotifier {
           }
       );
 
-      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)); //json.decode(response.body) as Map<String, dynamic>;
+      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<Customer> loadedCustomers = [];
       extractedData.forEach((element) {
         loadedCustomers.add(Customer(
             nid: element['nid'],
             hoTen: element['hoTen'],
-            field_dien_thoai: element['dienThoai'],
+            field_dien_thoai: element['field_dien_thoai'],
             field_dia_chi: element['field_dia_chi'],
             field_trang_thai: element['field_trang_thai'],
-            field_nhu_cau_khoang_gia: element['field_nhu_cau_khoang_gia'],
-            field_nhu_cau_dien_tich: element['field_nhu_cau_dien_tich']
         ));
       });
       _items = loadedCustomers;
@@ -50,9 +52,9 @@ class Customers with ChangeNotifier {
       //   throw HttpException(responseData['content']);
       notifyListeners();
     }
-    catch(error){
-      throw error;
-    }
+    // catch(error){
+    //   throw error;
+    // }
   }
 
 }
