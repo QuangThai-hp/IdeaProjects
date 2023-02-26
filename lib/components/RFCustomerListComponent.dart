@@ -43,15 +43,16 @@ class RFCustomerListComponent extends StatelessWidget {
                           Text(customer!.hoTen.validate(), style: boldTextStyle(color: Colors.black87)),
                         ],
                       ),
-                      // Text(hotelData!.roomCategoryName.validate(), style: boldTextStyle()),
                       8.height,
                       Row(
                         children: [
                           Icon(Icons.phone_outlined, color: Colors.brown, size: 20,),
                           6.width,
-                          Text(customer!.field_dien_thoai.validate(), style: boldTextStyle(color: Colors.black87)),
+                          Text(customer!.field_dien_thoai.validate()),
                         ],
-                      )
+                      ),
+                      // Text(hotelData!.roomCategoryName.validate(), style: boldTextStyle()),
+
                     ],
                   ).expand(),
                   Row(
@@ -68,19 +69,6 @@ class RFCustomerListComponent extends StatelessWidget {
               ),
               8.height,
               // showHeight.validate() ? 8.height : 24.height,
-              Row(
-                children: [
-                  Icon(Icons.money_off, color: Colors.brown, size: 20),
-                  6.width,
-                  Text(customer!.field_nhu_cau_khoang_gia.validate(), style: secondaryTextStyle()),
-                  6.width,
-                  Icon(Icons.circle_outlined, color: darkRed, size: 16),
-                  6.width,
-                  Text("Diện tích: "),
-                  Text(customer!.field_nhu_cau_dien_tich.validate(), style: secondaryTextStyle()),
-                  Text(" (m2)"),
-                ],
-              ),
             ],
           ).expand()
         ],
