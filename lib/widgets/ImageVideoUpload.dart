@@ -5,21 +5,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ImageVideoUpload extends StatefulWidget {
-  const ImageVideoUpload({Key? key}) : super(key: key);
+  // const ImageVideoUpload({Key? key}) : super(key: key);
+  Function(List<String>) listPathImage;
+  ImageVideoUpload({required this.listPathImage});
 
   @override
   State<ImageVideoUpload> createState() => _ImageVideoUploadState();
 }
 
 class _ImageVideoUploadState extends State<ImageVideoUpload> {
+
   XFile? image;
 
-  List _images = [];
+  List<String> _images = [];
 
   final ImagePicker picker = ImagePicker();
 
@@ -32,6 +37,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
     setState(() {
       _dangUploadHinhAnh = true;
     });
+
     if(media == ImageSource.gallery){
       final List<XFile>? images = await picker.pickMultiImage();
       var request = http.MultipartRequest('POST', Uri.parse(RFImagesUpload));
@@ -54,6 +60,8 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
               setState(() {
                 for(var i = 0; i<message['fileName'].length; i++)
                   _images.add(message['fileName'][i]);
+                _setPathImages();
+
                 _dangUploadHinhAnh = false;
               });
             });
@@ -84,6 +92,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
               _images.add(message['fileName'][0]);
               _dangUploadHinhAnh = false;
             });
+            _setPathImages();
           });
         }).catchError((e) {
           print(e);
@@ -121,6 +130,11 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
     // TODO: implement initState
     super.initState();
     // getImageServer();
+  }
+
+  Future<void> _setPathImages() async{
+    SanPham sanPham = Provider.of<SanPham>(context, listen: false);
+    sanPham.field_anh_san_pham = _images;
   }
 
   //show popup dialog
@@ -176,49 +190,49 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
 
     return
         Column(
-      children: [
-        _images.length > 0 ?
-        (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),)  :
-        GridView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: _images.length,
-          padding: EdgeInsets.all(8),
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: cardWidth / cardHeight
-          ),
-          itemBuilder: (context, index) => Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: new BorderRadius.circular(12.0),
-                  child:Image(
-                    image: NetworkImage(_images[index]),
-                    fit: BoxFit.cover,
-                    height: context.height() / 6,
-                    width: MediaQuery.of(context).size.width,
-                  ),
+          children: [
+            _images.length > 0 ?
+            (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),)  :
+            GridView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: _images.length,
+              padding: EdgeInsets.all(8),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: cardWidth / cardHeight
+              ),
+              itemBuilder: (context, index) => Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: new BorderRadius.circular(12.0),
+                      child:Image(
+                        image: NetworkImage(_images[index]),
+                        fit: BoxFit.cover,
+                        height: context.height() / 6,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                    // SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4, right: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          // Text(model.name, style: primaryTextStyle(color: appStore.textPrimaryColor)),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                // SizedBox(height: 4),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4, right: 4),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      // Text(model.name, style: primaryTextStyle(color: appStore.textPrimaryColor)),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        )) :
-        (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),) : Center(child: Text("Chưa chọn hình ảnh"))),
-        TextButton(onPressed: () => myAlert(), child: Icon(Icons.upload))
-      ],
+              ),
+            )) :
+            (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),) : Center(child: Text("Chưa chọn hình ảnh"))),
+            TextButton(onPressed: () => myAlert(), child: Icon(Icons.upload))
+          ],
     );
   }
 }
