@@ -244,12 +244,12 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       tenForm = 'Thêm chủ nhà và nhu cầu bán / thuê';
       doiTuong = 'Chủ nhà';
     }
-    else if(widget.nhom == 'Mua'){
+    else if(widget.nhom == 'Cần Mua'){
       tenForm = 'Thêm nhu cầu mua và thông tin KH';
       doiTuong = 'Khách hàng';
       nhomNhuCau = 'Mua';
     }
-    else if(widget.nhom == 'Bán'){
+    else if(widget.nhom == 'Cần Bán'){
       doiTuong = 'Chủ nhà';
       tenForm = 'Thêm nhu cầu bán và thông tin chủ nhà';
       nhomNhuCau = 'Bán';
