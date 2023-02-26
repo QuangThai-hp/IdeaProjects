@@ -89,7 +89,12 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
                         flex: 1,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context) => RFFormNhuCauScreen(nhom: "Mua")), (route) => false);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cần Mua", previousPage: widget.routeName)
+                                  ),
+                                      (route) => false);
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: getColorFromHex('#f2866c'),
@@ -109,8 +114,14 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
                       Expanded(
                         flex: 1,
                         child: ElevatedButton(
+
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context) => RFFormNhuCauScreen(nhom: "Cho thuê")), (route) => false);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cho thuê", previousPage: widget.routeName)
+                                  ),
+                                      (route) => false);
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: getColorFromHex('#f2866c'),
@@ -137,7 +148,14 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
                       Expanded(
                         flex: 1,
                         child: ElevatedButton(
+
                             onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RFFormNhuCauScreen(nhom: "Chủ nhà", previousPage: widget.routeName)
+                                  ),
+                                      (route) => false);
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: getColorFromHex('#f2866c'),
@@ -157,7 +175,14 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
                       Expanded(
                         flex: 1,
                         child: ElevatedButton(
+
                             onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cần Bán", previousPage: widget.routeName)
+                                  ),
+                                      (route) => false);
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: getColorFromHex('#f2866c'),
@@ -177,8 +202,14 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
                       Expanded(
                         flex: 1,
                         child: ElevatedButton(
+
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context) => RFFormNhuCauScreen(nhom: "Cần thuê")), (route) => false);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cần thuê", previousPage: widget.routeName)
+                                  ),
+                                      (route) => false);
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: getColorFromHex('#f2866c'),
