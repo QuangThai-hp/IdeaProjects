@@ -106,8 +106,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           type,
           parentId
       ).then((value){
-        print(khuVucs.items);
-        print(type);
         if(type == 'Quận huyện')
           setState(() {
             quanHuyen = khuVucs.items;
@@ -432,7 +430,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                   onChanged: (KhuVuc? newValue) {
                                     setState(() {
                                       selectedPhuongXa = newValue;
-                                      // print(selectedPhuongXa?.tid.toString());
                                     });
                                   },
                                   items: phuongXa.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
@@ -598,8 +595,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                           ),
                           16.height,
                           AppTextField(
-                            controller: giaController,
-                            focus: giaFocusNode,
+                            controller: giaBangSoController,
+                            focus: giaBangSoFocusNode,
                             nextFocus: dienTichFocusNode,
                             decoration: rfInputDecoration(
                               showLableText: true,
