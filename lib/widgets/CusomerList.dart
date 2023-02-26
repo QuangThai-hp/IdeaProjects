@@ -47,7 +47,6 @@ class _CustomerListState extends State<CustomerList> {
     // final customersData = Provider.of<Customers>(context, listen: false);
     // customersData.getListCustomerWithStatus(widget.trangThaiKhachHang);
     // customers = customersData.items;
-    print(widget.trangThaiKhachHang);
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16),
       shrinkWrap: true,

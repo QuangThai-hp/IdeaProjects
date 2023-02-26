@@ -9,3 +9,4 @@ const RFSaveSanPhamChoThue = "https://happyhomehaiphong.com/api/save-san-pham-ch
 const RFBaseSignUp = "https://happyhomehaiphong.com/api/register";
 const RFBaseSanPhamChoThue = "https://happyhomehaiphong.com/api/san-pham-cho-thue";
 const RFImagesUpload = "https://happyhomehaiphong.com/api/get-images-upload";
+const RFGetKhuVuc = "https://happyhomehaiphong.com/api/get-khu-vuc";

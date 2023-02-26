@@ -38,13 +38,13 @@ List<RoomFinderModel> hotelList() {
 
 List<Customer> SanPhamsList() {
   List<Customer> SanPhamsListData = [];
-  SanPhamsListData.add(Customer(hoTen: 'ANH TIẾN', field_dien_thoai: '0982703783', field_dia_chi: '', field_trang_thai: 'Đã xem lần 1', field_nhu_cau_khoang_gia: '2.0 - 3.0', field_nhu_cau_dien_tich: '30 - 40'));
-  SanPhamsListData.add(Customer(hoTen: 'CHỊ HUỆ', field_dien_thoai: '0358023818', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2', field_nhu_cau_khoang_gia: '3.0 - 3.5', field_nhu_cau_dien_tich: '40 - 60'));
-  SanPhamsListData.add(Customer(hoTen: 'CHỊ YẾN', field_dien_thoai: '0366898770', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '0.8 - 1.5', field_nhu_cau_dien_tich: '30 - 35'));
-  SanPhamsListData.add(Customer(hoTen: 'CHỊ THANH', field_dien_thoai: '0342389023', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '1.2 - 1.5', field_nhu_cau_dien_tich: '40 - 45'));
-  SanPhamsListData.add(Customer(hoTen: 'Hằng Hằng', field_dien_thoai: '0973125028', field_dia_chi: '', field_trang_thai: 'Đang giao dịch', field_nhu_cau_khoang_gia: '1.0 - 1.5', field_nhu_cau_dien_tich: '50 - 55'));
-  SanPhamsListData.add(Customer(hoTen: 'Nguyễn Hoàng My', field_dien_thoai: '0357306896', field_dia_chi: '', field_trang_thai: 'Tiềm năng', field_nhu_cau_khoang_gia: '1.5 - 2.0', field_nhu_cau_dien_tich: '40 - 50'));
-  SanPhamsListData.add(Customer(hoTen: 'Mai Hương', field_dien_thoai: '0983201976', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2', field_nhu_cau_khoang_gia: '2.5 - 3.0', field_nhu_cau_dien_tich: '40 - 45'));
+  SanPhamsListData.add(Customer(hoTen: 'ANH TIẾN', field_dien_thoai: '0982703783', field_dia_chi: '', field_trang_thai: 'Đã xem lần 1'));
+  SanPhamsListData.add(Customer(hoTen: 'CHỊ HUỆ', field_dien_thoai: '0358023818', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2'));
+  SanPhamsListData.add(Customer(hoTen: 'CHỊ YẾN', field_dien_thoai: '0366898770', field_dia_chi: '', field_trang_thai: 'Tiềm năng'));
+  SanPhamsListData.add(Customer(hoTen: 'CHỊ THANH', field_dien_thoai: '0342389023', field_dia_chi: '', field_trang_thai: 'Tiềm năng'));
+  SanPhamsListData.add(Customer(hoTen: 'Hằng Hằng', field_dien_thoai: '0973125028', field_dia_chi: '', field_trang_thai: 'Đang giao dịch'));
+  SanPhamsListData.add(Customer(hoTen: 'Nguyễn Hoàng My', field_dien_thoai: '0357306896', field_dia_chi: '', field_trang_thai: 'Tiềm năng'));
+  SanPhamsListData.add(Customer(hoTen: 'Mai Hương', field_dien_thoai: '0983201976', field_dia_chi: '', field_trang_thai: 'Đã xem lần 2'));
 
   return SanPhamsListData;
 }

@@ -5,6 +5,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
+import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
@@ -49,10 +50,22 @@ class MyApp extends StatelessWidget {
           // create: ,
         ),
         ChangeNotifierProxyProvider<Auth, Customers>(
-          create: (_) => Customers('',  []),
+          create: (_) => Customers('', 0,  []),
           update: (_, auth, previousSanPhams) {
             return Customers(
               auth.token,
+              auth.userId.toInt(),
+              previousSanPhams == null ? [] : previousSanPhams.items,
+            );
+          },
+          // create: ,
+        ),
+        ChangeNotifierProxyProvider<Auth, KhuVucs>(
+          create: (_) => KhuVucs('', 0, []),
+          update: (_, auth, previousSanPhams) {
+            return KhuVucs(
+              auth.token,
+              auth.userId.toInt(),
               previousSanPhams == null ? [] : previousSanPhams.items,
             );
           },

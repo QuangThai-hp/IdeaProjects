@@ -8,17 +8,19 @@ import 'package:room_finder_flutter/common/constants.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/http_exeption.dart';
+import 'package:room_finder_flutter/providers/KhuVuc.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:room_finder_flutter/widgets/ImageVideoUpload.dart';
-import '../common/data.dart';
+import '../components/RFCongratulatedDialog.dart';
+import '../providers/khuVucs.dart';
 import '../utils/RFString.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
+import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 
 class RFFormNhuCauScreen extends StatefulWidget {
   final String? nhom;
@@ -50,11 +52,9 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   TextEditingController tienDatCocController = TextEditingController();
   TextEditingController tieuDeSanPhamController = TextEditingController();
 
-  String huongNhuCau = '';
+  String? huongNhuCau = null;
   String nhomNhuCau = '-- Loại hình --';
   String chonDonViTinh = '-- Chọn ĐVT --';
-  String chonQuan = '-- Chọn Quận --';
-  String chonPhuongXa = '-- Chọn Phường xã --';
   String tenForm = '';
   String doiTuong = '';
 
@@ -81,19 +81,72 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   DateTime? selectedDate;
   String buaAn = '';
   bool _isLoading = false;
-  String selectedQuan = '';
-  String selectedPhuongXa = '';
+  KhuVuc? selectedQuan;
+  KhuVuc? selectedPhuongXa;
+
+  bool quanLoaded = false;
+  bool phuongXaLoaded = true;
 
   String ngayNhapDefault = '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
-  List<String> quanHuyen = [];
-  List<String> phuongXa = [];
+  List<KhuVuc> quanHuyen = [];
+  List<KhuVuc> phuongXa = [];
+
+  Future<void> _loadKhuVuc(String type, int? parentId) async{
+    setState(() {
+      phuongXa = [];
+      selectedPhuongXa = null;
+    });
+    if(!quanLoaded || !phuongXaLoaded)
+
+      // try
+    {
+      KhuVucs khuVucs = await Provider.of<KhuVucs>(context, listen: false);
+      khuVucs.getListKhuVuc(
+          type,
+          parentId
+      ).then((value){
+        print(khuVucs.items);
+        print(type);
+        if(type == 'Quận huyện')
+          setState(() {
+            quanHuyen = khuVucs.items;
+            quanLoaded = true;
+          });
+        else { // Phường xã
+          setState(() {
+            phuongXa = khuVucs.items;
+            phuongXaLoaded = true;
+          });
+        }
+      });
+    }
+    // on HttpException catch(error){
+    //   RFWidget.showErrorDialog(error.message, context);
+    // } catch (error){
+    //   print(error);
+      // showInDialog(context, barrierDismissible: true, builder: (context) {
+      //   return RFCongratulatedDialog();
+      // });
+      // RFWidget.showErrorDialog('Kiểm tra lại kết nối và đường truyền Internet', context);
+    // }
+  }
+
+  @override
+  void didChangeDependencies() {
+    _loadKhuVuc('Quận huyện', null);
+
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
+
     setState(() {
       ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     });
+
     super.initState();
     init();
   }
@@ -101,6 +154,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   void init() async {
     //
   }
+
   Future<void> _submit() async{
     setState(() {
       _isLoading = true;
@@ -326,14 +380,15 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                           16.height,
                           Row(
                             children: [
-                              Expanded(child: Container(
-                                decoration: boxDecorationWithRoundedCorners(
-                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                                ),
+                              Expanded(
+                                child: !quanLoaded ? Center(child: CircularProgressIndicator(),) : Container(
+                                  decoration: boxDecorationWithRoundedCorners(
+                                    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                    backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                  ),
                                 padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<String>(
-                                  value: null,
+                                child: DropdownButton<KhuVuc>(
+                                  value: selectedQuan,
                                   elevation: 16,
                                   style: primaryTextStyle(),
                                   hint: Text('Quận', style: primaryTextStyle()),
@@ -342,28 +397,30 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                     height: 0,
                                     color: Colors.deepPurpleAccent,
                                   ),
-                                  onChanged: (newValue) {
+                                  onChanged: (KhuVuc? newValue) {
                                     setState(() {
-                                      selectedQuan = newValue.toString();
+                                      selectedQuan = newValue;
+                                      phuongXaLoaded = false;
                                     });
+                                    _loadKhuVuc('Phường xã', newValue?.tid);
                                   },
-                                  items: quanHuyen.map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
+                                  items: quanHuyen.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
+                                    return DropdownMenuItem<KhuVuc>(
                                       value: value,
-                                      child: Text(value),
+                                      child: Text(value.name),
                                     );
                                   }).toList(),
                                 ),
                               )),
                               8.width,
-                              Expanded(child: Container(
+                              Expanded(child: !phuongXaLoaded ? Center(child: CircularProgressIndicator(),) : Container(
                                 decoration: boxDecorationWithRoundedCorners(
                                   borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
                                   backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
                                 ),
                                 padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<String>(
-                                  value: null,
+                                child: DropdownButton<KhuVuc>(
+                                  value: selectedPhuongXa,
                                   elevation: 16,
                                   style: primaryTextStyle(),
                                   hint: Text('Phường xã', style: primaryTextStyle()),
@@ -372,15 +429,16 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                     height: 0,
                                     color: Colors.deepPurpleAccent,
                                   ),
-                                  onChanged: (newValue) {
+                                  onChanged: (KhuVuc? newValue) {
                                     setState(() {
-                                      selectedPhuongXa = newValue.toString();
+                                      selectedPhuongXa = newValue;
+                                      // print(selectedPhuongXa?.tid.toString());
                                     });
                                   },
-                                  items: phuongXa.map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
+                                  items: phuongXa.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
+                                    return DropdownMenuItem<KhuVuc>(
                                       value: value,
-                                      child: Text(value),
+                                      child: Text(value.name),
                                     );
                                   }).toList(),
                                 ),
@@ -424,7 +482,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 ),
                                 padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
                                 child: DropdownButton<String>(
-                                  value: null,
+                                  value: huongNhuCau,
                                   elevation: 16,
                                   style: primaryTextStyle(),
                                   hint: Text('Hướng', style: primaryTextStyle()),
