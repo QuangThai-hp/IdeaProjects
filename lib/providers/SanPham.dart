@@ -4,14 +4,14 @@ import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 
 class SanPham with ChangeNotifier {
   String? nid;
-  final String title;
-  final String field_dia_chi;
+  final String? title;
+  final String? field_dia_chi;
   final double? field_so_tang;
   final String? field_duong;
   final String? field_huong;
-  final double field_gia;
+  final double? field_gia;
   final String? field_don_vi_tinh;
-  final int field_sale;
+  final int? field_sale;
   final String? field_phap_ly;
   final String? field_phan_loai_nhom_san_pham;
   final double? field_dien_tich;
@@ -24,20 +24,20 @@ class SanPham with ChangeNotifier {
   final double? field_dien_tich_su_dung;
   final int? field_so_phong_ve_sinh;
   final int? field_so_phong_ngu;
-  final String? field_anh_san_pham;
+  late List<String>? field_anh_san_pham = [];
 
   final KhachHangChuNha? khachHangChuNha;
 
   SanPham({
     this.nid = '',
-    required this.title,
-    required this.field_dia_chi,
+    this.title,
+    this.field_dia_chi,
     this.field_so_tang,
     this.field_duong,
     this.field_huong,
-    required this.field_gia,
+    this.field_gia,
     this.field_don_vi_tinh,
-    required this.field_sale,
+    this.field_sale,
     this.field_phap_ly,
     this.field_phan_loai_nhom_san_pham,
     this.field_dien_tich,
@@ -51,4 +51,6 @@ class SanPham with ChangeNotifier {
     this.field_anh_san_pham,
     this.khachHangChuNha
   });
+
+
 }

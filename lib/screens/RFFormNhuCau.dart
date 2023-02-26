@@ -16,6 +16,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:room_finder_flutter/widgets/ImageVideoUpload.dart';
 import '../components/RFCongratulatedDialog.dart';
+import '../providers/SanPham.dart';
 import '../providers/khuVucs.dart';
 import '../utils/RFString.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
@@ -51,10 +52,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   TextEditingController chieuRongController = TextEditingController();
   TextEditingController tienDatCocController = TextEditingController();
   TextEditingController tieuDeSanPhamController = TextEditingController();
+  TextEditingController ghiChuController = TextEditingController();
 
   String? huongNhuCau = null;
-  String nhomNhuCau = '-- Loại hình --';
-  String chonDonViTinh = '-- Chọn ĐVT --';
+  String? nhomNhuCau = null;
+  String? chonDonViTinh = null;
   String tenForm = '';
   String doiTuong = '';
 
@@ -69,6 +71,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   FocusNode phapLyFocusNode = FocusNode();
   FocusNode tinhTrangNoiThatFocusNode = FocusNode();
   FocusNode giaFocusNode = FocusNode();
+  FocusNode donViTinhFocusNode = FocusNode();
   FocusNode giaBangSoFocusNode = FocusNode();
   FocusNode dienTichFocusNode = FocusNode();
   FocusNode dienTichSuDugFocusNode = FocusNode();
@@ -76,6 +79,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   FocusNode chieuRongFocusNode = FocusNode();
   FocusNode tienDatCocFocusNode = FocusNode();
   FocusNode tieuDeSanPhamFocusNode = FocusNode();
+  FocusNode ghiChuFocusNode = FocusNode();
 
   FocusNode f4 = FocusNode();
   DateTime? selectedDate;
@@ -91,6 +95,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   List<KhuVuc> quanHuyen = [];
   List<KhuVuc> phuongXa = [];
+  List<String> pathImages = [];
+
 
   Future<void> _loadKhuVuc(String type, int? parentId) async{
     setState(() {
@@ -157,6 +163,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     setState(() {
       _isLoading = true;
     });
+    SanPham sanPham = Provider.of<SanPham>(context, listen: false);
+    print(sanPham.field_anh_san_pham);
     try
     {
       // await Provider.of<SanPhams>(context, listen: false).save(
@@ -178,7 +186,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     }
     catch (error){
       print(error);
-      showErrorDialog('Could not authentication you. Please again later', context);
+      // showErrorDialog('Could not authentication you. Please again later', context);
     }
     setState(() {
       _isLoading = false;
@@ -321,7 +329,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       nhomNhuCau = newValue.toString();
                                     });
                                   },
-                                  items: <String>['-- Loại hình --', 'Mua', 'Bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
+                                  items: <String>['Mua', 'Bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -493,7 +501,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       huongNhuCau = newValue.toString();
                                     });
                                   },
-                                  items: <String>['','Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông tứ trạch', 'Tây tứ trạch'].map<DropdownMenuItem<String>>((String value) {
+                                  items: <String>['Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông tứ trạch', 'Tây tứ trạch', 'Khác'].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -550,7 +558,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                               Expanded(child: AppTextField(
                                 controller: giaController,
                                 focus: giaFocusNode,
-                                nextFocus: dienTichFocusNode,
+                                nextFocus: donViTinhFocusNode,
                                 decoration: rfInputDecoration(
                                   showLableText: true,
                                   lableText: 'Giá',
@@ -569,6 +577,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 ),
                                 padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
                                 child: DropdownButton<String>(
+                                  focusNode: donViTinhFocusNode,
                                   value: chonDonViTinh,
                                   elevation: 16,
                                   style: primaryTextStyle(),
@@ -583,7 +592,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       chonDonViTinh = newValue.toString();
                                     });
                                   },
-                                  items: <String>['-- Chọn ĐVT --', 'Tr/tháng', 'Tr/năm', 'Triệu đồng', 'Tỉ đồng'].map<DropdownMenuItem<String>>((String value) {
+                                  items: <String>['Tr/tháng', 'Tr/năm', 'Triệu đồng', 'Tỉ đồng', 'Khác'].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -615,7 +624,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                               Expanded(child: AppTextField(
                                 controller: dienTichController,
                                 focus: dienTichFocusNode,
-                                nextFocus: chieuDaiFocusNode,
+                                nextFocus: dienTichSuDugFocusNode,
                                 decoration: rfInputDecoration(
                                   showLableText: true,
                                   lableText: 'Diện tích đất',
@@ -630,7 +639,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                               Expanded(child: AppTextField(
                                 controller: dienTichSuDungController,
                                 focus: dienTichSuDugFocusNode,
-                                nextFocus: tienDatCocFocusNode,
+                                nextFocus: chieuDaiFocusNode,
                                 decoration: rfInputDecoration(
                                   showLableText: true,
                                   lableText: 'Diện tích sử dụng',
@@ -664,7 +673,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                               Expanded(child: AppTextField(
                                 controller: chieuRongController,
                                 focus: chieuRongFocusNode,
-                                nextFocus: dienTichSuDugFocusNode,
+                                nextFocus: tienDatCocFocusNode,
                                 decoration: rfInputDecoration(
                                   showLableText: true,
                                   lableText: 'Chiều rộng',
@@ -681,7 +690,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                           AppTextField(
                             controller: tienDatCocController,
                             focus: tienDatCocFocusNode,
-                            nextFocus: tieuDeSanPhamFocusNode,
+                            nextFocus: ghiChuFocusNode,
                             decoration: rfInputDecoration(
                               showLableText: true,
                               lableText: 'Số tiền cọc (triệu đồng)',
@@ -693,7 +702,26 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             textFieldType: TextFieldType.NUMBER,
                           ),
                           16.height,
-                          ImageVideoUpload()
+                          AppTextField(
+                            controller: ghiChuController,
+                            focus: ghiChuFocusNode,
+                            textFieldType: TextFieldType.NAME,
+                            decoration: rfInputDecoration(
+                              lableText: "Ghi chú",
+                              showLableText: true,
+                            ),
+                            minLines: 3,
+                            maxLines: 100,
+                          ),
+                          16.height,
+                          ImageVideoUpload(
+                            listPathImage: (List<String> listImage){
+                              setState(() {
+                                pathImages = listImage;
+                              });
+                              print(pathImages);
+                            },
+                          )
                         ],
                       ),
                     ),

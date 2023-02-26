@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
+import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
 import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
@@ -45,6 +46,14 @@ class MyApp extends StatelessWidget {
               auth.token,
               auth.userId,
               previousSanPhams == null ? [] : previousSanPhams.items,
+            );
+          },
+          // create: ,
+        ),
+        ChangeNotifierProxyProvider<Auth, SanPham>(
+          create: (_) => SanPham(),
+          update: (_, auth, previousSanPhams) {
+            return SanPham(
             );
           },
           // create: ,
