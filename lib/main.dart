@@ -4,7 +4,11 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
+import 'package:room_finder_flutter/providers/customers.dart';
+import 'package:room_finder_flutter/providers/donViTinhs.dart';
+import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
@@ -13,6 +17,9 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/providers/NhuCaus.dart';
+import 'package:room_finder_flutter/providers/SanPham.dart';
+import 'package:room_finder_flutter/providers/KhachHang.dart';
+import 'package:room_finder_flutter/providers/KhachHangs.dart';
 
 AppStore appStore = AppStore();
 

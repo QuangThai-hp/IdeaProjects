@@ -56,9 +56,9 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined, size: 22),
+          icon: Icon(Icons.clean_hands_outlined, size: 22),
           label: 'Nhu cầu',
-          activeIcon: Icon(Icons.home_outlined, color: rf_primaryColor, size: 22),
+          activeIcon: Icon(Icons.clean_hands, color: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline, size: 22), //rf_search.iconImage(),
@@ -66,9 +66,9 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
           activeIcon: Icon(Icons.person, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.send_and_archive_outlined, size: 22), //rf_search.iconImage(),
+          icon: Icon(Icons.handshake_outlined, size: 22), //rf_search.iconImage(),
           label: 'Môi giới',
-          activeIcon: Icon(Icons.send_and_archive, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
+          activeIcon: Icon(Icons.handshake, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.change_circle_outlined, size: 22), //rf_search.iconImage(),
