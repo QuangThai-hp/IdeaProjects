@@ -120,8 +120,5 @@ class _ImageUploadState extends State<ImageUpload> {
       ),
     );
   }
-///////
+
 }
-
-
-// 111

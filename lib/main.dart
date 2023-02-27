@@ -1,15 +1,14 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
+import 'package:room_finder_flutter/providers/KhachHangs.dart';
+import 'package:room_finder_flutter/providers/CaNhans.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
-import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
-import 'package:room_finder_flutter/providers/donViTinhs.dart';
-import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
-import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
+import 'package:room_finder_flutter/screens/RFFormChoThueScreen.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
@@ -18,6 +17,7 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/providers/NhuCaus.dart';
+import 'package:room_finder_flutter/providers/thems.dart';
 
 AppStore appStore = AppStore();
 
@@ -51,7 +51,18 @@ class MyApp extends StatelessWidget {
             );
           },
           // create: ,
-        ),ChangeNotifierProxyProvider<Auth, NhuCaus>(
+        ), ChangeNotifierProxyProvider<Auth, ThemCaNhans>(
+          create: (_) => ThemCaNhans('', '', []),
+          update: (_, auth, previousSanPhams) {
+            return ThemCaNhans(
+              auth.token,
+              auth.userId,
+              previousSanPhams == null ? [] : previousSanPhams.items,
+            );
+          },
+          // create: ,
+        ),
+        ChangeNotifierProxyProvider<Auth, NhuCaus>(
           create: (_) => NhuCaus('', '', []),
           update: (_, auth, previousNhuCaus) {
             return NhuCaus(
@@ -62,42 +73,34 @@ class MyApp extends StatelessWidget {
           },
           // create: ,
         ),
-        ChangeNotifierProxyProvider<Auth, SanPham>(
-          create: (_) => SanPham(),
-          update: (_, auth, previousSanPhams) {
-            return SanPham(
+
+        ChangeNotifierProxyProvider<Auth, CaNhans>(
+          create: (_) => CaNhans('', '', []),
+          update: (_, auth, previousLoaiBatDongSans) {
+            return CaNhans(
+              auth.token,
+              auth.userId,
+              previousLoaiBatDongSans == null ? [] : previousLoaiBatDongSans.items,
+            );
+          },
+          // create: ,
+        ),
+        ChangeNotifierProxyProvider<Auth, KhachHangs>(
+          create: (_) => KhachHangs('', '', []),
+          update: (_, auth, previousKhachHangs) {
+            return KhachHangs(
+              auth.token,
+              auth.userId,
+              previousKhachHangs == null ? [] : previousKhachHangs.items,
             );
           },
           // create: ,
         ),
         ChangeNotifierProxyProvider<Auth, Customers>(
-          create: (_) => Customers('', 0,  []),
+          create: (_) => Customers('',  []),
           update: (_, auth, previousSanPhams) {
             return Customers(
               auth.token,
-              auth.userId.toInt(),
-              previousSanPhams == null ? [] : previousSanPhams.items,
-            );
-          },
-          // create: ,
-        ),
-        ChangeNotifierProxyProvider<Auth, KhuVucs>(
-          create: (_) => KhuVucs('', 0, []),
-          update: (_, auth, previousSanPhams) {
-            return KhuVucs(
-              auth.token,
-              auth.userId.toInt(),
-              previousSanPhams == null ? [] : previousSanPhams.items,
-            );
-          },
-          // create: ,
-        ),
-        ChangeNotifierProxyProvider<Auth, DonViTinhs>(
-          create: (_) => DonViTinhs('', 0, []),
-          update: (_, auth, previousSanPhams) {
-            return DonViTinhs(
-              auth.token,
-              auth.userId.toInt(),
               previousSanPhams == null ? [] : previousSanPhams.items,
             );
           },
@@ -119,13 +122,10 @@ class MyApp extends StatelessWidget {
             RFHomeScreen.routeName: (ctx) => RFHomeScreen(),
             RFEmailSignInScreen.routeName: (ctx) => RFEmailSignInScreen(),
             RFSignUpScreen.routeName: (ctx) => RFSignUpScreen(),
-            RFFormNhuCauScreen.routeName: (ctx) => RFFormNhuCauScreen(),
+            RFFormChoThueScreen.routeName: (ctx) => RFFormChoThueScreen(),
           },
         ),
       ),
     );
   }
 }
-
-
-//
