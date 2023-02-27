@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -87,27 +88,15 @@ class SanPhams with ChangeNotifier {
     }
   }
 
-  Future<void> save(
-      String nid,
-      String field_ngay_dinh_duong,
-      String tenBuaAn,
-      List<String> nameThucPhams,
-      List<double> soLuongThucPhams,
-      BuildContext context
-      )
-  async {
+  Future<void> save(Map<String, dynamic> sanPham, String routeAfterSave, BuildContext context) async {
     try
     {
       final response = await http.post(
-          Uri.parse(RFSaveSanPhamChoThue),
+          Uri.parse(RFSaveSanPham),
           body: json.encode({
             'uid': uid,
             'auth': authToken,
-            'nid': nid,
-            'field_ngay_dinh_duong': field_ngay_dinh_duong,
-            'tenBuaAn': tenBuaAn,
-            'nameThucPhams': jsonEncode(nameThucPhams),
-            'soLuongThucPhams': jsonEncode(soLuongThucPhams)
+            'sanPham': sanPham
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -116,15 +105,17 @@ class SanPhams with ChangeNotifier {
       );
       final responseData = json.decode(response.body);
 
-      if(!responseData['success'])
-        throw HttpException(responseData['content']);
-      else{
-        RFHomeScreen rfHomeScreenFragment = new RFHomeScreen();
-        rfHomeScreenFragment.selectedIndex = 1;
-        rfHomeScreenFragment.contentAlert = responseData['content'];
-        rfHomeScreenFragment.showDialog = true;
-        rfHomeScreenFragment.launch(context);
-      }
+      print(responseData);
+
+      // if(!responseData['success'])
+      //   throw HttpException(responseData['content']);
+      // else{
+      //   RFHomeScreen rfHomeScreenFragment = new RFHomeScreen();
+      //   rfHomeScreenFragment.selectedIndex = 1;
+      //   rfHomeScreenFragment.contentAlert = responseData['content'];
+      //   rfHomeScreenFragment.showDialog = true;
+      //   rfHomeScreenFragment.launch(context);
+      // }
       notifyListeners();
     }
     catch(error){
