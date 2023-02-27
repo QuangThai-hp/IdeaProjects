@@ -8,7 +8,11 @@ import 'package:room_finder_flutter/common/constants.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/http_exeption.dart';
+import 'package:room_finder_flutter/providers/DonViTinh.dart';
+import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 import 'package:room_finder_flutter/providers/KhuVuc.dart';
+import 'package:room_finder_flutter/providers/SanPhams.dart';
+import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -87,16 +91,18 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   bool _isLoading = false;
   KhuVuc? selectedQuan;
   KhuVuc? selectedPhuongXa;
+  DonViTinh? selectedDonViTinh;
 
   bool quanLoaded = false;
   bool phuongXaLoaded = true;
+  bool donViTinhLoaded = false;
 
   String ngayNhapDefault = '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
   List<KhuVuc> quanHuyen = [];
   List<KhuVuc> phuongXa = [];
+  List<DonViTinh> donViTinh = [];
   List<String> pathImages = [];
-
 
   Future<void> _loadKhuVuc(String type, int? parentId) async{
     setState(() {
@@ -136,10 +142,30 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     // }
   }
 
+  Future<void> _loadDVT() async{
+    if(!donViTinhLoaded)
+    // try
+    {
+      DonViTinhs donViTinhs = await Provider.of<DonViTinhs>(context, listen: false);
+      donViTinhs.getListDonViTinh().then((value){
+        setState(() {
+          donViTinh = donViTinhs.items;
+          donViTinhLoaded = true;
+        });
+      });
+    }
+    // on HttpException catch(error){
+    //   RFWidget.showErrorDialog(error.message, context);
+    // } catch (error){
+    //   print(error);
+      // RFWidget.showErrorDialog('Kiểm tra lại kết nối và đường truyền Internet', context);
+    // }
+  }
+
   @override
   void didChangeDependencies() {
     _loadKhuVuc('Quận huyện', null);
-
+    _loadDVT();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
@@ -163,21 +189,58 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     setState(() {
       _isLoading = true;
     });
-    SanPham sanPham = Provider.of<SanPham>(context, listen: false);
-    print(sanPham.field_anh_san_pham);
     try
     {
-      // await Provider.of<SanPhams>(context, listen: false).save(
-      //     '',
-      //   ngayNhapController.text,
-      //   tenBuaAnController.text,
-      //   nameChiTietThucPhamTrongNgay,
-      //   soLuongChiTietThucPhamTrongNgay,
-      //   context
-      // );
-      // setState(() {
-      //   _isLoading = false;
-      // });
+      SanPham sanPham = Provider.of<SanPham>(context, listen: false);
+      Map<String, dynamic> khachHangChuNha() => {
+        "hoTen": hoTenKhachHangController.text,
+        "dienThoai": dienThoaiController.text
+      };
+      Map<String, dynamic> quanSelected() => {
+        "tid": selectedQuan?.tid,
+        "type": selectedQuan?.type,
+        "name": selectedQuan?.name
+      };
+      Map<String, dynamic> phuongSelected() => {
+        "tid": selectedPhuongXa?.tid,
+        "type": selectedPhuongXa?.type,
+        "name": selectedPhuongXa?.name
+      };
+      Map<String, dynamic> donViTinhSelected() => {
+        "tid": selectedDonViTinh?.tid,
+        "name": selectedDonViTinh?.name
+      };
+      Map<String, dynamic> toJson() => {
+        "nid": null,
+        "field_ngay_nhap": ngayNhapController.text,
+        "field_nhom_nhu_cau": nhomNhuCau,
+        "khachHangChuNha": khachHangChuNha(),
+        "title": tieuDeSanPhamController.text,
+        "field_quan_huyen": quanSelected(),
+        "field_phuong_xa": phuongSelected(),
+        "field_so_phong_ngu": soPhongNguController.text.toInt(),
+        "field_so_tang": soTangController.text.toDouble(),
+        "field_phap_ly": phapLyController.text,
+        "field_tinh_trang_noi_that": tinhTrangNoiThatController.text,
+        "field_gia": giaController.text.toDouble(),
+        "field_don_vi_tinh": donViTinhSelected(),
+        "field_gia_bang_so": giaBangSoController.text.toDouble(),
+        "field_dien_tich": dienTichController.text.toDouble(),
+        "field_dien_tich_su_dung": dienTichSuDungController.text.toDouble(),
+        "field_chieu_dai": chieuDaiController.text.toDouble(),
+        "field_chieu_rong": chieuRongController.text.toDouble(),
+        "field_so_tien_coc": tienDatCocController.text.toDouble(),
+        "field_ghi_chu": ghiChuController.text,
+        "field_anh_san_pham": sanPham.field_anh_san_pham
+      };
+      await Provider.of<SanPhams>(context, listen: false).save(
+          toJson(),
+          '/home',
+          context
+      );
+      setState(() {
+        _isLoading = false;
+      });
 
       // Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route)=>false);
     }
@@ -186,7 +249,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     }
     catch (error){
       print(error);
-      // showErrorDialog('Could not authentication you. Please again later', context);
+      showErrorDialog('Could not authentication you. Please again later', context);
     }
     setState(() {
       _isLoading = false;
@@ -247,12 +310,12 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     else if(widget.nhom == 'Cần Mua'){
       tenForm = 'Thêm nhu cầu mua và thông tin KH';
       doiTuong = 'Khách hàng';
-      nhomNhuCau = 'Mua';
+      nhomNhuCau = 'Cần mua';
     }
     else if(widget.nhom == 'Cần Bán'){
       doiTuong = 'Chủ nhà';
       tenForm = 'Thêm nhu cầu bán và thông tin chủ nhà';
-      nhomNhuCau = 'Bán';
+      nhomNhuCau = 'Cần bán';
     }
     else if(widget.nhom == 'Cho thuê'){
       doiTuong = 'Chủ nhà';
@@ -329,7 +392,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       nhomNhuCau = newValue.toString();
                                     });
                                   },
-                                  items: <String>['Mua', 'Bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
+                                  items: <String>['Cần mua', 'Cần bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -570,36 +633,36 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 textFieldType: TextFieldType.NUMBER,
                               )),
                               8.width,
-                              Expanded(child: Container(
-                                decoration: boxDecorationWithRoundedCorners(
-                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                                ),
-                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<String>(
-                                  focusNode: donViTinhFocusNode,
-                                  value: chonDonViTinh,
-                                  elevation: 16,
-                                  style: primaryTextStyle(),
-                                  hint: Text('Đơn vị tính', style: primaryTextStyle()),
-                                  isExpanded: true,
-                                  underline: Container(
-                                    height: 0,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      chonDonViTinh = newValue.toString();
-                                    });
-                                  },
-                                  items: <String>['Tr/tháng', 'Tr/năm', 'Triệu đồng', 'Tỉ đồng', 'Khác'].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ))
+                              Expanded(
+                                  child: !donViTinhLoaded ? Center(child: CircularProgressIndicator(),) : Container(
+                                    decoration: boxDecorationWithRoundedCorners(
+                                      borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                      backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                    ),
+                                    padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                    child: DropdownButton<DonViTinh>(
+                                      value: selectedDonViTinh,
+                                      elevation: 16,
+                                      style: primaryTextStyle(),
+                                      hint: Text('Đơn vị tính', style: primaryTextStyle()),
+                                      isExpanded: true,
+                                      underline: Container(
+                                        height: 0,
+                                        color: Colors.deepPurpleAccent,
+                                      ),
+                                      onChanged: (DonViTinh? newValue) {
+                                        setState(() {
+                                          selectedDonViTinh = newValue;
+                                        });
+                                      },
+                                      items: donViTinh.map<DropdownMenuItem<DonViTinh>>((DonViTinh value) {
+                                        return DropdownMenuItem<DonViTinh>(
+                                          value: value,
+                                          child: Text(value.name!),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  )),
                             ],
                           ),
                           16.height,
@@ -719,7 +782,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                               setState(() {
                                 pathImages = listImage;
                               });
-                              print(pathImages);
                             },
                           )
                         ],
