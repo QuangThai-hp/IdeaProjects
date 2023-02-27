@@ -10,8 +10,9 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
-import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
-import 'package:room_finder_flutter/widgets/BangKhachHang.dart';
+import 'package:room_finder_flutter/widgets/BangKhachHangList.dart';
+
+
 class RFKhachHangFragment extends StatefulWidget {
   static const routeName = '/khach-hang';
 
@@ -20,8 +21,8 @@ class RFKhachHangFragment extends StatefulWidget {
 }
 
 class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
-  TextEditingController tenSanPhamController = TextEditingController();
-  FocusNode tenSanPhamFocusNode = FocusNode();
+  TextEditingController tenKhachHangController = TextEditingController();
+  FocusNode tenKhachHangFocusNode = FocusNode();
   DateTime? selectedDate;
   FocusNode f4 = FocusNode();
 
@@ -59,8 +60,8 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
             Text('Tìm kiếm SĐT khách hàng', style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
-              controller: tenSanPhamController,
-              focus: tenSanPhamFocusNode,
+              controller: tenKhachHangController,
+              focus: tenKhachHangFocusNode,
               textFieldType: TextFieldType.NAME,
               decoration: rfInputDecoration(
                 lableText: "Nhập số điện thoại",
@@ -100,11 +101,9 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
                           children: [
                             Container(
                               child: Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),
-
                             ),
-                            Container(
-                              child: BangKhachHangList(),
-                            )
+                            BangKhachHangList(),
+
                           ]
                       ),
                       // Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),

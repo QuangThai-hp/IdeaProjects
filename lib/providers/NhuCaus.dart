@@ -4,16 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/http_exeption.dart';
+import 'package:room_finder_flutter/providers/NhuCau.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 
-import 'NhuCau.dart';
+import 'SanPham.dart';
 
-class KhuVucs with ChangeNotifier {
+class NhuCaus with ChangeNotifier {
   late List<NhuCau> _items = [];
   final String authToken;
-  final int uid;
+  final String uid;
 
-  KhuVucs(this.authToken, this.uid, this._items);
+  NhuCaus(this.authToken, this.uid, this._items);
   List<NhuCau> get items{
     return [..._items];
   }
@@ -21,16 +22,17 @@ class KhuVucs with ChangeNotifier {
     return _items.firstWhere((element) => element.nid == id);
   }
 
-  Future<void> getListKhuVuc(String? idKhachHang) async{
+
+  Future<void> getListNhuCau(String type) async{
     // try
-    // {
+    {
       final response = await http.post(
-          Uri.parse(RFGetKhuVuc),
+          Uri.parse(RFGetSanPhamByType),
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
+            'type':type,
 
-            'idKhachHang': idKhachHang
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -38,21 +40,38 @@ class KhuVucs with ChangeNotifier {
           }
       );
 
-      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)); //json.decode(response.body) as Map<String, dynamic>;
+      print(jsonDecode(response.body));
+      final extectedContextData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['context']);
+      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['nhu_cau']); //json.decode(response.body) as Map<String, dynamic>;
       final List<NhuCau> loadedNhuCaus = [];
+      final List<NhuCau> loadedczzontext = [];
+
       extractedData.forEach((element) {
+
         loadedNhuCaus.add(NhuCau(
-            nid: element['tid'],
+          nid: element['nid'],
+          created: element['created'],
           title: element['title'],
-          field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
-          field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'],
+          field_sale: element['field_sale'],
+          field_don_vi_tinh: element['field_don_vi_tinh'],
+          field_dia_chi: element['field_dia_chi'],
+          field_dien_tich: element['field_dien_tich'],
+          field_so_tang: element['field_so_tang'],
+          field_gia: element['field_gia'],
+          field_huong: element['field_huong'],
+          field_chu_nha: element['field_chu_nha'],
+          field_phuong_xa: element['field_phuong_xa'],
+          field_quan_huyen: element['field_quan_huyen'],
+          field_dien_thoai: element['field_dien_thoai'],
+
         ));
+
       });
       _items = loadedNhuCaus;
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
       notifyListeners();
-    // }
+    }
     // catch(error){
     //   throw error;
     // }
