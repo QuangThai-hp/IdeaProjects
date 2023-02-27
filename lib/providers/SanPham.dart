@@ -53,6 +53,7 @@ class SanPham with ChangeNotifier {
     this.field_quan_huyen,
     this.field_nhom_nhu_cau,
     this.field_ngay_nhap,
+    this.field_ghi_chu,
     this.field_tinh_trang_noi_that,
     this.field_so_tien_coc,
     this.field_dien_tich_su_dung,
@@ -61,8 +62,7 @@ class SanPham with ChangeNotifier {
     this.field_so_phong_ve_sinh,
     this.field_so_phong_ngu,
     this.field_anh_san_pham,
-    this.khachHangChuNha,
-    this.field_ghi_chu
+    this.khachHangChuNha
   });
 
 
