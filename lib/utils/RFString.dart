@@ -12,3 +12,4 @@ const RFGetKhachHang="https://happyhomehaiphong.com/api/get-list-khach-hang";
 const RFImagesUpload = "https://happyhomehaiphong.com/api/get-images-upload";
 const RFGetKhuVuc = "https://happyhomehaiphong.com/api/get-khu-vuc";
 const RFGetDonViTinh = "https://happyhomehaiphong.com/api/get-don-vi-tinh";
+const RFGetNhuCau="https://happyhomehaiphong.com/api/danh-sach-nhu-cau";

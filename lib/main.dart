@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/KhachHangs.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/SanPham.dart';
@@ -58,6 +59,17 @@ class MyApp extends StatelessWidget {
               auth.token,
               auth.userId,
               previousNhuCaus == null ? [] : previousNhuCaus.items,
+            );
+          },
+          // create: ,
+        ),
+        ChangeNotifierProxyProvider<Auth, KhachHangs>(
+          create: (_) => KhachHangs('', 0, []),
+          update: (_, auth, previousKhachHangs) {
+            return KhachHangs(
+              auth.token,
+              auth.userId.toInt(),
+              previousKhachHangs == null ? [] : previousKhachHangs.items,
             );
           },
           // create: ,

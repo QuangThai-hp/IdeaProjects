@@ -11,10 +11,6 @@ import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
-
-import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
-
 
 import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
 
@@ -43,7 +39,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   var _pages = [
     RFHomeFragment(),
     RFKhachHangFragment(),
-    RFMuaBanFragment(),
+    RFSettingsFragment(),
     RFChoThueFragment(),
     RFAccountFragment(),
   ];
@@ -60,22 +56,22 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined, size: 22),
-          label: 'Tổng quan',
+          label: 'Nhu cầu',
           activeIcon: Icon(Icons.home_outlined, color: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline, size: 22), //rf_search.iconImage(),
-          label: 'Khách',
+          label: 'Khách hàng',
           activeIcon: Icon(Icons.person, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.send_and_archive_outlined, size: 22), //rf_search.iconImage(),
-          label: 'Cần bán',
+          label: 'Môi giới',
           activeIcon: Icon(Icons.send_and_archive, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.change_circle_outlined, size: 22), //rf_search.iconImage(),
-          label: 'Cho thuê',
+          label: 'Nhắn tin',
           activeIcon: Icon(Icons.change_circle, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(

@@ -19,10 +19,10 @@ class _BangSanPhamChoThueListState extends State<BangSanPhamChoThueList> {
   Future<void> _reloadSanPhamsChoThue(BuildContext context) async{
     final provider = Provider.of<SanPhams>(context);
     provider.getListSanPham('Cho thuê').then((value){
-      // setState(() {
-      //   sanPhams = provider.items;
-      //   isLoadedData = '1';
-      // });
+      setState(() {
+        sanPhams = provider.items;
+        isLoadedData = '1';
+      });
     });
   }
 
@@ -89,10 +89,10 @@ class _BangSanPhamChoThueListState extends State<BangSanPhamChoThueList> {
                     Row(
                       children: [
                         Text("Mã: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('${data.nid.toString()}', style: TextStyle(color: Colors.blue),),
+                        Text('${data.nid}', style: TextStyle(color: Colors.blue),),
                         10.width,
                         Text("Giá: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('${data.field_gia.toString()}/${data.field_don_vi_tinh}', style: TextStyle(color: Colors.blue),),
+                        Text('${data.field_gia.toString()}', style: TextStyle(color: Colors.blue),),
                         10.width,
                         Text("Diện tích: ", style: TextStyle(fontWeight: FontWeight.bold),),
                         Text(data.field_dien_tich.toString(), style: TextStyle(color: Colors.blue),),
@@ -101,10 +101,7 @@ class _BangSanPhamChoThueListState extends State<BangSanPhamChoThueList> {
                     ),
                     4.height,
                     Row(
-                      children: [
-                        Text("Số tầng: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(data.field_so_tang.toString(), style: TextStyle(color: Colors.blue),),
-                      ],
+
                     ),
                   ],
                 ).expand(),

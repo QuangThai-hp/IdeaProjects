@@ -29,20 +29,13 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   var _isInit = true;
   var _isLoading = false;
   List<String> categoryData = [
-    'Khách hàng tiềm năng',
-    'Khách hàng có nhu cầu',
-    'Khách hàng đã xem lần 1',
-    'Khách hàng đã xem lần 2',
-    'Khách hàng đã xem',
-    'Khách hàng giao dịch',
-    'Khách hàng chung'
+    'Tất cả',
+    'Cần mua',
+    'Cần bán',
+    'Cần thuê',
+    'Cho thuê',
   ];
-  List<RoomFinderModel> hotelListData = hotelList();
-  List<RoomFinderModel> locationListData = locationList();
-  // List<RoomFinderModel> recentUpdateData = recentUpdateList();
-
   int selectCategoryIndex = 0;
-
   bool locationWidth = true;
 
   @override
@@ -152,41 +145,11 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(categoryData[selectCategoryIndex], style: boldTextStyle()),
-                TextButton(
-                  onPressed: () {
-                    // RFViewAllSanPhamsListScreen().launch(context);
-                  },
-                  child: Text('Tất cả khách hàng', style: secondaryTextStyle(decoration: TextDecoration.underline, textBaseline: TextBaseline.alphabetic)),
-                )
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
             _isLoading ? Center(
               child: CircularProgressIndicator(),
             ) : CustomerList(categoryData[selectCategoryIndex]),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Sản phẩm bán', style: boldTextStyle()),
-                TextButton(
-                  onPressed: () {
-                    RFLocationViewAllScreen(locationWidth: true).launch(context);
-                  },
-                  child: Text('Xem tất cả', style: secondaryTextStyle(decoration: TextDecoration.underline)),
-                )
-              ],
-            ).paddingOnly(left: 16, right: 16, bottom: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Sản phẩm cho thuê', style: boldTextStyle()),
-                TextButton(
-                  onPressed: () {
-                    RFRecentUpdateViewAllScreen().launch(context);
-                  },
-                  child: Text('Tất cả sản phẩm', style: secondaryTextStyle(decoration: TextDecoration.underline)),
-                )
-              ],
-            ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
           ],
         ),
       ),
