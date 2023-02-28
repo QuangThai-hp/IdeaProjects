@@ -60,11 +60,11 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                   subtitle: Container(
                    child: Text(dataKhachHang.field_dien_thoai.toString(), style: TextStyle(color: Colors.blue),),
                   ),
-                  onExpansionChanged: (String nidKhachHang){
-                    setState(() {
-
-                    });
-                  },
+                  // onExpansionChanged: (String nidKhachHang){
+                  //   setState(() {
+                  //
+                  //   });
+                  // },
 
                   children: [
                     Container(

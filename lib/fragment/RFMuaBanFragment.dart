@@ -13,7 +13,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
 import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
+// import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
 // import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
 
 import '../components/RFConformationDialog.dart';
@@ -144,7 +144,7 @@ class _RFMuaBanFragmentState extends State<RFMuaBanFragment> {
                   height: MediaQuery.of(context).size.height,
                   child: TabBarView(children: [
                     Container(
-                      child: BangNhuCauBanList(),
+                      child: Text('Đang cập nhật') //BangNhuCauBanList(),
                     ),
                     Container(
                       child: BangNhuCauCanMuaList(),
