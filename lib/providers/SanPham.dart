@@ -10,6 +10,8 @@ class SanPham with ChangeNotifier {
   final double? field_so_tang;
   final String? field_duong;
   final String? field_huong;
+  final String? field_phuong_xa;
+  final String? field_quan_huyen;
   final double? field_gia;
   final double? field_gia_bang_so;
   final String? field_don_vi_tinh;
@@ -17,8 +19,6 @@ class SanPham with ChangeNotifier {
   final String? field_phap_ly;
   final String? field_phan_loai_nhom_san_pham;
   final double? field_dien_tich;
-  final KhuVuc? field_phuong_xa;
-  final KhuVuc? field_quan_huyen;
   final String? field_nhom_nhu_cau;
   final String? field_ngay_nhap;
   final String? field_ghi_chu;
@@ -42,6 +42,8 @@ class SanPham with ChangeNotifier {
     this.field_so_tang,
     this.field_duong,
     this.field_huong,
+    this.field_phuong_xa,
+    this.field_quan_huyen,
     this.field_gia,
     this.field_gia_bang_so,
     this.field_don_vi_tinh,
@@ -49,8 +51,6 @@ class SanPham with ChangeNotifier {
     this.field_phap_ly,
     this.field_phan_loai_nhom_san_pham,
     this.field_dien_tich,
-    this.field_phuong_xa,
-    this.field_quan_huyen,
     this.field_nhom_nhu_cau,
     this.field_ngay_nhap,
     this.field_ghi_chu,

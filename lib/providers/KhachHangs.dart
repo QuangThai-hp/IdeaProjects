@@ -23,7 +23,7 @@ class KhachHangs with ChangeNotifier {
   }
 
   // Lấy danh sách sản phẩm theo loại (Mua bán / Cho thuê)
-  Future<void> getListKhachHang(String status) async{
+  Future<void> getListKhachHang() async{
     // try
     {
       final response = await http.post(
@@ -31,7 +31,6 @@ class KhachHangs with ChangeNotifier {
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
-            'status': status,
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',

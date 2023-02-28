@@ -18,7 +18,7 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
 
   Future<void> _reloadKhachHangs(BuildContext context) async{
     final provider = Provider.of<KhachHangs>(context);
-    provider.getListKhachHang('Khách hàng tiềm năng').then((value){
+    provider.getListKhachHang().then((value){
       setState(() {
         khachHangs = provider.items;
         trangThaiCu = '1';
