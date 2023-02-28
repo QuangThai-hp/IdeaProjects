@@ -17,6 +17,7 @@ class BangKhachHangList extends StatefulWidget {
 class _BangKhachHangListState extends State<BangKhachHangList> {
   late List<KhachHang> khachHangs = [];
   late String isLoadedData = '';
+  late String idKhachHang='';
   bool isExpanded = false;
 
   Future<void> _reloadKhachHangList(BuildContext context) async{
@@ -54,7 +55,7 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                 contentPadding: EdgeInsets.all(0),
                 child: ExpansionTile(
                   childrenPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                  leading: Icon(Icons.home_outlined, color: Colors.brown, size: 30),
+                  leading: Icon(Icons.person, color: Colors.brown, size: 30),
                   title: Text('${dataKhachHang.hoTen}', style: primaryTextStyle()),
                   subtitle: Container(
                     child: Text(dataKhachHang.field_dien_thoai.toString(), style: TextStyle(color: Colors.blue),),
@@ -62,7 +63,10 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                   onExpansionChanged: (t) {
                     isExpanded = !isExpanded.validate(value: false);
                     print('1');
-                    setState(() {});
+                    setState(() {
+                      idKhachHang=dataKhachHang.nid.toString();
+                    });
+
                   },
                   // onExpansionChanged: (String nidKhachHang){
                   //   setState(() {
