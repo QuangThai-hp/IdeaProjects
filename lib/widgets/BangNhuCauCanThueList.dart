@@ -9,18 +9,18 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/SanPham.dart';
 
-class BangNhuCauCanMuaList extends StatefulWidget {
+class BangNhuCauCanThueList extends StatefulWidget {
   @override
-  State<BangNhuCauCanMuaList> createState() => _BangNhuCauCanMuaListState();
+  State<BangNhuCauCanThueList> createState() => _BangNhuCauCanThueListListState();
 }
 
-class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
+class _BangNhuCauCanThueListListState extends State<BangNhuCauCanThueList> {
   late List<SanPham> sanPhams = [];
   late String trangThaiCu = '';
 
-  Future<void> _reloadCanMua(BuildContext context) async{
+  Future<void> _reloadChoThue(BuildContext context) async{
     final provider = Provider.of<SanPhams>(context);
-    provider.getListSanPham('Cần mua').then((value){
+    provider.getListSanPham('Cần thuê').then((value){
       setState(() {
         sanPhams = provider.items;
         trangThaiCu = '1';
@@ -34,7 +34,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
     double img_width_height = 60;
 
     if(trangThaiCu == '')
-      _reloadCanMua(context);
+      _reloadChoThue(context);
     return
       trangThaiCu == '' ? Center(
         child: CircularProgressIndicator(),

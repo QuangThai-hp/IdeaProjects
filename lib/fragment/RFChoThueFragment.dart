@@ -11,7 +11,8 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
-import 'package:room_finder_flutter/widgets/BangSanPhamChoThueList.dart';
+import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
+
 // import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
 
 import '../components/RFConformationDialog.dart';
@@ -127,7 +128,7 @@ class _RFChoThueFragmentState extends State<RFChoThueFragment> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Danh sách sản phẩm", style: boldTextStyle(size: 18)),
-                    BangSanPhamChoThueList(),
+                    BangNhuCauCanBanList(),
                   ],
                 ),
               ),

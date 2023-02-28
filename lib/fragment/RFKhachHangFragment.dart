@@ -11,7 +11,7 @@ import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:room_finder_flutter/widgets/BangKhachHangList.dart';
-
+import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
 
 class RFKhachHangFragment extends StatefulWidget {
   static const routeName = '/khach-hang';

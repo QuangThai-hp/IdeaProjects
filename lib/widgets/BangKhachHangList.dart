@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/providers/KhachHang.dart';
 import 'package:room_finder_flutter/providers/KhachHangs.dart';
+import 'package:room_finder_flutter/providers/SanPham.dart';
+import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
-import 'package:room_finder_flutter/providers/KhachHangs.dart';
+
 import 'package:provider/provider.dart';
 
 class BangKhachHangList extends StatefulWidget {
@@ -14,14 +16,15 @@ class BangKhachHangList extends StatefulWidget {
 
 class _BangKhachHangListState extends State<BangKhachHangList> {
   late List<KhachHang> khachHangs = [];
-  late String trangThaiCu = '';
+  late String isLoadedData = '';
+  bool isExpanded = false;
 
-  Future<void> _reloadKhachHangs(BuildContext context) async{
+  Future<void> _reloadKhachHangList(BuildContext context) async{
     final provider = Provider.of<KhachHangs>(context);
     provider.getListKhachHang().then((value){
       setState(() {
         khachHangs = provider.items;
-        trangThaiCu = '1';
+        isLoadedData = '1';
       });
     });
   }
@@ -31,10 +34,10 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
     double c_width = MediaQuery.of(context).size.width*0.65;
     double img_width_height = 60;
 
-    if(trangThaiCu == '')
-      _reloadKhachHangs(context);
+    if(isLoadedData == '')
+      _reloadKhachHangList(context);
     return
-      trangThaiCu == '' ? Center(
+      isLoadedData == '' ? Center(
         child: CircularProgressIndicator(),
       ) :
       ListView.builder(
@@ -43,85 +46,117 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          KhachHang data = khachHangs[index];
+          KhachHang dataKhachHang = khachHangs[index];
+
           return
             GestureDetector(
-              child: Container(
-                margin: EdgeInsets.only(bottom: 8),
-                padding: EdgeInsets.all(8),
-                decoration: boxDecorationWithShadow(
-                  backgroundColor: context.cardColor,
-                  boxShadow: defaultBoxShadow(),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+              child: ListTileTheme(
+                contentPadding: EdgeInsets.all(0),
+                child: ExpansionTile(
+                  childrenPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                  leading: Icon(Icons.home_outlined, color: Colors.brown, size: 30),
+                  title: Text('${dataKhachHang.hoTen}', style: primaryTextStyle()),
+
+
+                  subtitle: Container(
+                    child: Text(dataKhachHang.field_dien_thoai.toString(), style: TextStyle(color: Colors.blue),),
+                  ),
+                  onExpansionChanged: (t) {
+                    isExpanded = !isExpanded.validate(value: false);
+                    print('1');
+                    setState(() {});
+                  },
+                  // onExpansionChanged: (String nidKhachHang){
+                  //   setState(() {
+                  //
+                  //   });
+                  // },
+
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              // decoration: BoxDecoration(shape: BoxShape.circle, color: rf_primaryColor),
-                              // padding: EdgeInsets.all(8),
-                              child: Image.asset(rf_logo_happyhome, height: img_width_height, width: img_width_height, fit: BoxFit.fill),
-                            ),
-                            8.width,
-                            Container(
-
-                              width: c_width,
-                              child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:MainAxisAlignment.center,
-                                children: [
-                                  Text('${data.hoTen}', style: TextStyle(
-                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                      fontSize: 14
-                                  ),)
-                                ],
+                    Container(
+                      decoration: BoxDecoration(color: Colors.blue.withAlpha(32), borderRadius: radius()),
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Nhu cầu khách hàng',
+                                style: boldTextStyle(size: 18),
                               ).expand(),
+                              Container(
+                                padding: EdgeInsets.all(4),
+                                decoration: boxDecorationDefault(color: context.cardColor, borderRadius: radius(100)),
+                                child: Icon(
+                                  Icons.more_horiz,
+                                  color: context.iconColor,
+                                ),
+                              )
+                            ],
+                          ),
+                          16.height,
+                          SettingItemWidget(
+                            title: 'Design System Tokens',
+                            subTitle: '16 March, 2020',
+                            leading: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: boxDecorationDefault(color: Colors.blue.withAlpha(32), borderRadius: radius()),
+                              child: Icon(
+                                Icons.personal_injury_rounded,
+                                color: Colors.blue,
+                              ),
                             ),
-                          ],
-                        ),
-                        4.height,
-                        Row(
-                          children: [
-                            Text("Mã: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text('${data.nid.toString()}', style: TextStyle(color: Colors.blue),),
-
-                            10.width,
-                            Text("Điện thoại: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                            Text(data.field_dien_thoai.toString(), style: TextStyle(color: Colors.blue),),
-
-                          ],
-                        ),
-                        4.height,
-                        Row(
-                          children: [
-                            Text("Trạng Thái: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                            Text(data.field_trang_thai.toString(), style: TextStyle(color: Colors.blue),),
-
-                          ],
-                        ),4.height,
-
-
-                      ],
-                    ).expand(),
+                          ),
+                          SettingItemWidget(
+                            title: 'Design Specs',
+                            subTitle: '18 March, 2018',
+                            leading: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: boxDecorationDefault(color: Colors.blue.withAlpha(32), borderRadius: radius()),
+                              child: Icon(Icons.folder_open, color: Colors.blue),
+                            ),
+                          ),
+                          SettingItemWidget(
+                            title: 'Guidelines',
+                            subTitle: '31 December, 2020',
+                            leading: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: boxDecorationDefault(color: Colors.blue.withAlpha(32), borderRadius: radius()),
+                              child: Icon(Icons.folder_open, color: Colors.blue),
+                            ),
+                          ),
+                          Text(
+                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s',
+                          ).paddingAll(8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AppButton(
+                                onTap: () {},
+                                color: context.cardColor,
+                                shapeBorder: RoundedRectangleBorder(borderRadius: radius()),
+                                text: 'Purchase Me',
+                                textStyle: primaryTextStyle(),
+                                padding: EdgeInsets.all(8),
+                              ),
+                              8.width,
+                              AppButton(
+                                onTap: () {},
+                                shapeBorder: RoundedRectangleBorder(borderRadius: radius()),
+                                text: 'I want this Kit',
+                                textStyle: primaryTextStyle(color: Colors.white),
+                                padding: EdgeInsets.all(8),
+                                color: Colors.blueAccent,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
               onTap: (){
-                // Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context) => RFChiTietDinhDuongNgayScreen(ngayDinhDuong : data.field_ngay_dinh_duong!.substring(0, 10))), (route) => false);
-
-                // Provider.of<KhachHang>(context).field_ngay_dinh_duong = data.field_ngay_dinh_duong!.substring(0, 10);
-                // pushNamedAndRemoveUntil
-                // Navigator.of(context)
-                //     .pushNamedAndRemoveUntil(RFChiTietDinhDuongNgayScreen.routeName, (route)=>false);
-                // RFChiTietDinhDuongNgayScreen().launch(context);
               },
             );
         },

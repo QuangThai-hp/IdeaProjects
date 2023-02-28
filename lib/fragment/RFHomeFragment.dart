@@ -17,6 +17,10 @@ import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/widgets/BangNhuCauCanThueList.dart';
+import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
+import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
+import 'package:room_finder_flutter/widgets/BangNhuCauChoThueList.dart';
 
 import '../widgets/CusomerList.dart';
 
@@ -108,6 +112,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             )
           ],
         ),
+
         subWidget: Column(
           children: [
             HorizontalList(
@@ -121,6 +126,8 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                   onTap: () {
                     setState(() {
                       selectCategoryIndex = index;
+                      print(selectCategoryIndex);
+
                     });
                   },
                   child: Container(
@@ -131,6 +138,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                           : selectCategoryIndex == index
                               ? rf_selectedCategoryBgColor
                               : rf_categoryBgColor,
+
                     ),
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: Text(
@@ -141,15 +149,24 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 );
               },
             ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(categoryData[selectCategoryIndex], style: boldTextStyle()),
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
+
+
             _isLoading ? Center(
               child: CircularProgressIndicator(),
-            ) : CustomerList(categoryData[selectCategoryIndex]),
+            ) :selectCategoryIndex==0? CustomerList(categoryData[selectCategoryIndex])
+
+                :selectCategoryIndex==1?BangNhuCauCanMuaList()
+                :selectCategoryIndex==2?BangNhuCauCanBanList()
+                :selectCategoryIndex==3?BangNhuCauCanThueList()
+                :BangNhuCauChoThueList(),
+
           ],
         ),
       ),
