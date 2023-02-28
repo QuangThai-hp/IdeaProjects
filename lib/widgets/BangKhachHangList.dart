@@ -56,8 +56,6 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                   childrenPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                   leading: Icon(Icons.home_outlined, color: Colors.brown, size: 30),
                   title: Text('${dataKhachHang.hoTen}', style: primaryTextStyle()),
-
-
                   subtitle: Container(
                     child: Text(dataKhachHang.field_dien_thoai.toString(), style: TextStyle(color: Colors.blue),),
                   ),
@@ -81,17 +79,9 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                           Row(
                             children: [
                               Text(
-                                'Nhu cầu khách hàng',
+                                'Nhu cầu',
                                 style: boldTextStyle(size: 18),
                               ).expand(),
-                              Container(
-                                padding: EdgeInsets.all(4),
-                                decoration: boxDecorationDefault(color: context.cardColor, borderRadius: radius(100)),
-                                child: Icon(
-                                  Icons.more_horiz,
-                                  color: context.iconColor,
-                                ),
-                              )
                             ],
                           ),
                           16.height,

@@ -45,23 +45,23 @@ class SanPhams with ChangeNotifier {
       final List<SanPham> loadedSanPhams = [];
       extractedData.forEach((element) {
 
-          loadedSanPhams.add(SanPham(
-              nid: element['nid'],
-
-              hoTen: element['hoTen'],
-            field_dien_thoai: element['field_dien_thoai'],
-
-            title: element['title'],
-
-              field_gia: element['field_gia'].toString().toDouble(),
-            field_dien_tich: element['field_dien_tich'].toString().toDouble(),
-            field_huong: element['field_huong'],
-            field_quan_huyen: element['field_quan_huyen'],
-            field_phuong_xa: element['field_phuong_xa'],
-            field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
-              // field_phan_loai_nhom_san_pham: element['field_phan_loai_nhom_san_pham'],
-              // field_dien_tich: element['field_dien_tich'].toString().toDouble(),
-          ));
+          // loadedSanPhams.add(SanPham(
+          //     nid: element['nid'],
+          //
+          //     hoTen: element['hoTen'],
+          //   field_dien_thoai: element['field_dien_thoai'],
+          //
+          //   title: element['title'],
+          //
+          //     field_gia: element['field_gia'].toString().toDouble(),
+          //   field_dien_tich: element['field_dien_tich'].toString().toDouble(),
+          //   field_huong: element['field_huong'],
+          //   field_quan_huyen: element['field_quan_huyen'],
+          //   field_phuong_xa: element['field_phuong_xa'],
+          //   field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
+          //     // field_phan_loai_nhom_san_pham: element['field_phan_loai_nhom_san_pham'],
+          //     // field_dien_tich: element['field_dien_tich'].toString().toDouble(),
+          // ));
 
       });//
       _items = loadedSanPhams;
@@ -75,38 +75,43 @@ class SanPhams with ChangeNotifier {
   }
 
   Future<void> save(Map<String, dynamic> sanPham, String routeAfterSave, BuildContext context) async {
-    try
-    {
-      final response = await http.post(
-          Uri.parse(RFSaveSanPham),
-          body: json.encode({
-            'uid': uid,
-            'auth': authToken,
-            'sanPham': sanPham
-          }),
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Charset': 'utf-8',
-          }
-      );
-      final responseData = json.decode(response.body);
-
-      print(responseData);
-
-      if(!responseData['success'])
-        throw HttpException(responseData['content']);
-      else{
-        RFHomeScreen rfHomeScreenFragment = new RFHomeScreen();
-        rfHomeScreenFragment.selectedIndex = 1;
-        rfHomeScreenFragment.contentAlert = responseData['content'];
-        rfHomeScreenFragment.showDialog = true;
-        rfHomeScreenFragment.launch(context);
-      }
-      notifyListeners();
-    }
-    catch(error){
-      throw error;
-    }
+    print(json.encode({
+      'uid': uid,
+      'auth': authToken,
+      'sanPham': sanPham
+    }));
+    // try
+    // {
+    //   final response = await http.post(
+    //       Uri.parse(RFSaveSanPham),
+    //       body: json.encode({
+    //         'uid': uid,
+    //         'auth': authToken,
+    //         'sanPham': sanPham
+    //       }),
+    //       headers: {
+    //         'Content-Type': 'application/json;charset=UTF-8',
+    //         'Charset': 'utf-8',
+    //       }
+    //   );
+    //   final responseData = json.decode(response.body);
+    //
+    //   print(responseData);
+    //
+    //   if(!responseData['success'])
+    //     throw HttpException(responseData['content']);
+    //   else{
+    //     RFHomeScreen rfHomeScreenFragment = new RFHomeScreen();
+    //     rfHomeScreenFragment.selectedIndex = 1;
+    //     rfHomeScreenFragment.contentAlert = responseData['content'];
+    //     rfHomeScreenFragment.showDialog = true;
+    //     rfHomeScreenFragment.launch(context);
+    //   }
+    //   notifyListeners();
+    // }
+    // catch(error){
+    //   throw error;
+    // }
   }
 
 }

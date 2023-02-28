@@ -7,8 +7,6 @@ import 'package:room_finder_flutter/models/http_exeption.dart';
 import 'package:room_finder_flutter/providers/KhachHang.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 
-
-
 class KhachHangs with ChangeNotifier {
   late List<KhachHang> _items = [];
   final String authToken;
