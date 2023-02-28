@@ -40,6 +40,7 @@ class SanPhams with ChangeNotifier {
             'Charset': 'utf-8',
           }
       );
+      // gfjgghgjgjh
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['nhuCau']); //json.decode(response.body) as Map<String, dynamic>;
       final List<SanPham> loadedSanPhams = [];
