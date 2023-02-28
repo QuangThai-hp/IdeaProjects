@@ -1,9 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
+import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
 import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/providers/khuVucs.dart';
@@ -16,10 +17,6 @@ import 'package:room_finder_flutter/store/AppStore.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/providers/NhuCaus.dart';
-import 'package:room_finder_flutter/providers/SanPham.dart';
-import 'package:room_finder_flutter/providers/KhachHang.dart';
-import 'package:room_finder_flutter/providers/KhachHangs.dart';
 
 AppStore appStore = AppStore();
 
@@ -50,16 +47,6 @@ class MyApp extends StatelessWidget {
               auth.token,
               auth.userId,
               previousSanPhams == null ? [] : previousSanPhams.items,
-            );
-          },
-          // create: ,
-        ),ChangeNotifierProxyProvider<Auth, NhuCaus>(
-          create: (_) => NhuCaus('', '', []),
-          update: (_, auth, previousNhuCaus) {
-            return NhuCaus(
-              auth.token,
-              auth.userId,
-              previousNhuCaus == null ? [] : previousNhuCaus.items,
             );
           },
           // create: ,
@@ -101,17 +88,6 @@ class MyApp extends StatelessWidget {
               auth.token,
               auth.userId.toInt(),
               previousSanPhams == null ? [] : previousSanPhams.items,
-            );
-          },
-          // create: ,
-        ),
-        ChangeNotifierProxyProvider<Auth, KhachHangs>(
-          create: (_) => KhachHangs('', '', []),
-          update: (_, auth, previousKhachHangs) {
-            return KhachHangs(
-              auth.token,
-              auth.userId,
-              previousKhachHangs == null ? [] : previousKhachHangs.items,
             );
           },
           // create: ,
