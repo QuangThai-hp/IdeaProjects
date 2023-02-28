@@ -26,6 +26,8 @@ class KhachHangs with ChangeNotifier {
   Future<void> getListKhachHang() async{
     // try
     {
+
+      // ncscs
       final response = await http.post(
           Uri.parse(RFGetKhachHang),
           body: json.encode({

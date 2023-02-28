@@ -24,7 +24,7 @@ class Customers with ChangeNotifier {
     // try
     {
       final response = await http.post(
-          Uri.parse(RFGetCustomerWithStatus),
+          Uri.parse(RFGetKhachHang),
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
