@@ -6,7 +6,7 @@ import 'package:room_finder_flutter/providers/KhuVuc.dart';
 class SanPham with ChangeNotifier {
   String? nid;
   final String? hoTen;
-  final String? title;
+  final String title;
   final String? field_dia_chi;
   final double? field_so_tang;
   final String? field_duong;
@@ -32,6 +32,7 @@ class SanPham with ChangeNotifier {
   final double? field_chieu_rong;
   final int? field_so_phong_ve_sinh;
   final int? field_so_phong_ngu;
+  final String field_trang_thai_nhu_cau;
   late List<String>? field_anh_san_pham = [];
 
   final KhachHangChuNha? khachHangChuNha;
@@ -39,7 +40,7 @@ class SanPham with ChangeNotifier {
   SanPham({
     this.nid = '',
     this.hoTen,
-    this.title,
+    this.title  = '',
     this.field_dia_chi,
     this.field_so_tang,
     this.field_duong,
@@ -64,6 +65,7 @@ class SanPham with ChangeNotifier {
     this.field_chieu_rong,
     this.field_so_phong_ve_sinh,
     this.field_so_phong_ngu,
+    this.field_trang_thai_nhu_cau = 'Chưa kết nối',
     this.field_anh_san_pham,
     this.khachHangChuNha
   });

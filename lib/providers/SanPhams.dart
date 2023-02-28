@@ -114,4 +114,37 @@ class SanPhams with ChangeNotifier {
     // }
   }
 
+  Future<void> getListNhuCau(int khachHangID) async{
+    // try
+    {
+      // ncscs
+      final response = await http.post(
+          Uri.parse(RFGetListNhuCauByKhachHang),
+          body: json.encode({
+            'uid': this.uid,
+            'auth': this.authToken,
+            "khachHangID": khachHangID
+          }),
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+          }
+      );
+
+      print(khachHangID);
+      print(jsonDecode(response.body));
+      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
+      final List<SanPham> loaded = [];
+      extractedData.forEach((element) {
+        loaded.add(SanPham(
+          nid: element['nid'],
+          title: element['title'],
+          field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'],
+        ));
+      });
+      _items = loaded;
+      notifyListeners();
+    }
+  }
+
 }

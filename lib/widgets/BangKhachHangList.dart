@@ -8,6 +8,7 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 
 import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/widgets/ListNhuCauInnerCustomer.dart';
 
 class BangKhachHangList extends StatefulWidget {
   @override
@@ -59,17 +60,16 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                   subtitle: Container(
                     child: Text(dataKhachHang.field_dien_thoai.toString(), style: TextStyle(color: Colors.blue),),
                   ),
-                  onExpansionChanged: (t) {
-                    isExpanded = !isExpanded.validate(value: false);
-                    print('1');
-                    setState(() {});
+                  onExpansionChanged: (expansion){
+                    if(expansion){
+                      SanPhams sanPham = Provider.of<SanPhams>(context, listen: false);
+                      sanPham.getListNhuCau(dataKhachHang.nid.toInt()).then((value){
+                        setState(() {
+                          dataKhachHang.sanPham = sanPham.items;
+                        });
+                      });
+                    }
                   },
-                  // onExpansionChanged: (String nidKhachHang){
-                  //   setState(() {
-                  //
-                  //   });
-                  // },
-
                   children: [
                     Container(
                       decoration: BoxDecoration(color: Colors.blue.withAlpha(32), borderRadius: radius()),
@@ -85,39 +85,7 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                             ],
                           ),
                           16.height,
-                          SettingItemWidget(
-                            title: 'Design System Tokens',
-                            subTitle: '16 March, 2020',
-                            leading: Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: boxDecorationDefault(color: Colors.blue.withAlpha(32), borderRadius: radius()),
-                              child: Icon(
-                                Icons.personal_injury_rounded,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                          SettingItemWidget(
-                            title: 'Design Specs',
-                            subTitle: '18 March, 2018',
-                            leading: Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: boxDecorationDefault(color: Colors.blue.withAlpha(32), borderRadius: radius()),
-                              child: Icon(Icons.folder_open, color: Colors.blue),
-                            ),
-                          ),
-                          SettingItemWidget(
-                            title: 'Guidelines',
-                            subTitle: '31 December, 2020',
-                            leading: Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: boxDecorationDefault(color: Colors.blue.withAlpha(32), borderRadius: radius()),
-                              child: Icon(Icons.folder_open, color: Colors.blue),
-                            ),
-                          ),
-                          Text(
-                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s',
-                          ).paddingAll(8),
+                          ListNhuCauInnerCustomer(sanPham: dataKhachHang.sanPham,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

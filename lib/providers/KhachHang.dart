@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'SanPham.dart';
 
 class KhachHang with ChangeNotifier {
   String? nid;
@@ -8,14 +8,15 @@ class KhachHang with ChangeNotifier {
   final String? field_dia_chi;
   final String? field_trang_thai;
   final String? field_ghi_chu;
+  List<SanPham> sanPham = [];
 
 
   KhachHang({
     this.nid = '',
-     this.hoTen,
-     this.field_dien_thoai,
-   this.field_dia_chi,
-     this.field_trang_thai,
-     this.field_ghi_chu,
+    this.hoTen,
+    this.field_dien_thoai,
+    this.field_dia_chi,
+    this.field_trang_thai,
+    this.field_ghi_chu,
   });
 }

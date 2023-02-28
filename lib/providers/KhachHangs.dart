@@ -7,10 +7,12 @@ import 'package:room_finder_flutter/models/http_exeption.dart';
 import 'package:room_finder_flutter/providers/KhachHang.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 
+import 'KhachHangChuNha.dart';
+
 class KhachHangs with ChangeNotifier {
-  late List<KhachHang> _items = [];
-  final String authToken;
-  final String uid;
+  List<KhachHang> _items = [];
+  final String? authToken;
+  final String? uid;
 
   KhachHangs(this.authToken, this.uid, this._items);
   List<KhachHang> get items{
