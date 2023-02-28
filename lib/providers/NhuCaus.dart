@@ -27,7 +27,7 @@ class NhuCaus with ChangeNotifier {
     // try
     {
       final response = await http.post(
-          Uri.parse(RFGetSanPhamByType),
+          Uri.parse(RFGetNhuCauByPhanLoai),
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
@@ -41,28 +41,26 @@ class NhuCaus with ChangeNotifier {
       );
 
       print(jsonDecode(response.body));
-      final extectedContextData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['context']);
-      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['nhu_cau']); //json.decode(response.body) as Map<String, dynamic>;
+
+      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<NhuCau> loadedNhuCaus = [];
-      final List<NhuCau> loadedczzontext = [];
+
 
       extractedData.forEach((element) {
 
         loadedNhuCaus.add(NhuCau(
           nid: element['nid'],
-          created: element['created'],
-          title: element['title'],
-          field_sale: element['field_sale'],
-          field_don_vi_tinh: element['field_don_vi_tinh'],
-          field_dia_chi: element['field_dia_chi'],
-          field_dien_tich: element['field_dien_tich'],
-          field_so_tang: element['field_so_tang'],
-          field_gia: element['field_gia'],
-          field_huong: element['field_huong'],
-          field_chu_nha: element['field_chu_nha'],
-          field_phuong_xa: element['field_phuong_xa'],
-          field_quan_huyen: element['field_quan_huyen'],
+          hoTen: element['hoTen'],
           field_dien_thoai: element['field_dien_thoai'],
+          title: element['title'],
+          field_gia: element['field_gia'],
+          field_dien_tich: element['field_dien_tich'],
+          field_huong: element['field_huong'],
+          field_quan_huyen: element['field_quan_huyen'],
+          field_phuong_xa: element['field_phuong_xa'],
+          field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
+          field_anh_san_pham: element['field_anh_san_pham'],
+
 
         ));
 

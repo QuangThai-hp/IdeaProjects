@@ -11,18 +11,18 @@ import 'package:room_finder_flutter/providers/SanPham.dart';
 
 class BangNhuCauCanThueList extends StatefulWidget {
   @override
-  State<BangNhuCauCanThueList> createState() => _BangNhuCauCanThueListListState();
+  State<BangNhuCauCanThueList> createState() => _BangNhuCauCanThueListState();
 }
 
-class _BangNhuCauCanThueListListState extends State<BangNhuCauCanThueList> {
-  late List<SanPham> sanPhams = [];
+class _BangNhuCauCanThueListState extends State<BangNhuCauCanThueList> {
+  late List<NhuCau> nhuCaus = [];
   late String trangThaiCu = '';
 
-  Future<void> _reloadChoThue(BuildContext context) async{
-    final provider = Provider.of<SanPhams>(context);
-    provider.getListSanPham('Cần thuê').then((value){
+  Future<void> _reloadCanMua(BuildContext context) async{
+    final provider = Provider.of<NhuCaus>(context);
+    provider.getListNhuCau('Cần thuê').then((value){
       setState(() {
-        sanPhams = provider.items;
+        nhuCaus = provider.items;
         trangThaiCu = '1';
       });
     });
@@ -34,99 +34,102 @@ class _BangNhuCauCanThueListListState extends State<BangNhuCauCanThueList> {
     double img_width_height = 60;
 
     if(trangThaiCu == '')
-      _reloadChoThue(context);
+      _reloadCanMua(context);
     return
       trangThaiCu == '' ? Center(
         child: CircularProgressIndicator(),
       ) :
       ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: sanPhams.length,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        SanPham data = sanPhams[index];
-        return
-          GestureDetector(
-            child: Container(
-            margin: EdgeInsets.only(bottom: 8),
-            padding: EdgeInsets.all(8),
-            decoration: boxDecorationWithShadow(
-              backgroundColor: context.cardColor,
-              boxShadow: defaultBoxShadow(),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
+        scrollDirection: Axis.vertical,
+        itemCount: nhuCaus.length,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          NhuCau data = nhuCaus[index];
+          return
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 8),
+                padding: EdgeInsets.all(8),
+                decoration: boxDecorationWithShadow(
+                  backgroundColor: context.cardColor,
+                  boxShadow: defaultBoxShadow(),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          // decoration: BoxDecoration(shape: BoxShape.circle, color: rf_primaryColor),
-                          // padding: EdgeInsets.all(8),
-                          child: Image.asset(rf_logo_happyhome, height: img_width_height, width: img_width_height, fit: BoxFit.fill),
-                        ),
-                        8.width,
-                        Container(
-                          alignment: Alignment.topLeft,
-                          width: c_width,
-                          child: Column(
-                            children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
 
-                              Text('${data.hoTen}', style: TextStyle(
-                                  fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                fontSize: 14
-                              ),),
-                              10.height,
-                              Text('${data.field_dien_thoai}', style: TextStyle(
-                                  fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                  fontSize: 14
-                              ),),
-                            ],
-                          ).expand(),
-                        ),
-                      ],
-                    ),
-                    4.height,
-                    Row(
-                      children: [
-                        Text("Khu vực: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_quan_huyen}-${data.field_phuong_xa}', style: TextStyle(color: Colors.blue),),
-                      ],
-                    ),
-                    4.height,
-                    Row(
-                      children: [
-                        Text("Giá: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_gia}', style: TextStyle(color: Colors.blue),),
-                        10.width,
-                        Text("Hướng: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_huong}', style: TextStyle(color: Colors.blue),),
-                      ],
-                    ),
+                              child: Image.asset(rf_logo_happyhome, height: img_width_height, width: img_width_height, fit: BoxFit.fill),
+                            ),
+                            8.width,
+                            Container(
+                              alignment: Alignment.topLeft,
+                              width: c_width,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
 
+                                  Text('${data.title}', style: TextStyle(
+                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                      fontSize: 14
+                                  ),),
+                                  8.height,
+                                  Row(
+                                    children: [
+                                      Text('Giá: ${data.field_gia}', style: TextStyle(
+                                          fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                          fontSize: 14
+                                      ),),
+                                      10.width,
+                                      Text('Hướng: ${data.field_huong}', style: TextStyle(
+                                          fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                          fontSize: 14
+                                      ),),
+                                    ],
+                                  ),
+                                  8.height,
+                                  Text('Vị trí: ${data.field_quan_huyen}-${data.field_phuong_xa}', style: TextStyle(
+                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                      fontSize: 14
+                                  ),),
+                                  8.height,
+                                  Text('Số Điện Thoại: ${data.field_dien_thoai}', style: TextStyle(
+                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                      fontSize: 14
+                                  ),),
+                                ],
+                              ).expand(),
+                            ),
+                          ],
+                        ),
+
+
+                      ],
+                    ).expand(),
                   ],
-                ).expand(),
-              ],
-            ),
-        ),
-            onTap: (){
-              // Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context) => RFChiTietDinhDuongNgayScreen(ngayDinhDuong : data.field_ngay_dinh_duong!.substring(0, 10))), (route) => false);
+                ),
+              ),
+              onTap: (){
+                // Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context) => RFChiTietDinhDuongNgayScreen(ngayDinhDuong : data.field_ngay_dinh_duong!.substring(0, 10))), (route) => false);
 
-              // Provider.of<SanPham>(context).field_ngay_dinh_duong = data.field_ngay_dinh_duong!.substring(0, 10);
-              // pushNamedAndRemoveUntil
-              // Navigator.of(context)
-              //     .pushNamedAndRemoveUntil(RFChiTietDinhDuongNgayScreen.routeName, (route)=>false);
-              // RFChiTietDinhDuongNgayScreen().launch(context);
-            },
-          );
-      },
-    );
+                // Provider.of<SanPham>(context).field_ngay_dinh_duong = data.field_ngay_dinh_duong!.substring(0, 10);
+                // pushNamedAndRemoveUntil
+                // Navigator.of(context)
+                //     .pushNamedAndRemoveUntil(RFChiTietDinhDuongNgayScreen.routeName, (route)=>false);
+                // RFChiTietDinhDuongNgayScreen().launch(context);
+              },
+            );
+        },
+      );
   }
 }

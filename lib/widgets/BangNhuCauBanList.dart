@@ -15,14 +15,14 @@ class BangNhuCauCanBanList extends StatefulWidget {
 }
 
 class _BangNhuCauCanBanListState extends State<BangNhuCauCanBanList> {
-  late List<SanPham> sanPhams = [];
+  late List<NhuCau> nhuCaus = [];
   late String trangThaiCu = '';
 
   Future<void> _reloadCanMua(BuildContext context) async{
-    final provider = Provider.of<SanPhams>(context);
-    provider.getListSanPham('Cần bán').then((value){
+    final provider = Provider.of<NhuCaus>(context);
+    provider.getListNhuCau('Cần bán').then((value){
       setState(() {
-        sanPhams = provider.items;
+        nhuCaus = provider.items;
         trangThaiCu = '1';
       });
     });
@@ -41,11 +41,11 @@ class _BangNhuCauCanBanListState extends State<BangNhuCauCanBanList> {
       ) :
       ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: sanPhams.length,
+      itemCount: nhuCaus.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        SanPham data = sanPhams[index];
+        NhuCau data = nhuCaus[index];
         return
           GestureDetector(
             child: Container(
@@ -68,8 +68,7 @@ class _BangNhuCauCanBanListState extends State<BangNhuCauCanBanList> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
-                          // decoration: BoxDecoration(shape: BoxShape.circle, color: rf_primaryColor),
-                          // padding: EdgeInsets.all(8),
+
                           child: Image.asset(rf_logo_happyhome, height: img_width_height, width: img_width_height, fit: BoxFit.fill),
                         ),
                         8.width,
@@ -77,14 +76,34 @@ class _BangNhuCauCanBanListState extends State<BangNhuCauCanBanList> {
                           alignment: Alignment.topLeft,
                           width: c_width,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
 
-                              Text('${data.hoTen}', style: TextStyle(
+                              Text('${data.title}', style: TextStyle(
                                   fontWeight: FontWeight.bold, color: rf_primaryColor,
                                 fontSize: 14
                               ),),
-                              10.height,
-                              Text('${data.field_dien_thoai}', style: TextStyle(
+                              8.height,
+                              Row(
+                                children: [
+                                  Text('Giá: ${data.field_gia}', style: TextStyle(
+                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                      fontSize: 14
+                                  ),),
+                                  10.width,
+                                  Text('Hướng: ${data.field_huong}', style: TextStyle(
+                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                      fontSize: 14
+                                  ),),
+                                ],
+                              ),
+                              8.height,
+                              Text('Vị trí: ${data.field_quan_huyen}-${data.field_phuong_xa}', style: TextStyle(
+                                  fontWeight: FontWeight.bold, color: rf_primaryColor,
+                                  fontSize: 14
+                              ),),
+                              8.height,
+                              Text('Số Điện Thoại: ${data.field_dien_thoai}', style: TextStyle(
                                   fontWeight: FontWeight.bold, color: rf_primaryColor,
                                   fontSize: 14
                               ),),
@@ -93,23 +112,7 @@ class _BangNhuCauCanBanListState extends State<BangNhuCauCanBanList> {
                         ),
                       ],
                     ),
-                    4.height,
-                    Row(
-                      children: [
-                        Text("Khu vực: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_quan_huyen}-${data.field_phuong_xa}', style: TextStyle(color: Colors.blue),),
-                      ],
-                    ),
-                    4.height,
-                    Row(
-                      children: [
-                        Text("Giá: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_gia}', style: TextStyle(color: Colors.blue),),
-                        10.width,
-                        Text("Hướng: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('${data.field_huong}', style: TextStyle(color: Colors.blue),),
-                      ],
-                    ),
+
 
                   ],
                 ).expand(),

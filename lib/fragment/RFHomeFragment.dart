@@ -38,6 +38,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
     'Cần bán',
     'Cần thuê',
     'Cho thuê',
+    'Hủy',
   ];
   int selectCategoryIndex = 0;
   bool locationWidth = true;
@@ -131,6 +132,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                     });
                   },
                   child: Container(
+
                     margin: EdgeInsets.only(right: 8),
                     decoration: boxDecorationWithRoundedCorners(
                       backgroundColor: appStore.isDarkModeOn

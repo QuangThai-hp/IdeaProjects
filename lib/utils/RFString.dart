@@ -16,3 +16,4 @@ const RFGetDonViTinh = "https://happyhomehaiphong.com/api/get-don-vi-tinh";
 const RFGetNhuCau="https://happyhomehaiphong.com/api/danh-sach-nhu-cau";
 const RFLoadCaNhan="https://happyhomehaiphong.com/api/load-ca-nhan";
 const RFDanhSachNhuCau="https://happyhomehaiphong.com/api/danh-sach-nhu-cau";
+const RFGetNhuCauByPhanLoai="https://happyhomehaiphong.com/api/get-nhu-cau-by-phan-loai";
