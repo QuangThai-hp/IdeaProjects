@@ -28,11 +28,12 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 
 class RFFormNhuCauScreen extends StatefulWidget {
+  final int? nid;
   final String? nhom;
   final String? previousPage;
   final String? hoten;
 
-  RFFormNhuCauScreen({this.nhom, this.previousPage,this.hoten});
+  RFFormNhuCauScreen({this.nid, this.nhom, this.previousPage,this.hoten});
 
   static const routeName = '/form-nhu-cau';
 
@@ -163,6 +164,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     // }
   }
 
+  Future<void> _loadNhuCau() async{
+
+  }
+
   @override
   void didChangeDependencies() {
     _loadKhuVuc('Quận huyện', null);
@@ -173,9 +178,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   @override
   void initState() {
-
+    if(widget.nid != null){
+      // load dữ liệu khởi tạo
+    }
     setState(() {
-
       ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     });
     hoTenKhachHangController=TextEditingController(text: widget.hoten);

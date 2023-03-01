@@ -157,7 +157,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
                         TextButton(
                           onPressed: () {
 
@@ -169,14 +168,19 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(Icons.handshake,color:color_primary_black ), // icon
-                              Text("Kết nối",style: TextStyle(
-                                color: color_primary_black
-                              )), // text
+                              Row(
+                                children: [
+                                  Icon(Icons.handshake,color:Colors.blueAccent, size: 18, ), // icon
+                                  Text("Kết nối",style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontSize: 14
+                                  )), // text
+                                ],
+                              )
+
                             ],
                           ),
                         ),
-                        25.width,
                         TextButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -185,19 +189,25 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.details,color:color_primary_black ), // icon
-                              Text("Chi tiết",style: TextStyle(
-                                  color: color_primary_black
-                              )), // text
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.remove_red_eye,color:Colors.green, size: 18, ), // icon
+                                  4.width,
+                                  Text("Chi tiết",style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 14
+                                  )), // text
+                                ],
+                              )
+
                             ],
                           ),
                         ),
-                        25.width,
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => RFFormNhuCauScreen(hoten: nhuCaus[index].hoTen,)
+                                builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)
                             )
                             );
 
@@ -216,7 +226,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             ],
                           ),
                         ),
-                        25.width,
                         TextButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -233,7 +242,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             ],
                           ),
                         ),
-                        25.width,
                       ],
                     )
 
