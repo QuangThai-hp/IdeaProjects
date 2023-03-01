@@ -24,6 +24,7 @@ class NhuCaus with ChangeNotifier {
 
 
   Future<void> getListNhuCau(String? type) async{
+    print(type);
     // try
     {
       final response = await http.post(
@@ -55,8 +56,8 @@ class NhuCaus with ChangeNotifier {
           hoTen: element['hoTen'],
           field_dien_thoai: element['field_dien_thoai'],
           title: element['title'],
-          field_gia: element['field_gia'],
-          field_dien_tich: element['field_dien_tich'],
+          field_gia: element['field_gia'].toString().toDouble(),
+          field_dien_tich: element['field_dien_tich'].toString().toDouble(),
           field_huong: element['field_huong'],
           field_quan_huyen: element['field_quan_huyen'],
           field_phuong_xa: element['field_phuong_xa'],

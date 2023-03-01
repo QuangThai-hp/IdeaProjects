@@ -15,8 +15,8 @@ import '../utils/RFString.dart';
 import '../utils/RFWidget.dart';
 
 class BangNhuCauCanMuaList extends StatefulWidget {
-  String? phanLoai = null;
-  BangNhuCauCanMuaList({this.phanLoai});
+  String phanLoai;
+  BangNhuCauCanMuaList({required this.phanLoai});
 
   @override
   State<BangNhuCauCanMuaList> createState() => _BangNhuCauCanMuaListState();
@@ -27,12 +27,14 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
   late String trangThaiCu = '';
 
   Future<void> _reloadNhuCau(BuildContext context) async{
-    final provider = Provider.of<NhuCaus>(context, listen: false);
+    print(widget.phanLoai);
+    final provider = Provider.of<NhuCaus>(context);
     provider.getListNhuCau(widget.phanLoai == 'Tất cả' ? null : widget.phanLoai).then((value){
+      print(this.mounted);
       if(this.mounted){
         setState(() {
           nhuCaus = provider.items;
-          trangThaiCu = '1';
+          trangThaiCu = widget.phanLoai;
         });
       }
     });
@@ -43,11 +45,11 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
     var width = MediaQuery.of(context).size.width;
     double c_width = MediaQuery.of(context).size.width*0.8;
 
-    if(trangThaiCu == '')
+    if(trangThaiCu != widget.phanLoai)
       _reloadNhuCau(context);
 
     return
-      trangThaiCu == '' ? Center(
+      trangThaiCu != widget.phanLoai || trangThaiCu == '' ? Center(
         child: CircularProgressIndicator(),
       ) :
       ListView.builder(
@@ -81,7 +83,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                               ),
                             ),
                           )
-                          
+
                           // Align(
                           //   alignment: Alignment.topRight,
                           //   child: Container(
@@ -122,7 +124,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             children: [
                               Icon(Icons.monetization_on, size: 14, color: color_primary_black,),
                               5.width,
-                              text(nhuCaus[index].field_gia, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                              text(nhuCaus[index].field_gia.toString(), textColor: t7textColorSecondary, fontSize: textSizeSMedium),
                               5.width,
                               Text(nhuCaus[index].field_don_vi_tinh, style: TextStyle(color: t7textColorSecondary, fontSize: textSizeSMedium) ), //, fontSize: textSizeSMedium),
                             ],

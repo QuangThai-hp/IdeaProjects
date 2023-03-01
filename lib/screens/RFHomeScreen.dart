@@ -6,14 +6,7 @@ import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
 import 'package:room_finder_flutter/fragment/RFChoThueFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/fragment/RFKhachHangFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSearchFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFImages.dart';
-import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
-
-import 'package:room_finder_flutter/fragment/RFMuaBanFragment.dart';
 
 
 class RFHomeScreen extends StatefulWidget {
@@ -40,7 +33,6 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   var _pages = [
     RFHomeFragment(),
     RFKhachHangFragment(),
-    RFMuaBanFragment(),
     RFChoThueFragment(),
     RFAccountFragment(),
   ];
