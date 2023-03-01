@@ -8,7 +8,7 @@ class KhachHang with ChangeNotifier {
   final String? field_dia_chi;
   final String? field_trang_thai;
   final String? field_ghi_chu;
-  List<SanPham> sanPham = [];
+  List<SanPham> sanPham = []; // nhu cầu của mỗi khách hàng
 
 
   KhachHang({

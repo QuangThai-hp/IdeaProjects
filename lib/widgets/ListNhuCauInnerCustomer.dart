@@ -17,7 +17,6 @@ class ListNhuCauInnerCustomer extends StatefulWidget {
 }
 
 class _ListNhuCauInnerCustomerState extends State<ListNhuCauInnerCustomer> {
-  List<SanPham> nhuCauList = [];
 
   @override
   Widget build(BuildContext context) {

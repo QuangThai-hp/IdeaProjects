@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -9,7 +10,14 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/SanPham.dart';
 
+import '../main.dart';
+import '../utils/RFString.dart';
+import '../utils/RFWidget.dart';
+
 class BangNhuCauCanMuaList extends StatefulWidget {
+  String? phanLoai = null;
+  BangNhuCauCanMuaList({this.phanLoai});
+
   @override
   State<BangNhuCauCanMuaList> createState() => _BangNhuCauCanMuaListState();
 }
@@ -18,23 +26,26 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
   late List<NhuCau> nhuCaus = [];
   late String trangThaiCu = '';
 
-  Future<void> _reloadCanMua(BuildContext context) async{
-    final provider = Provider.of<NhuCaus>(context);
-    provider.getListNhuCau('Cần mua').then((value){
-      setState(() {
-        nhuCaus = provider.items;
-        trangThaiCu = '1';
-      });
+  Future<void> _reloadNhuCau(BuildContext context) async{
+    final provider = Provider.of<NhuCaus>(context, listen: false);
+    provider.getListNhuCau(widget.phanLoai == 'Tất cả' ? null : widget.phanLoai).then((value){
+      if(this.mounted){
+        setState(() {
+          nhuCaus = provider.items;
+          trangThaiCu = '1';
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    double c_width = MediaQuery.of(context).size.width*0.65;
-    double img_width_height = 60;
+    var width = MediaQuery.of(context).size.width;
+    double c_width = MediaQuery.of(context).size.width*0.8;
 
     if(trangThaiCu == '')
-      _reloadCanMua(context);
+      _reloadNhuCau(context);
+
     return
       trangThaiCu == '' ? Center(
         child: CircularProgressIndicator(),
@@ -43,79 +54,91 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
         scrollDirection: Axis.vertical,
         itemCount: nhuCaus.length,
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: ScrollPhysics(),
+        padding: EdgeInsets.all(10),
         itemBuilder: (BuildContext context, int index) {
-          NhuCau data = nhuCaus[index];
+          // NhuCau data = nhuCaus[index];
           return
             GestureDetector(
               child: Container(
-                margin: EdgeInsets.only(bottom: 8),
-                padding: EdgeInsets.all(8),
-                decoration: boxDecorationWithShadow(
-                  backgroundColor: context.cardColor,
-                  boxShadow: defaultBoxShadow(),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                margin: EdgeInsets.only(bottom: 16),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-
-                              child: Image.asset(rf_logo_happyhome, height: img_width_height, width: img_width_height, fit: BoxFit.fill),
+                  children: <Widget>[
+                    Container(
+                      height: width * 0.32,
+                      width: width * 0.32,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            child: ClipRRect(
+                              borderRadius: new BorderRadius.circular(12.0),
+                              child: CachedNetworkImage(
+                                placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
+                                imageUrl: nhuCaus[index].field_anh_san_pham,
+                                fit: BoxFit.cover,
+                                height: width * 0.32,
+                                width: width * 0.32,
+                              ),
                             ),
-                            8.width,
-                            Container(
-                              alignment: Alignment.topLeft,
-                              width: c_width,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-
-                                  Text('${data.title}', style: TextStyle(
-                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                      fontSize: 14
-                                  ),),
-                                  8.height,
-                                  Row(
-                                    children: [
-                                      Text('Giá: ${data.field_gia}', style: TextStyle(
-                                          fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                          fontSize: 14
-                                      ),),
-                                      10.width,
-                                      Text('Hướng: ${data.field_huong}', style: TextStyle(
-                                          fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                          fontSize: 14
-                                      ),),
-                                    ],
-                                  ),
-                                  8.height,
-                                  Text('Vị trí: ${data.field_quan_huyen}-${data.field_phuong_xa}', style: TextStyle(
-                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                      fontSize: 14
-                                  ),),
-                                  8.height,
-                                  Text('Số Điện Thoại: ${data.field_dien_thoai}', style: TextStyle(
-                                      fontWeight: FontWeight.bold, color: rf_primaryColor,
-                                      fontSize: 14
-                                  ),),
-                                ],
-                              ).expand(),
-                            ),
-                          ],
-                        ),
-
-
-                      ],
-                    ).expand(),
+                          )
+                          
+                          // Align(
+                          //   alignment: Alignment.topRight,
+                          //   child: Container(
+                          //     margin: EdgeInsets.only(right: 10, top: 10),
+                          //     child: Icon(Icons.favorite_border, color: appStore.iconColor, size: 20),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          5.height,
+                          Text(nhuCaus[index].title, style: TextStyle(color: appStore.textPrimaryColor, fontWeight: FontWeight.bold),),
+                          text(nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
+                          SizedBox(height: 2),
+                          // Row(
+                          //   children: <Widget>[
+                          //     RatingBar(
+                          //       initialRating: 5,
+                          //       minRating: 1,
+                          //       itemSize: 16,
+                          //       direction: Axis.horizontal,
+                          //       itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                          //       itemBuilder: (context, _) => Icon(
+                          //         Icons.star,
+                          //         color: t7colorPrimary,
+                          //       ),
+                          //       onRatingUpdate: (rating) {},
+                          //     ),
+                          //     text(mListings[index].hotel_review, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                          //   ],
+                          // ),
+                          Row(
+                            children: [
+                              Icon(Icons.monetization_on, size: 14, color: color_primary_black,),
+                              5.width,
+                              text(nhuCaus[index].field_gia, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                              5.width,
+                              Text(nhuCaus[index].field_don_vi_tinh, style: TextStyle(color: t7textColorSecondary, fontSize: textSizeSMedium) ), //, fontSize: textSizeSMedium),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.refresh, size: 14, color: color_primary_black,),
+                              5.width,
+                              text(nhuCaus[index].field_trang_thai_nhu_cau != '' ? nhuCaus[index].field_trang_thai_nhu_cau : 'Chưa kết nối', maxLine: 1, isLongText: true, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Divider(height: 0.5, color: t7view_color, thickness: 1)
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

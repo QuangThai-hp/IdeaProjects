@@ -8,6 +8,8 @@ const rf_faqBgColor = Color(0xFFD5DDF2);
 const rf_notificationBgColor = Color(0xFFF2F2F2);
 const rf_rattingBgColor = Color(0xFF2DD35c);
 const rf_textColor = Color(0xFF4F4F4F);
+const t7textColorSecondary = Color(0xFF9D9D9D);
+const t7view_color = Color(0xFFDADADA);
 
 // Dark Theme Colors
 const appBackgroundColorDark = Color(0xFF121212);

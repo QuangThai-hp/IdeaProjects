@@ -23,7 +23,7 @@ class NhuCaus with ChangeNotifier {
   }
 
 
-  Future<void> getListNhuCau(String type) async{
+  Future<void> getListNhuCau(String? type) async{
     // try
     {
       final response = await http.post(
@@ -31,8 +31,8 @@ class NhuCaus with ChangeNotifier {
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
-            'type':type,
-
+            'type':type == 'Tất cả' ? null : type,
+            'trangThai': type != 'Huỷ' ? null : type
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -44,7 +44,9 @@ class NhuCaus with ChangeNotifier {
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<NhuCau> loadedNhuCaus = [];
-
+      final String canMuaUrlImage = 'https://happyhomehaiphong.com/images/da-luu/can-mua.png';
+      final String canThueUrlImage = 'https://happyhomehaiphong.com/images/da-luu/can-thue.png';
+      final String noImageUrl = 'https://happyhomehaiphong.com/images/da-luu/no-image.png';
 
       extractedData.forEach((element) {
 
@@ -59,9 +61,9 @@ class NhuCaus with ChangeNotifier {
           field_quan_huyen: element['field_quan_huyen'],
           field_phuong_xa: element['field_phuong_xa'],
           field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
-          field_anh_san_pham: element['field_anh_san_pham'],
-
-
+          field_don_vi_tinh: element['field_don_vi_tinh'].toString(),
+          field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'].toString(),
+          field_anh_san_pham: (element['field_nhom_nhu_cau'] == 'Cần mua' ? canMuaUrlImage : (element['field_nhom_nhu_cau'] == 'Cần thuê' ? canThueUrlImage : (element['field_anh_san_pham'] == '' ? noImageUrl : element['field_anh_san_pham']))),
         ));
 
       });

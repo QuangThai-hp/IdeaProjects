@@ -127,8 +127,6 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                   onTap: () {
                     setState(() {
                       selectCategoryIndex = index;
-                      print(selectCategoryIndex);
-
                     });
                   },
                   child: Container(
@@ -155,19 +153,13 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(categoryData[selectCategoryIndex], style: boldTextStyle()),
+                Text('Nhu cầu: ${categoryData[selectCategoryIndex]}', style: boldTextStyle()),
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
 
-
             _isLoading ? Center(
               child: CircularProgressIndicator(),
-            ) :selectCategoryIndex==0? CustomerList(categoryData[selectCategoryIndex])
-
-                :selectCategoryIndex==1?BangNhuCauCanMuaList()
-                :selectCategoryIndex==2?BangNhuCauCanBanList()
-                :selectCategoryIndex==3?BangNhuCauCanThueList()
-                :BangNhuCauChoThueList(),
+            ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex],)
 
           ],
         ),
