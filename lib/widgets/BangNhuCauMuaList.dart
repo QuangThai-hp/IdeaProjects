@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -64,83 +65,178 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(bottom: 16),
-                child: Row(
+                child: Column(
                   children: <Widget>[
-                    Container(
-                      height: width * 0.32,
-                      width: width * 0.32,
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            child: ClipRRect(
-                              borderRadius: new BorderRadius.circular(12.0),
-                              child: CachedNetworkImage(
-                                placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
-                                imageUrl: nhuCaus[index].field_anh_san_pham,
-                                fit: BoxFit.cover,
-                                height: width * 0.32,
-                                width: width * 0.32,
-                              ),
-                            ),
-                          )
 
-                          // Align(
-                          //   alignment: Alignment.topRight,
-                          //   child: Container(
-                          //     margin: EdgeInsets.only(right: 10, top: 10),
-                          //     child: Icon(Icons.favorite_border, color: appStore.iconColor, size: 20),
-                          //   ),
-                          // ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          height: width * 0.32,
+                          width: width * 0.32,
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                child: ClipRRect(
+                                  borderRadius: new BorderRadius.circular(12.0),
+                                  child: CachedNetworkImage(
+                                    placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
+                                    imageUrl: nhuCaus[index].field_anh_san_pham,
+                                    fit: BoxFit.cover,
+                                    height: width * 0.32,
+                                    width: width * 0.32,
+                                  ),
+                                ),
+                              )
+
+                              // Align(
+                              //   alignment: Alignment.topRight,
+                              //   child: Container(
+                              //     margin: EdgeInsets.only(right: 10, top: 10),
+                              //     child: Icon(Icons.favorite_border, color: appStore.iconColor, size: 20),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              5.height,
+                              Text(nhuCaus[index].title, style: TextStyle(color: appStore.textPrimaryColor, fontWeight: FontWeight.bold),),
+                              text(nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
+                              SizedBox(height: 2),
+                              // Row(
+                              //   children: <Widget>[
+                              //     RatingBar(
+                              //       initialRating: 5,
+                              //       minRating: 1,
+                              //       itemSize: 16,
+                              //       direction: Axis.horizontal,
+                              //       itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                              //       itemBuilder: (context, _) => Icon(
+                              //         Icons.star,
+                              //         color: t7colorPrimary,
+                              //       ),
+                              //       onRatingUpdate: (rating) {},
+                              //     ),
+                              //     text(mListings[index].hotel_review, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                              //   ],
+                              // ),
+                              Row(
+                                children: [
+                                  Icon(Icons.monetization_on, size: 14, color: color_primary_black,),
+                                  5.width,
+                                  text(nhuCaus[index].field_gia.toString(), textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                  5.width,
+                                  Text(nhuCaus[index].field_don_vi_tinh, style: TextStyle(color: t7textColorSecondary, fontSize: textSizeSMedium) ), //, fontSize: textSizeSMedium),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.refresh, size: 14, color: color_primary_black,),
+                                  5.width,
+                                  text(nhuCaus[index].field_trang_thai_nhu_cau != '' ? nhuCaus[index].field_trang_thai_nhu_cau : 'Chưa kết nối', maxLine: 1, isLongText: true, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.refresh, size: 14, color: color_primary_black,),
+                                  5.width,
+                                  text(nhuCaus[index].field_trang_thai_nhu_cau != '' ? nhuCaus[index].field_trang_thai_nhu_cau : 'Chưa kết nối', maxLine: 1, isLongText: true, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Divider(height: 0.5, color: t7view_color, thickness: 1)
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          5.height,
-                          Text(nhuCaus[index].title, style: TextStyle(color: appStore.textPrimaryColor, fontWeight: FontWeight.bold),),
-                          text(nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
-                          SizedBox(height: 2),
-                          // Row(
-                          //   children: <Widget>[
-                          //     RatingBar(
-                          //       initialRating: 5,
-                          //       minRating: 1,
-                          //       itemSize: 16,
-                          //       direction: Axis.horizontal,
-                          //       itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                          //       itemBuilder: (context, _) => Icon(
-                          //         Icons.star,
-                          //         color: t7colorPrimary,
-                          //       ),
-                          //       onRatingUpdate: (rating) {},
-                          //     ),
-                          //     text(mListings[index].hotel_review, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
-                          //   ],
-                          // ),
-                          Row(
-                            children: [
-                              Icon(Icons.monetization_on, size: 14, color: color_primary_black,),
-                              5.width,
-                              text(nhuCaus[index].field_gia.toString(), textColor: t7textColorSecondary, fontSize: textSizeSMedium),
-                              5.width,
-                              Text(nhuCaus[index].field_don_vi_tinh, style: TextStyle(color: t7textColorSecondary, fontSize: textSizeSMedium) ), //, fontSize: textSizeSMedium),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+
+                        TextButton(
+                          onPressed: () {
+
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.handshake,color:color_primary_black ), // icon
+                              Text("Kết nối",style: TextStyle(
+                                color: color_primary_black
+                              )), // text
                             ],
                           ),
-                          Row(
-                            children: [
-                              Icon(Icons.refresh, size: 14, color: color_primary_black,),
-                              5.width,
-                              text(nhuCaus[index].field_trang_thai_nhu_cau != '' ? nhuCaus[index].field_trang_thai_nhu_cau : 'Chưa kết nối', maxLine: 1, isLongText: true, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                        ),
+                        25.width,
+                        TextButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white
+
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.details,color:color_primary_black ), // icon
+                              Text("Chi tiết",style: TextStyle(
+                                  color: color_primary_black
+                              )), // text
                             ],
                           ),
-                          SizedBox(height: 8),
-                          Divider(height: 0.5, color: t7view_color, thickness: 1)
-                        ],
-                      ),
+                        ),
+                        25.width,
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => RFFormNhuCauScreen(hoten: nhuCaus[index].hoTen,)
+                            )
+                            );
+
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white
+
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.edit,color:color_primary_black ), // icon
+                              Text("Sửa",style: TextStyle(
+                                  color: color_primary_black
+                              )), // text
+                            ],
+                          ),
+                        ),
+                        25.width,
+                        TextButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white
+
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.delete,color:color_primary_black ), // icon
+                              Text("Xóa",style: TextStyle(
+                                  color: color_primary_black
+                              )), // text
+                            ],
+                          ),
+                        ),
+                        25.width,
+                      ],
                     )
+
                   ],
                 ),
               ),

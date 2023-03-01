@@ -30,10 +30,11 @@ import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 class RFFormNhuCauScreen extends StatefulWidget {
   final String? nhom;
   final String? previousPage;
+  final String? hoten;
 
-  RFFormNhuCauScreen({this.nhom, this.previousPage});
+  RFFormNhuCauScreen({this.nhom, this.previousPage,this.hoten});
 
-  static const routeName = '/form-sp-cho-thue';
+  static const routeName = '/form-nhu-cau';
 
   @override
   _RFFormNhuCauScreenState createState() => _RFFormNhuCauScreenState();
@@ -174,9 +175,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   void initState() {
 
     setState(() {
+
       ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     });
-
+    hoTenKhachHangController=TextEditingController(text: widget.hoten);
     super.initState();
     init();
   }
@@ -246,8 +248,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     }
     on HttpException catch(error){
       showErrorDialog(error.message, context);
-    }
-    catch (error){
+    }    catch (error){
       print(error);
       showErrorDialog('Could not authentication you. Please again later', context);
     }
@@ -808,11 +809,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                 8.height,
                 rfCommonRichText(title: "Huỷ nhập dữ liệu. ", subTitle: "Quay lại").paddingAll(8).onTap(
                   () {
-                    if(widget.previousPage == 'home-tab-0'){
+
                       RFHomeScreen rf_home = new RFHomeScreen();
                       rf_home.selectedIndex = 0;
                       rf_home.launch(context);
-                    }
+
 
                         // rf_search.
                     // Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route)=>false);

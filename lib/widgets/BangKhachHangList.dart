@@ -4,8 +4,10 @@ import 'package:room_finder_flutter/providers/KhachHang.dart';
 import 'package:room_finder_flutter/providers/KhachHangs.dart';
 import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
+import 'package:room_finder_flutter/screens/RFFormSua.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
+
 
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/widgets/ListNhuCauInnerCustomer.dart';
@@ -49,13 +51,14 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
         itemBuilder: (BuildContext context, int index) {
           KhachHang dataKhachHang = khachHangs[index];
 
+
           return
             GestureDetector(
               child: ListTileTheme(
                 contentPadding: EdgeInsets.all(0),
                 child: ExpansionTile(
                   childrenPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                  leading: Icon(Icons.home_outlined, color: Colors.brown, size: 30),
+                  leading: Icon(Icons.person_2_outlined, color: Colors.brown, size: 30),
                   title: Text('${dataKhachHang.hoTen}', style: primaryTextStyle()),
                   subtitle: Container(
                     child: Text(dataKhachHang.field_dien_thoai.toString(), style: TextStyle(color: Colors.blue),),
@@ -89,23 +92,34 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              AppButton(
-                                onTap: () {},
-                                color: context.cardColor,
-                                shapeBorder: RoundedRectangleBorder(borderRadius: radius()),
-                                text: 'Purchase Me',
-                                textStyle: primaryTextStyle(),
-                                padding: EdgeInsets.all(8),
+                              ElevatedButton.icon(
+                                onPressed: () {
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => RFFormSua(nid: dataKhachHang.nid,name: dataKhachHang.hoTen,phone: dataKhachHang.field_dien_thoai,)
+                                  )
+                                  );
+
+                                setState(() {
+
+                                });
+
+                                },
+                                icon: Icon( // <-- Icon
+                                  Icons.edit,
+                                  size: 24.0,
+                                ),
+                                label: Text('Sửa'), // <-- Text
                               ),
                               8.width,
-                              AppButton(
-                                onTap: () {},
-                                shapeBorder: RoundedRectangleBorder(borderRadius: radius()),
-                                text: 'I want this Kit',
-                                textStyle: primaryTextStyle(color: Colors.white),
-                                padding: EdgeInsets.all(8),
-                                color: Colors.blueAccent,
-                              )
+                              ElevatedButton.icon(
+                                onPressed: () {},
+                                icon: Icon( // <-- Icon
+                                  Icons.delete,
+                                  size: 24.0,
+                                ),
+                                label: Text('Xóa'), // <-- Text
+                              ),
                             ],
                           )
                         ],

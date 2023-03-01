@@ -15,6 +15,7 @@ class _RFResetPasswordScreenState extends State<RFResetPasswordScreen> {
   @override
   void initState() {
     super.initState();
+
     init();
   }
 
@@ -38,6 +39,7 @@ class _RFResetPasswordScreenState extends State<RFResetPasswordScreen> {
           16.height,
           AppTextField(
             controller: emailController,
+
             textFieldType: TextFieldType.EMAIL,
             decoration: rfInputDecoration(
               lableText: "Email Address",

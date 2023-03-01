@@ -9,6 +9,8 @@ import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
+import 'package:room_finder_flutter/screens/RFFormSua.dart';
+
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
@@ -133,6 +135,8 @@ class MyApp extends StatelessWidget {
             RFEmailSignInScreen.routeName: (ctx) => RFEmailSignInScreen(),
             RFSignUpScreen.routeName: (ctx) => RFSignUpScreen(),
             RFFormNhuCauScreen.routeName: (ctx) => RFFormNhuCauScreen(),
+            RFFormSua.routeName:(ctx)=>RFFormSua(),
+
           },
         ),
       ),

@@ -64,4 +64,34 @@ class KhachHangs with ChangeNotifier {
     // }
   }
 
+  Future<void> editKhachHang(String? nid,String? title,String?field_dien_thoai) async{
+    // try
+    {
+
+      // ncscs
+      final response = await http.put(
+          Uri.parse(RFSuaKhachHang),
+          body: json.encode({
+            'uid': this.uid,
+            'auth': this.authToken,
+            'nid':nid,
+            'title':title,
+            'field_dien_thoai':field_dien_thoai
+
+          }),
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+          }
+      );
+
+      // if(!responseData['success'])
+      //   throw HttpException(responseData['content']);
+      notifyListeners();
+    }
+    // catch(error){
+    //   throw error;
+    // }
+  }
+
 }

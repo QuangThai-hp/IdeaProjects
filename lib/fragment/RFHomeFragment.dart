@@ -20,7 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauCanThueList.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauChoThueList.dart';
+
 
 import '../widgets/CusomerList.dart';
 

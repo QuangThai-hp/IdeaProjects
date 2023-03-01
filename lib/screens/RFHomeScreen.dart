@@ -6,6 +6,7 @@ import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
 import 'package:room_finder_flutter/fragment/RFChoThueFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/fragment/RFKhachHangFragment.dart';
+import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
 
@@ -35,8 +36,10 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     RFKhachHangFragment(),
     RFChoThueFragment(),
     RFAccountFragment(),
+    RFSettingsFragment(),
   ];
-
+//
+//
   Widget _bottomTab() {
     return BottomNavigationBar(
       currentIndex: widget._selectedIndex,
