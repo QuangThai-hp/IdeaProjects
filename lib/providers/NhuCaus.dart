@@ -13,15 +13,44 @@ class NhuCaus with ChangeNotifier {
   late List<NhuCau> _items = [];
   final String authToken;
   final String uid;
+  late NhuCau _nhuCau = NhuCau();
+
+  set nhuCau(NhuCau value) {
+    _nhuCau = value;
+  }
+
+  set items(List<NhuCau> value) {
+    _items = value;
+  }
+
+  NhuCau get nhuCau => _nhuCau;
 
   NhuCaus(this.authToken, this.uid, this._items);
   List<NhuCau> get items{
     return [..._items];
   }
-  NhuCau findById(int id){
-    return _items.firstWhere((element) => element.nid == id);
-  }
 
+  Future<void> getNhuCauByNid(int nid) async{
+    final response = await http.post(
+        Uri.parse(RFGetThongTinNhuCau),
+        body: json.encode({
+          'uid': this.uid,
+          'auth': this.authToken,
+          'nid': nid
+        }),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Charset': 'utf-8',
+        }
+    );
+    _nhuCau = new NhuCau(
+      nid: jsonDecode(response.body)['nid'],
+      title: jsonDecode(response.body)['title'],
+    );
+
+    //json.decode(response.body) as Map<String, dynamic>;
+    notifyListeners();
+  }
 
   Future<void> getListNhuCau(String? type) async{
     print(type);

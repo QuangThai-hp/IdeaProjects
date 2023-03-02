@@ -31,4 +31,6 @@ class NhuCau with ChangeNotifier {
     this.field_trang_thai_nhu_cau = '',
     this.field_don_vi_tinh = ''
   });
+
+
 }

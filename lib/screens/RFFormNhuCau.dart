@@ -11,6 +11,7 @@ import 'package:room_finder_flutter/models/http_exeption.dart';
 import 'package:room_finder_flutter/providers/DonViTinh.dart';
 import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 import 'package:room_finder_flutter/providers/KhuVuc.dart';
+import 'package:room_finder_flutter/providers/NhuCaus.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
@@ -98,6 +99,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   bool quanLoaded = false;
   bool phuongXaLoaded = true;
   bool donViTinhLoaded = false;
+  bool nhuCauLoaded = false;
 
   String ngayNhapDefault = '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
@@ -165,13 +167,25 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   }
 
   Future<void> _loadNhuCau() async{
-    
+    if(!nhuCauLoaded){
+      NhuCaus nhuCaus = await Provider.of<NhuCaus>(context, listen: false);
+      nhuCaus.getNhuCauByNid(widget.nid!).then((value){
+        setState(() {
+          nhuCauLoaded = true;
+          tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
+          // tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
+        });
+      });
+    }
+
   }
 
   @override
   void didChangeDependencies() {
     _loadKhuVuc('Quận huyện', null);
     _loadDVT();
+    if(widget.nid != null)
+      _loadNhuCau();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }

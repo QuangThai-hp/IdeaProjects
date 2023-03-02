@@ -200,7 +200,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => RFFormNhuCauScreen(hoten: nhuCaus[index].hoTen,)
+                                builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)
                             )
                             );
                           },

@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
             return NhuCaus(
               auth.token,
               auth.userId,
-              previousNhuCaus == null ? [] : previousNhuCaus.items,
+              previousNhuCaus == null ? [] : previousNhuCaus.items
             );
           },
           // create: ,
