@@ -100,6 +100,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               width: context.width(),
               onTap: () {
                 RFSearchDetailScreen().launch(context);
+
               },
             ),
             TextButton(

@@ -12,6 +12,7 @@ class RFRecentUpdateComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
       margin: EdgeInsets.only(bottom: 16),
@@ -70,6 +71,7 @@ class RFRecentUpdateComponent extends StatelessWidget {
         ],
       ),
     ).onTap(() {
+      print('object');
       RFHotelDescriptionScreen(hotelData: recentUpdateData).launch(context);
     }, splashColor: Colors.transparent, hoverColor: Colors.transparent, highlightColor: Colors.transparent);
     ;

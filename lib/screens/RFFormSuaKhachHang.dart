@@ -19,15 +19,15 @@ import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
-class RFFormSua extends StatefulWidget {
+class RFFormSuaKhachHang extends StatefulWidget {
   static const routeName = '/form-sua';
  final String? nid,name,phone;
-  RFFormSua({ this.nid, this.name, this.phone});
+  RFFormSuaKhachHang({ this.nid, this.name, this.phone});
   @override
-  _RFFormSuaState createState() => _RFFormSuaState();
+  _RFFormSuaKhachHangState createState() => _RFFormSuaKhachHangState();
 }
 
-class _RFFormSuaState extends State<RFFormSua> {
+class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController dienThoaiController = TextEditingController();
 
