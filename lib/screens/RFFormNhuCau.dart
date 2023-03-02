@@ -11,6 +11,7 @@ import 'package:room_finder_flutter/models/http_exeption.dart';
 import 'package:room_finder_flutter/providers/DonViTinh.dart';
 import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 import 'package:room_finder_flutter/providers/KhuVuc.dart';
+import 'package:room_finder_flutter/providers/NhuCau.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
@@ -28,11 +29,38 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 
 class RFFormNhuCauScreen extends StatefulWidget {
+  final String? nid;
+  final NhuCau? update;
   final String? nhom;
   final String? previousPage;
-  final String? hoten;
+  final String? hoTenKhachHang;
+  final String? dienThoai;
+  final String? tieuDe;
+  final String? quan;
+  final String? phuongxa;
+  final int? soPhongNgu;
+  final int? soPhongVeSinh;
+  final String? huong;
+  final int? soTang;
+  final String? phapLi;
+  final String? tinhTrangNoiThat;
+  final double? gia;
+  final String? giaBangso;
+  final String? donViTinh;
+  final double? dienTich;
+  final double? dienTichSuDung;
+  final double? chieuDai;
+  final double? chieuRong;
+  final double? tienDatCoc;
+  final String? ghiChu;
 
-  RFFormNhuCauScreen({this.nhom, this.previousPage,this.hoten});
+
+  RFFormNhuCauScreen({this.nid, this.nhom, this.previousPage,
+      this.hoTenKhachHang, this.dienThoai, this.tieuDe, this.quan,
+      this.phuongxa, this.soPhongNgu, this.soPhongVeSinh, this.huong,
+      this.soTang, this.phapLi, this.tinhTrangNoiThat, this.gia, this.giaBangso,
+      this.donViTinh, this.dienTich, this.dienTichSuDung, this.chieuDai,
+      this.chieuRong, this.tienDatCoc, this.ghiChu,this.update});
 
   static const routeName = '/form-nhu-cau';
 
@@ -41,6 +69,7 @@ class RFFormNhuCauScreen extends StatefulWidget {
 }
 
 class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
+
   TextEditingController ngayNhapController = TextEditingController();
   TextEditingController hoTenKhachHangController = TextEditingController();
   TextEditingController dienThoaiController = TextEditingController();
@@ -170,15 +199,33 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
-
+  late String? idKhachHang;
   @override
   void initState() {
+    hoTenKhachHangController=TextEditingController(text: widget.hoTenKhachHang);
+    tieuDeSanPhamController=TextEditingController(text: widget.update.toString());
+    dienThoaiController=TextEditingController(text: widget.dienThoai);
+    soPhongNguController=TextEditingController(text: widget.soPhongNgu.toString());
+    soPhongVeSinhController=TextEditingController(text: widget.soPhongVeSinh.toString());
+    soTangController=TextEditingController(text: widget.soTang.toString());
+    phapLyController=TextEditingController(text: widget.phapLi);
+    tinhTrangNoiThatController=TextEditingController(text: widget.tinhTrangNoiThat);
+    giaController=TextEditingController(text: widget.gia.toString());
+    giaBangSoController=TextEditingController(text: widget.giaBangso);
+    dienTichController=TextEditingController(text: widget.dienTich.toString());
+    dienTichSuDungController=TextEditingController(text: widget.dienTichSuDung.toString());
+    chieuDaiController=TextEditingController(text: widget.chieuDai.toString());
+    chieuRongController=TextEditingController(text: widget.chieuRong.toString());
+    tienDatCocController=TextEditingController(text: widget.tienDatCoc.toString());
+    ghiChuController=TextEditingController(text: widget.ghiChu);
+
+
 
     setState(() {
-
       ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     });
-    hoTenKhachHangController=TextEditingController(text: widget.hoten);
+
+
     super.initState();
     init();
   }
@@ -300,6 +347,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   @override
   Widget build(BuildContext context) {
 
+
     if(widget.nhom == 'Khách hàng'){
       tenForm = 'Thêm khách và nhu cầu mua / thuê';
       doiTuong = 'Khách hàng';
@@ -328,7 +376,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       tenForm = 'Thêm khách hàng và nhu cầu cần thuê';
       nhomNhuCau = 'Cần thuê';
     }
-
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,

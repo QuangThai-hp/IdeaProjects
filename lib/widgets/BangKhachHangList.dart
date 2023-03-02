@@ -4,7 +4,7 @@ import 'package:room_finder_flutter/providers/KhachHang.dart';
 import 'package:room_finder_flutter/providers/KhachHangs.dart';
 import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
-import 'package:room_finder_flutter/screens/RFFormSua.dart';
+import 'package:room_finder_flutter/screens/RFFormSuaKhachHang.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 
@@ -96,7 +96,7 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                                 onPressed: () {
 
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => RFFormSua(nid: dataKhachHang.nid,name: dataKhachHang.hoTen,phone: dataKhachHang.field_dien_thoai,)
+                                      builder: (context) => RFFormSuaKhachHang(nid: dataKhachHang.nid,name: dataKhachHang.hoTen,phone: dataKhachHang.field_dien_thoai,)
                                   )
                                   );
 

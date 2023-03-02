@@ -133,13 +133,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                   Text(nhuCaus[index].field_don_vi_tinh, style: TextStyle(color: t7textColorSecondary, fontSize: textSizeSMedium) ), //, fontSize: textSizeSMedium),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Icon(Icons.refresh, size: 14, color: color_primary_black,),
-                                  5.width,
-                                  text(nhuCaus[index].field_trang_thai_nhu_cau != '' ? nhuCaus[index].field_trang_thai_nhu_cau : 'Chưa kết nối', maxLine: 1, isLongText: true, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
-                                ],
-                              ),
+
                               Row(
                                 children: [
                                   Icon(Icons.refresh, size: 14, color: color_primary_black,),
@@ -186,7 +180,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(Icons.details,color:color_primary_black ), // icon
+                              Icon(Icons.remove_red_eye,color:color_primary_black ), // icon
                               Text("Chi tiết",style: TextStyle(
                                   color: color_primary_black
                               )), // text
@@ -197,8 +191,10 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => RFFormNhuCauScreen(hoten: nhuCaus[index].hoTen,)
+                                builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid,hoTenKhachHang: nhuCaus[index].hoTen,dienThoai: nhuCaus[index].field_dien_thoai,tieuDe: nhuCaus[index].title,gia: nhuCaus[index].field_gia,dienTich:nhuCaus[index].field_dien_tich,huong: nhuCaus[index].field_huong,quan: nhuCaus[index].field_quan_huyen,phuongxa: nhuCaus[index].field_phuong_xa,nhom:nhuCaus[index].field_nhom_nhu_cau,donViTinh: nhuCaus[index].field_don_vi_tinh ,update: nhuCaus[index],)
+
                             )
+
                             );
 
                           },

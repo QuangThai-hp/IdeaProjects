@@ -46,6 +46,7 @@ class _RFHotelDescriptionScreenState extends State<RFHotelDescriptionScreen> {
         child: Text('Book Now', style: boldTextStyle(color: white)),
         width: context.width(),
         onTap: () {
+          print('12');
           showInDialog(context, barrierDismissible: true, builder: (context) {
             return RFCongratulatedDialog();
           });
