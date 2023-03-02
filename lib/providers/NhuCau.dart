@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 
 class NhuCau with ChangeNotifier {
   String? nid;
+  final String? ngayNhap;
+  final String? nhuCau;
+  final KhachHangChuNha? khachHangChuNha;
   final String? hoTen;
   final String? field_dien_thoai;
   final String title;
@@ -19,6 +23,9 @@ class NhuCau with ChangeNotifier {
   NhuCau({
     this.nid = '',
     this.hoTen,
+    this.khachHangChuNha,
+    this.ngayNhap,
+    this.nhuCau,
     this.field_dien_thoai,
     this.title = '',
     this.field_dien_tich = 0,

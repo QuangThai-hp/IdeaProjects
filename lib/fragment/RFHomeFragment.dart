@@ -99,6 +99,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
+                print('timkiem');
                 RFSearchDetailScreen().launch(context);
 
               },

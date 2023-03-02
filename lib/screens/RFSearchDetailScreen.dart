@@ -57,6 +57,7 @@ class RFSearchDetailScreen extends StatelessWidget {
                       ).paddingOnly(left: 16),
                     ),
                     onFieldSubmitted: (v) {
+                      print('location');
                       RFLocationScreen().launch(context);
                     },
                   )
