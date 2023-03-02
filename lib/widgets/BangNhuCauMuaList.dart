@@ -133,7 +133,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                   Text(nhuCaus[index].field_don_vi_tinh, style: TextStyle(color: t7textColorSecondary, fontSize: textSizeSMedium) ), //, fontSize: textSizeSMedium),
                                 ],
                               ),
-
                               Row(
                                 children: [
                                   Icon(Icons.refresh, size: 14, color: color_primary_black,),
@@ -151,7 +150,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
                         TextButton(
                           onPressed: () {
 
@@ -176,7 +174,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             ],
                           ),
                         ),
-                        25.width,
                         TextButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -200,14 +197,12 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             ],
                           ),
                         ),
-                        25.width,
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)
+                                builder: (context) => RFFormNhuCauScreen(hoten: nhuCaus[index].hoTen,)
                             )
                             );
-
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white
@@ -215,32 +210,44 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.edit,color:color_primary_black ), // icon
-                              Text("Sửa",style: TextStyle(
-                                  color: color_primary_black
-                              )), // text
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.edit,color:Colors.green, size: 18, ), // icon
+                                  4.width,
+                                  Text("Sửa",style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 14
+                                  )), // text
+                                ],
+                              )
+
                             ],
                           ),
                         ),
-                        25.width,
                         TextButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white
 
                           ),
+
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(Icons.delete,color:color_primary_black ), // icon
-                              Text("Xóa",style: TextStyle(
-                                  color: color_primary_black
-                              )), // text
+                              Row(
+                                children: [
+                                  Icon(Icons.restore_from_trash_outlined,color:Colors.red, size: 18, ), // icon
+                                  4.width,
+                                  Text("Xoá",style: TextStyle(
+                                      color: Colors.redAccent,
+                                      fontSize: 14
+                                  )), // text
+                                ],
+                              )
                             ],
                           ),
                         ),
-                        25.width,
                       ],
                     )
 

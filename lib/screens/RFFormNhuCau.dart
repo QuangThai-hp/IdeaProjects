@@ -11,7 +11,6 @@ import 'package:room_finder_flutter/models/http_exeption.dart';
 import 'package:room_finder_flutter/providers/DonViTinh.dart';
 import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 import 'package:room_finder_flutter/providers/KhuVuc.dart';
-import 'package:room_finder_flutter/providers/NhuCau.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
@@ -165,6 +164,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     // }
   }
 
+  Future<void> _loadNhuCau() async{
+    
+  }
+
   @override
   void didChangeDependencies() {
     _loadKhuVuc('Quận huyện', null);
@@ -172,30 +175,13 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
-  late String? idKhachHang;
+
   @override
   void initState() {
-    hoTenKhachHangController=TextEditingController(text: widget.hoTenKhachHang);
-    tieuDeSanPhamController=TextEditingController(text: widget.update.toString());
-    dienThoaiController=TextEditingController(text: widget.dienThoai);
-    soPhongNguController=TextEditingController(text: widget.soPhongNgu.toString());
-    soPhongVeSinhController=TextEditingController(text: widget.soPhongVeSinh.toString());
-    soTangController=TextEditingController(text: widget.soTang.toString());
-    phapLyController=TextEditingController(text: widget.phapLi);
-    tinhTrangNoiThatController=TextEditingController(text: widget.tinhTrangNoiThat);
-    giaController=TextEditingController(text: widget.gia.toString());
-    giaBangSoController=TextEditingController(text: widget.giaBangso);
-    dienTichController=TextEditingController(text: widget.dienTich.toString());
-    dienTichSuDungController=TextEditingController(text: widget.dienTichSuDung.toString());
-    chieuDaiController=TextEditingController(text: widget.chieuDai.toString());
-    chieuRongController=TextEditingController(text: widget.chieuRong.toString());
-    tienDatCocController=TextEditingController(text: widget.tienDatCoc.toString());
-    ghiChuController=TextEditingController(text: widget.ghiChu);
-
-
-
+    if(widget.nid != null){
+      // load dữ liệu khởi tạo
+    }
     setState(() {
-
       ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     });
     hoTenKhachHangController=TextEditingController(text: widget.hoten);
