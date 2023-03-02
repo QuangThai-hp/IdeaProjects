@@ -64,9 +64,12 @@ class NhuCaus with ChangeNotifier {
         field_quan_huyen: element['field_quan_huyen'],
         field_phuong_xa: element['field_phuong_xa'],
         field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
-        field_don_vi_tinh: element['field_don_vi_tinh'].toString(),
-        field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'].toString(),
-        khachHangChuNha: element['KhachHangChuNha:{hoTen,dienThoai}'],
+        field_don_vi_tinh: element['field_don_vi_tinh'],
+        field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'],
+        khachHangChuNha: KhachHangChuNha(
+          hoTen: element['hoTen'],
+          dienThoai: element['dienThoai'],
+        ) //element['KhachHangChuNha:{hoTen,dienThoai}'],
       ));
 
     });
