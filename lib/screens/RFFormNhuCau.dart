@@ -43,6 +43,8 @@ class RFFormNhuCauScreen extends StatefulWidget {
 }
 
 class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
+  bool initForm = true;
+
   TextEditingController ngayNhapController = TextEditingController();
   TextEditingController hoTenKhachHangController = TextEditingController();
   TextEditingController dienThoaiController = TextEditingController();
@@ -206,8 +208,14 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   }
   @override
   void didChangeDependencies() {
-    _loadKhuVuc('Quận huyện', null);
-    _loadDVT();
+    if(this.initForm){
+      _loadKhuVuc('Quận huyện', null);
+      _loadDVT();
+      setState(() {
+        this.initForm = false;
+      });
+    }
+
     if(widget.nid != null){
       _loadNhuCau();
 
@@ -535,11 +543,12 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 ),
                               )),
                               8.width,
-                              Expanded(child: !phuongXaLoaded ? Center(child: CircularProgressIndicator(),) : Container(
-                                decoration: boxDecorationWithRoundedCorners(
-                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                                ),
+                              Expanded(
+                                  child: !phuongXaLoaded ? Center(child: CircularProgressIndicator(),) : Container(
+                                    decoration: boxDecorationWithRoundedCorners(
+                                      borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                      backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                    ),
                                 padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
                                 child: DropdownButton<KhuVuc>(
                                   value: selectedPhuongXa,
@@ -552,6 +561,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                     color: Colors.deepPurpleAccent,
                                   ),
                                   onChanged: (KhuVuc? newValue) {
+                                    print('thay doi ${newValue!.name}');
                                     setState(() {
                                       selectedPhuongXa = newValue;
                                     });
@@ -573,7 +583,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 controller: soPhongNguController,
                                 focus: soPhongNguFocusNode,
                                 nextFocus: soPhongVeSinhFocusNode,
-                                textFieldType: TextFieldType.PHONE,
+                                textFieldType: TextFieldType.NUMBER,
                                 decoration: rfInputDecoration(
                                   lableText: "Số phòng ngủ",
                                   showLableText: true,
@@ -584,7 +594,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 controller: soPhongVeSinhController,
                                 focus: soPhongVeSinhFocusNode,
                                 nextFocus: soTangFocusNode,
-                                textFieldType: TextFieldType.PHONE,
+                                textFieldType: TextFieldType.NUMBER,
                                 decoration: rfInputDecoration(
                                   lableText: "Số phòng vệ sinh",
                                   showLableText: true,
