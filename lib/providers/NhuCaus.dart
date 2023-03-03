@@ -46,6 +46,7 @@ class NhuCaus with ChangeNotifier {
           'Charset': 'utf-8',
         }
     );
+    print(jsonDecode(response.body)['nid']);
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['nid'],
       title: jsonDecode(response.body)['title'],
@@ -55,11 +56,11 @@ class NhuCaus with ChangeNotifier {
       ),
 
       nhuCau: jsonDecode(response.body)['nhuCau'],
-      quanHuyen: KhuVuc(
+      quanHuyen: jsonDecode(response.body)['quanHuyen'] == null ? null : KhuVuc(
         tid: jsonDecode(response.body)['quanHuyen']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['quanHuyen']['name'],
       ),
-      phuongXa: KhuVuc(
+      phuongXa: jsonDecode(response.body)['phuongXa'] == null ? null : KhuVuc(
         tid: jsonDecode(response.body)['phuongXa']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['phuongXa']['name'],
       ),
@@ -70,7 +71,7 @@ class NhuCaus with ChangeNotifier {
       thongTinPhapLy: jsonDecode(response.body)['thongTinPhapLy'],
       tinhTrangNoiThat: jsonDecode(response.body)['tinhTrangNoiThat'].toString(),
       field_gia: jsonDecode(response.body)['field_gia'].toString().toDouble(),
-      donViTinhGia: DonViTinh(
+      donViTinhGia: jsonDecode(response.body)['donViTinhGia'] == null ? null : DonViTinh(
         tid: jsonDecode(response.body)['donViTinhGia']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['donViTinhGia']['name'],
       ),
