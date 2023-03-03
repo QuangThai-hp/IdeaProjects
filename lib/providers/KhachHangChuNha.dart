@@ -8,13 +8,13 @@ import '../utils/RFString.dart';
 
 class KhachHangChuNha with ChangeNotifier {
   String? nid;
-  final String? hoTen;
+  final String hoTen;
   final String dienThoai;
   final String? ghiChu;
 
   KhachHangChuNha({
     this.nid,
-    this.hoTen,
+    this.hoTen='',
     this.dienThoai = '',
     this.ghiChu
   });

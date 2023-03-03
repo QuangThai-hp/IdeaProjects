@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/http_exeption.dart';
+import 'package:room_finder_flutter/providers/DonViTinh.dart';
 import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
+import 'package:room_finder_flutter/providers/KhuVuc.dart';
 import 'package:room_finder_flutter/providers/NhuCau.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 
@@ -51,6 +53,36 @@ class NhuCaus with ChangeNotifier {
         hoTen: jsonDecode(response.body)['KhachHangChuNha']['hoTen'],
         dienThoai: jsonDecode(response.body)['KhachHangChuNha']['dienThoai'],
       ),
+
+      nhuCau: jsonDecode(response.body)['nhuCau'],
+      quanHuyen: KhuVuc(
+        tid: jsonDecode(response.body)['quanHuyen']['tid'].toString().toInt(),
+        name: jsonDecode(response.body)['quanHuyen']['name'],
+      ),
+      phuongXa: KhuVuc(
+        tid: jsonDecode(response.body)['phuongXa']['tid'].toString().toInt(),
+        name: jsonDecode(response.body)['phuongXa']['name'],
+      ),
+      soPhongNgu: jsonDecode(response.body)['soPhongNgu'].toString().toInt(),
+      SoPhongVeSinh: jsonDecode(response.body)['SoPhongVeSinh'].toString().toInt(),
+      field_huong: jsonDecode(response.body)['huong'],
+      soTang: jsonDecode(response.body)['soTang'].toString().toInt(),
+      thongTinPhapLy: jsonDecode(response.body)['thongTinPhapLy'],
+      tinhTrangNoiThat: jsonDecode(response.body)['tinhTrangNoiThat'].toString(),
+        field_gia: jsonDecode(response.body)['field_gia'].toString().toDouble(),
+      donViTinhGia: DonViTinh(
+        tid: jsonDecode(response.body)['donViTinhGia']['tid'].toString().toInt(),
+        name: jsonDecode(response.body)['donViTinhGia']['name'],
+      ),
+      giaBangSo: jsonDecode(response.body)['giaBangSo'].toString().toDouble(),
+      field_dien_tich: jsonDecode(response.body)['dienTichDat'].toString().toDouble(),
+      dienTichSuDung: jsonDecode(response.body)['dienTichDat'].toString().toDouble(),
+      chieuDai: jsonDecode(response.body)['chieuDai'].toString().toDouble(),
+      chieuRong: jsonDecode(response.body)['chieRong'].toString().toDouble(),
+      soTienCoc: jsonDecode(response.body)['soTienCoc'].toString().toDouble(),
+      ghiChu: jsonDecode(response.body)['ghiChu'],
+
+
     );
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();

@@ -19,12 +19,14 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:room_finder_flutter/widgets/ImageVideoUpload.dart';
+import '../components/RFCongratulatedDialog.dart';
 import '../providers/SanPham.dart';
 import '../providers/khuVucs.dart';
 import '../utils/RFString.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
+
 class RFFormNhuCauScreen extends StatefulWidget {
   final int? nid;
   final String? nhom;
@@ -171,9 +173,29 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         setState(() {
           nhuCauLoaded = true;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
+          hoTenKhachHangController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.hoTen : '');
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
+          soTangController.text = nhuCaus.nhuCau.soTang.toString();
+          soPhongNguController.text= nhuCaus.nhuCau.soPhongNgu.toString();
+          phapLyController.text= nhuCaus.nhuCau.thongTinPhapLy.toString();
+          giaController.text= nhuCaus.nhuCau.field_gia.toString();
+          dienTichController.text= nhuCaus.nhuCau.field_dien_tich.toString();
+          tinhTrangNoiThatController.text= nhuCaus.nhuCau.tinhTrangNoiThat.toString();
+          giaBangSoController.text= nhuCaus.nhuCau.giaBangSo.toString();
+          dienTichSuDungController.text= nhuCaus.nhuCau.dienTichSuDung.toString();
+          chieuDaiController.text= nhuCaus.nhuCau.chieuDai.toString();
+          chieuRongController.text= nhuCaus.nhuCau.chieuRong.toString();
+          tienDatCocController.text= nhuCaus.nhuCau.soTienCoc.toString();
+          ghiChuController.text= nhuCaus.nhuCau.ghiChu.toString();
+          selectedQuan=KhuVuc(name: nhuCaus.nhuCau.quanHuyen);
+
+
+
+
+
 
           // tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
+
         });
       });
     }
