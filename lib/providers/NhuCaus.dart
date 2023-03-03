@@ -47,32 +47,11 @@ class NhuCaus with ChangeNotifier {
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['nid'],
       title: jsonDecode(response.body)['title'],
+      khachHangChuNha: KhachHangChuNha(
+        hoTen: jsonDecode(response.body)['KhachHangChuNha']['hoTen'],
+        dienThoai: jsonDecode(response.body)['KhachHangChuNha']['dienThoai'],
+      ),
     );
-    final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']);
-    final List<NhuCau> loadedNhuCaus = [];
-    extractedData.forEach((element) {
-
-      loadedNhuCaus.add(NhuCau(
-        nid: element['nid'],
-
-
-        field_dien_thoai: element['field_dien_thoai'],
-        title: element['title'],
-        field_gia: element['field_gia'].toString().toDouble(),
-        field_dien_tich: element['field_dien_tich'].toString().toDouble(),
-        field_huong: element['field_huong'],
-        field_quan_huyen: element['field_quan_huyen'],
-        field_phuong_xa: element['field_phuong_xa'],
-        field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
-        field_don_vi_tinh: element['field_don_vi_tinh'],
-        field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'],
-        khachHangChuNha: KhachHangChuNha(
-          hoTen: element['hoTen'],
-          dienThoai: element['dienThoai'],
-        ) //element['KhachHangChuNha:{hoTen,dienThoai}'],
-      ));
-
-    });
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
   }

@@ -24,7 +24,7 @@ class NhuCau with ChangeNotifier {
   NhuCau({
     this.nid = '',
     this.hoTen,
-    this.khachHangChuNha,
+    this.khachHangChuNha = null,
     this.ngayNhap,
     this.nhuCau,
     this.field_dien_thoai,

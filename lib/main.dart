@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
-import 'package:room_finder_flutter/providers/NhuCauSuas.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
@@ -64,17 +61,6 @@ class MyApp extends StatelessWidget {
               auth.token,
               auth.userId,
               previousNhuCaus == null ? [] : previousNhuCaus.items
-            );
-          },
-          // create: ,
-        ),
-        ChangeNotifierProxyProvider<Auth, NhuCauSuas>(
-          create: (_) => NhuCauSuas('', '', []),
-          update: (_, auth, previousNhuCaus) {
-            return NhuCauSuas(
-                auth.token,
-                auth.userId,
-                previousNhuCaus == null ? [] : previousNhuCaus.items
             );
           },
           // create: ,
