@@ -168,11 +168,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   Future<void> _loadNhuCau() async{
     if(!nhuCauLoaded){
-      print('object');
       NhuCaus nhuCaus = await Provider.of<NhuCaus>(context, listen: false);
       nhuCaus.getNhuCauByNid(widget.nid!).then((value){
         setState(() {
           nhuCauLoaded = true;
+          nhomNhuCau = nhuCaus.nhuCau.nhuCau;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
           hoTenKhachHangController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.hoTen : '');
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
@@ -208,8 +208,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   void didChangeDependencies() {
     _loadKhuVuc('Quận huyện', null);
     _loadDVT();
-    if(widget.nid != null)
+    if(widget.nid != null){
       _loadNhuCau();
+
+    }
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
@@ -258,7 +260,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         "name": selectedDonViTinh?.name
       };
       Map<String, dynamic> toJson() => {
-        "nid": null,
+        "nid": widget.nid,
         "field_ngay_nhap": ngayNhapController.text,
         "field_nhom_nhu_cau": nhomNhuCau,
         "khachHangChuNha": khachHangChuNha(),
@@ -344,34 +346,36 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(widget.nid == null){
+      if(widget.nhom == 'Khách hàng'){
+        tenForm = 'Thêm khách và nhu cầu mua / thuê';
+        doiTuong = 'Khách hàng';
+      }
+      else if(widget.nhom == 'Chủ nhà'){
+        tenForm = 'Thêm chủ nhà và nhu cầu bán / thuê';
+        doiTuong = 'Chủ nhà';
+      }
+      else if(widget.nhom == 'Cần Mua'){
+        tenForm = 'Thêm nhu cầu mua và thông tin KH';
+        doiTuong = 'Khách hàng';
+        nhomNhuCau = 'Cần mua';
+      }
+      else if(widget.nhom == 'Cần Bán'){
+        doiTuong = 'Chủ nhà';
+        tenForm = 'Thêm nhu cầu bán và thông tin chủ nhà';
+        nhomNhuCau = 'Cần bán';
+      }
+      else if(widget.nhom == 'Cho thuê'){
+        doiTuong = 'Chủ nhà';
+        tenForm = 'Thêm chủ nhà và nhu cầu cho thuê';
+        nhomNhuCau = 'Cho thuê';
+      }
+      else{
+        doiTuong = 'Khách hàng';
+        tenForm = 'Thêm khách hàng và nhu cầu cần thuê';
+        nhomNhuCau = 'Cần thuê';
+      }
 
-    if(widget.nhom == 'Khách hàng'){
-      tenForm = 'Thêm khách và nhu cầu mua / thuê';
-      doiTuong = 'Khách hàng';
-    }
-    else if(widget.nhom == 'Chủ nhà'){
-      tenForm = 'Thêm chủ nhà và nhu cầu bán / thuê';
-      doiTuong = 'Chủ nhà';
-    }
-    else if(widget.nhom == 'Cần Mua'){
-      tenForm = 'Thêm nhu cầu mua và thông tin KH';
-      doiTuong = 'Khách hàng';
-      nhomNhuCau = 'Cần mua';
-    }
-    else if(widget.nhom == 'Cần Bán'){
-      doiTuong = 'Chủ nhà';
-      tenForm = 'Thêm nhu cầu bán và thông tin chủ nhà';
-      nhomNhuCau = 'Cần bán';
-    }
-    else if(widget.nhom == 'Cho thuê'){
-      doiTuong = 'Chủ nhà';
-      tenForm = 'Thêm chủ nhà và nhu cầu cho thuê';
-      nhomNhuCau = 'Cho thuê';
-    }
-    else{
-      doiTuong = 'Khách hàng';
-      tenForm = 'Thêm khách hàng và nhu cầu cần thuê';
-      nhomNhuCau = 'Cần thuê';
     }
 
     return Scaffold(
@@ -435,7 +439,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                   ),
                                   onChanged: (newValue) {
                                     setState(() {
-                                      nhomNhuCau = newValue.toString();
+                                      nhomNhuCau = newValue;
                                     });
                                   },
                                   items: <String>['Cần mua', 'Cần bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {

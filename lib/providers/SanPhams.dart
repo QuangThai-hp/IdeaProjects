@@ -75,43 +75,41 @@ class SanPhams with ChangeNotifier {
   }
 
   Future<void> save(Map<String, dynamic> sanPham, String routeAfterSave, BuildContext context) async {
-    print(json.encode({
-      'uid': uid,
-      'auth': authToken,
-      'sanPham': sanPham
-    }));
-    // try
-    // {
-    //   final response = await http.post(
-    //       Uri.parse(RFSaveSanPham),
-    //       body: json.encode({
-    //         'uid': uid,
-    //         'auth': authToken,
-    //         'sanPham': sanPham
-    //       }),
-    //       headers: {
-    //         'Content-Type': 'application/json;charset=UTF-8',
-    //         'Charset': 'utf-8',
-    //       }
-    //   );
-    //   final responseData = json.decode(response.body);
-    //
-    //   print(responseData);
-    //
-    //   if(!responseData['success'])
-    //     throw HttpException(responseData['content']);
-    //   else{
-    //     RFHomeScreen rfHomeScreenFragment = new RFHomeScreen();
-    //     rfHomeScreenFragment.selectedIndex = 1;
-    //     rfHomeScreenFragment.contentAlert = responseData['content'];
-    //     rfHomeScreenFragment.showDialog = true;
-    //     rfHomeScreenFragment.launch(context);
-    //   }
-    //   notifyListeners();
-    // }
-    // catch(error){
-    //   throw error;
-    // }
+    // print(json.encode({
+    //   'uid': uid,
+    //   'auth': authToken,
+    //   'sanPham': sanPham
+    // }));
+    try
+    {
+      final response = await http.post(
+          Uri.parse(RFSaveSanPham),
+          body: json.encode({
+            'uid': uid,
+            'auth': authToken,
+            'sanPham': sanPham
+          }),
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+          }
+      );
+      final responseData = json.decode(response.body);
+
+      if(!responseData['success'])
+        throw HttpException(responseData['content']);
+      else{
+        RFHomeScreen rfHomeScreenFragment = new RFHomeScreen();
+        rfHomeScreenFragment.selectedIndex = 1;
+        rfHomeScreenFragment.contentAlert = responseData['content'];
+        rfHomeScreenFragment.showDialog = true;
+        rfHomeScreenFragment.launch(context);
+      }
+      notifyListeners();
+    }
+    catch(error){
+      throw error;
+    }
   }
 
   Future<void> getListNhuCau(int khachHangID) async{

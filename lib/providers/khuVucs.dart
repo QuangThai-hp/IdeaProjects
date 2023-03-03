@@ -21,6 +21,8 @@ class KhuVucs with ChangeNotifier {
   }
 
   Future<void> getListKhuVuc(String type, int? parentId) async{
+    print(type);
+    print(parentId);
     // try
     // {
       final response = await http.post(
@@ -43,7 +45,6 @@ class KhuVucs with ChangeNotifier {
         loadedKhuVucs.add(KhuVuc(
             tid: element['tid'].toString().toInt(),
             name: element['name'],
-            type: element['type'],
         ));
       });
       _items = loadedKhuVucs;

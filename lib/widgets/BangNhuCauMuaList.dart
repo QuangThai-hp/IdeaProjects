@@ -16,7 +16,7 @@ import '../utils/RFString.dart';
 import '../utils/RFWidget.dart';
 
 class BangNhuCauCanMuaList extends StatefulWidget {
-  String phanLoai;
+  String phanLoai = 'Tất cả';
   BangNhuCauCanMuaList({required this.phanLoai});
 
   @override
@@ -28,9 +28,9 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
   late String trangThaiCu = '';
 
   Future<void> _reloadNhuCau(BuildContext context) async{
-    print(widget.phanLoai);
     final provider = Provider.of<NhuCaus>(context);
-    provider.getListNhuCau(widget.phanLoai == 'Tất cả' ? null : widget.phanLoai).then((value){
+    print(widget.phanLoai);
+    provider.getListNhuCau(widget.phanLoai).then((value){
       print(this.mounted);
       if(this.mounted){
         setState(() {
@@ -105,7 +105,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             children: <Widget>[
                               5.height,
                               Text(nhuCaus[index].title, style: TextStyle(color: appStore.textPrimaryColor, fontWeight: FontWeight.bold),),
-                              text(nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
+                              text(nhuCaus[index].field_quan_huyen == null ? '' : nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
                               SizedBox(height: 2),
                               // Row(
                               //   children: <Widget>[

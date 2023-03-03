@@ -46,11 +46,10 @@ class NhuCaus with ChangeNotifier {
           'Charset': 'utf-8',
         }
     );
-    print(jsonDecode(response.body)['nid']);
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['nid'],
       title: jsonDecode(response.body)['title'],
-      khachHangChuNha: KhachHangChuNha(
+      khachHangChuNha: jsonDecode(response.body)['KhachHangChuNha'] == null ? null : KhachHangChuNha(
         hoTen: jsonDecode(response.body)['KhachHangChuNha']['hoTen'],
         dienThoai: jsonDecode(response.body)['KhachHangChuNha']['dienThoai'],
       ),
@@ -82,8 +81,6 @@ class NhuCaus with ChangeNotifier {
       chieuRong: jsonDecode(response.body)['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['soTienCoc'].toString().toDouble(),
       ghiChu: jsonDecode(response.body)['ghiChu'],
-
-
     );
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
@@ -98,8 +95,7 @@ class NhuCaus with ChangeNotifier {
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
-            'type':type == 'Tất cả' ? null : type,
-            'trangThai': type != 'Huỷ' ? null : type
+            'type': type // Tất cả / Cần mua / Cần bán / Cần thuê / Cho thuê / Huỷ
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -107,7 +103,7 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
-      print(jsonDecode(response.body));
+      print(jsonDecode(response.body)['content']);
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<NhuCau> loadedNhuCaus = [];
@@ -116,11 +112,8 @@ class NhuCaus with ChangeNotifier {
       final String noImageUrl = 'https://happyhomehaiphong.com/images/da-luu/no-image.png';
 
       extractedData.forEach((element) {
-
         loadedNhuCaus.add(NhuCau(
           nid: element['nid'],
-
-
           field_dien_thoai: element['field_dien_thoai'],
           title: element['title'],
           field_gia: element['field_gia'].toString().toDouble(),
@@ -133,8 +126,8 @@ class NhuCaus with ChangeNotifier {
           field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'].toString(),
           field_anh_san_pham: (element['field_nhom_nhu_cau'] == 'Cần mua' ? canMuaUrlImage : (element['field_nhom_nhu_cau'] == 'Cần thuê' ? canThueUrlImage : (element['field_anh_san_pham'] == '' ? noImageUrl : element['field_anh_san_pham']))),
         ));
-
       });
+      print(loadedNhuCaus.length);
       _items = loadedNhuCaus;
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
