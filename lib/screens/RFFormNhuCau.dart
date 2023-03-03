@@ -269,11 +269,12 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         "field_phuong_xa": phuongSelected(),
         "field_so_phong_ngu": soPhongNguController.text,
         "field_so_phong_ve_sinh": soPhongVeSinhController.text,
-        "field_so_tang": soTangController.text.toDouble(),
+        "field_so_tang": soTangController.text,
         "field_phap_ly": phapLyController.text,
         "field_tinh_trang_noi_that": tinhTrangNoiThatController.text,
         "field_gia": giaController.text,
         "field_don_vi_tinh": donViTinhSelected(),
+        "field_huong": huongNhuCau,
         "field_gia_bang_so": giaBangSoController.text,
         "field_dien_tich": dienTichController.text,
         "field_dien_tich_su_dung": dienTichSuDungController.text,
@@ -283,6 +284,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         "field_ghi_chu": ghiChuController.text,
         "field_anh_san_pham": sanPham.field_anh_san_pham
       };
+      print(toJson());
       await Provider.of<SanPhams>(context, listen: false).save(
           toJson(),
           '/home',
