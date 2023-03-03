@@ -60,7 +60,7 @@ class NhuCaus with ChangeNotifier {
         name: jsonDecode(response.body)['quanHuyen']['name'],
       ),
       phuongXa: jsonDecode(response.body)['phuongXa'] == null ? null : KhuVuc(
-        tid: jsonDecode(response.body)['phuongXa']['tid'].toString().toInt(),
+        tid: jsonDecode(response.body)['phuongXa']['tid'].toInt(),
         name: jsonDecode(response.body)['phuongXa']['name'],
       ),
       soPhongNgu: jsonDecode(response.body)['soPhongNgu'].toString().toInt(),
