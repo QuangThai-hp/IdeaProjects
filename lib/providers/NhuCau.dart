@@ -62,7 +62,7 @@ final String? tinhTrangNoiThat;
     this.donViTinhGia,
     this.phuongXa,
 
-    this.quanHuyen,
+    this.quanHuyen  = null,
     this.thongTinPhapLy,
     this.tinhTrangNoiThat,
      this.field_phuong_xa,

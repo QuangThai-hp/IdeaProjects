@@ -69,7 +69,7 @@ class NhuCaus with ChangeNotifier {
       soTang: jsonDecode(response.body)['soTang'].toString().toInt(),
       thongTinPhapLy: jsonDecode(response.body)['thongTinPhapLy'],
       tinhTrangNoiThat: jsonDecode(response.body)['tinhTrangNoiThat'].toString(),
-        field_gia: jsonDecode(response.body)['field_gia'].toString().toDouble(),
+      field_gia: jsonDecode(response.body)['field_gia'].toString().toDouble(),
       donViTinhGia: DonViTinh(
         tid: jsonDecode(response.body)['donViTinhGia']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['donViTinhGia']['name'],

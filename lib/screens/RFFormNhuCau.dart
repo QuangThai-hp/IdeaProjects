@@ -26,6 +26,7 @@ import '../utils/RFString.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
+import 'package:intl/intl.dart' as intl;
 
 class RFFormNhuCauScreen extends StatefulWidget {
   final int? nid;
@@ -176,26 +177,28 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           hoTenKhachHangController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.hoTen : '');
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
           soTangController.text = nhuCaus.nhuCau.soTang.toString();
-          soPhongNguController.text= nhuCaus.nhuCau.soPhongNgu.toString();
-          phapLyController.text= nhuCaus.nhuCau.thongTinPhapLy.toString();
-          giaController.text= nhuCaus.nhuCau.field_gia.toString();
-          dienTichController.text= nhuCaus.nhuCau.field_dien_tich.toString();
-          tinhTrangNoiThatController.text= nhuCaus.nhuCau.tinhTrangNoiThat.toString();
-          giaBangSoController.text= nhuCaus.nhuCau.giaBangSo.toString();
-          dienTichSuDungController.text= nhuCaus.nhuCau.dienTichSuDung.toString();
-          chieuDaiController.text= nhuCaus.nhuCau.chieuDai.toString();
-          chieuRongController.text= nhuCaus.nhuCau.chieuRong.toString();
-          tienDatCocController.text= nhuCaus.nhuCau.soTienCoc.toString();
-          ghiChuController.text= nhuCaus.nhuCau.ghiChu.toString();
-          selectedQuan=KhuVuc(name: nhuCaus.nhuCau.quanHuyen);
+          soPhongNguController.text = nhuCaus.nhuCau.soPhongNgu.toString();
+          phapLyController.text = nhuCaus.nhuCau.thongTinPhapLy.toString();
+          giaController.text = nhuCaus.nhuCau.field_gia.toString();
+          dienTichController.text = nhuCaus.nhuCau.field_dien_tich.toString();
+          tinhTrangNoiThatController.text = nhuCaus.nhuCau.tinhTrangNoiThat.toString();
+          giaBangSoController.text = intl.NumberFormat.decimalPattern().format(nhuCaus.nhuCau.giaBangSo);//NumberFormat("###.0#", "vi_VN").format();
+          tienDatCocController.text = intl.NumberFormat.decimalPattern().format(nhuCaus.nhuCau.soTienCoc);//NumberFormat("###.0#", "vi_VN").format(nhuCaus.nhuCau.soTienCoc);
+          dienTichSuDungController.text = nhuCaus.nhuCau.dienTichSuDung.toString();
+          chieuDaiController.text = nhuCaus.nhuCau.chieuDai.toString();
+          chieuRongController.text = nhuCaus.nhuCau.chieuRong.toString();
+          ghiChuController.text = nhuCaus.nhuCau.ghiChu.toString();
+          // Load dữ liệu quận huyện đã chọn
+          quanHuyen.forEach((element) {
+            if(nhuCaus.nhuCau.quanHuyen?.name == element.name)
+              selectedQuan = element;
+          });
 
-
-
-
-
-
-          // tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
-
+          // Load dữ liệu phường xã
+          phuongXa.forEach((element) {
+            if(nhuCaus.nhuCau.phuongXa?.name == element.name)
+              selectedPhuongXa = element;
+          });
         });
       });
     }
@@ -519,7 +522,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                   items: quanHuyen.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
                                     return DropdownMenuItem<KhuVuc>(
                                       value: value,
-                                      child: Text(value.name),
+                                      child: Text(value.name == null ? '' : value.name),
                                     );
                                   }).toList(),
                                 ),
