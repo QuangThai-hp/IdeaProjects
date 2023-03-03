@@ -14,6 +14,7 @@ class NhuCau with ChangeNotifier {
   final double? field_gia;
   final String? field_huong;
   final String? field_phuong_xa;
+
   final String? field_quan_huyen;
   final String field_nhom_nhu_cau;
   final String field_anh_san_pham;

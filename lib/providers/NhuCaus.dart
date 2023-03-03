@@ -54,7 +54,7 @@ class NhuCaus with ChangeNotifier {
 
       loadedNhuCaus.add(NhuCau(
         nid: element['nid'],
-        hoTen: element['hoTen'],
+
 
         field_dien_thoai: element['field_dien_thoai'],
         title: element['title'],
@@ -107,7 +107,7 @@ class NhuCaus with ChangeNotifier {
 
         loadedNhuCaus.add(NhuCau(
           nid: element['nid'],
-          hoTen: element['hoTen'],
+
 
           field_dien_thoai: element['field_dien_thoai'],
           title: element['title'],

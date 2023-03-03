@@ -11,6 +11,9 @@ import 'package:room_finder_flutter/models/http_exeption.dart';
 import 'package:room_finder_flutter/providers/DonViTinh.dart';
 import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 import 'package:room_finder_flutter/providers/KhuVuc.dart';
+import 'package:room_finder_flutter/providers/NhuCau.dart';
+import 'package:room_finder_flutter/providers/NhuCauSua.dart';
+import 'package:room_finder_flutter/providers/NhuCauSuas.dart';
 import 'package:room_finder_flutter/providers/NhuCaus.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/donViTinhs.dart';
@@ -27,7 +30,7 @@ import '../utils/RFString.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
-
+import 'package:room_finder_flutter/providers/NhuCauSuas.dart';
 class RFFormNhuCauScreen extends StatefulWidget {
   final int? nid;
   final String? nhom;
@@ -168,12 +171,27 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   Future<void> _loadNhuCau() async{
     if(!nhuCauLoaded){
+      print('object');
       NhuCaus nhuCaus = await Provider.of<NhuCaus>(context, listen: false);
       nhuCaus.getNhuCauByNid(widget.nid!).then((value){
         setState(() {
           nhuCauLoaded = true;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
+
           // tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
+        });
+      });
+    }
+
+  }
+  Future<void> _loadNhuCauSua() async{
+    if(!nhuCauLoaded){
+      print(widget.nid);
+      NhuCauSuas nhuCauSuas = await Provider.of<NhuCauSuas>(context, listen: false);
+      nhuCauSuas.getNhuCauByNid(widget.nid).then((value){
+        setState(() {
+          nhuCauLoaded = true;
+          tieuDeSanPhamController = TextEditingController(text: '124');
         });
       });
     }
@@ -193,12 +211,13 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   @override
   void initState() {
     if(widget.nid != null){
+    _loadNhuCauSua();
       // load dữ liệu khởi tạo
     }
     setState(() {
       ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     });
-    hoTenKhachHangController=TextEditingController(text: widget.hoten);
+
     super.initState();
     init();
   }
