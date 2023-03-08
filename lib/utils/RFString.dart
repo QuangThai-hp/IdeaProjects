@@ -19,5 +19,6 @@ const RFDanhSachNhuCau="https://happyhomehaiphong.com/api/danh-sach-nhu-cau";
 const RFGetNhuCauByPhanLoai="https://happyhomehaiphong.com/api/get-nhu-cau-by-phan-loai";
 const RFGetThongTinNhuCau="https://happyhomehaiphong.com/api/get-nhu-cau-by-nid";
 const RFSuaKhachHang="https://happyhomehaiphong.com/api/sua-khach-hang";
+const RFXoaNhuCau="https://happyhomehaiphong.com/api/xoa-nhu-cau";
 
 const textSizeSMedium = 14.0;

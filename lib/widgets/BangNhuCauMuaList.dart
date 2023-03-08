@@ -226,7 +226,13 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final provider = Provider.of<NhuCaus>(context);
+                            provider.delete(nhuCaus[index].nid.toInt(),);
+                            setState(() {
+
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white
 

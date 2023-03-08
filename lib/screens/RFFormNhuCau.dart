@@ -92,7 +92,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   FocusNode f4 = FocusNode();
   DateTime? selectedDate;
-  String buaAn = '';
+
   bool _isLoading = false;
   KhuVuc? selectedQuan;
   KhuVuc? selectedPhuongXa;
@@ -170,6 +170,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   Future<void> _loadNhuCau() async{
     if(!nhuCauLoaded){
+      print(widget.nid);
       NhuCaus nhuCaus = await Provider.of<NhuCaus>(context, listen: false);
       nhuCaus.getNhuCauByNid(widget.nid!).then((value){
         setState(() {
@@ -201,6 +202,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
             if(nhuCaus.nhuCau.phuongXa?.name == element.name)
               selectedPhuongXa = element;
           });
+
         });
       });
     }
@@ -840,6 +842,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                             maxLines: 100,
                           ),
                           16.height,
+
                           ImageVideoUpload(
                             listPathImage: (List<String> listImage){
                               setState(() {

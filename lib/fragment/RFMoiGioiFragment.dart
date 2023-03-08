@@ -11,18 +11,19 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:intl/intl.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
+import 'package:room_finder_flutter/widgets/DanhSachKetNoi.dart';
+
 
 // import 'package:room_finder_flutter/widgets/BangDinhDuongNgayList.dart';
 
 import '../components/RFConformationDialog.dart';
 
-class RFChoThueFragment extends StatefulWidget {
+class RFMoiGioiFragment extends StatefulWidget {
   @override
-  _RFChoThueFragmentState createState() => _RFChoThueFragmentState();
+  _RFMoiGioiFragmentState createState() => _RFMoiGioiFragmentState();
 }
 
-class _RFChoThueFragmentState extends State<RFChoThueFragment> {
+class _RFMoiGioiFragmentState extends State<RFMoiGioiFragment> {
   TextEditingController tenSanPhamController = TextEditingController();
   FocusNode tenSanPhamFocusNode = FocusNode();
   DateTime? selectedDate;
@@ -82,7 +83,7 @@ class _RFChoThueFragmentState extends State<RFChoThueFragment> {
     return Scaffold(
       body: RFCommonAppComponent(
         title: RFAppName,
-        subTitle: 'Sản phẩm cho thuê',
+        subTitle: 'Môi giới',
         mainWidgetHeight: 150,
         subWidgetHeight: 115,
         cardWidget: Column(
@@ -127,8 +128,8 @@ class _RFChoThueFragmentState extends State<RFChoThueFragment> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Danh sách sản phẩm", style: boldTextStyle(size: 18)),
-                    BangNhuCauCanBanList(),
+                    Text("Thông tin sản phẩm đáp ứng", style: boldTextStyle(size: 20)),
+                    DanhSachKetNoi(),
                   ],
                 ),
               ),

@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
-import 'package:room_finder_flutter/fragment/RFChoThueFragment.dart';
+import 'package:room_finder_flutter/fragment/RFHeThongFragment.dart';
+import 'package:room_finder_flutter/fragment/RFMoiGioiFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/fragment/RFKhachHangFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
+
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
 
@@ -34,9 +35,9 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   var _pages = [
     RFHomeFragment(),
     RFKhachHangFragment(),
-    RFChoThueFragment(),
+    RFMoiGioiFragment(),
     RFAccountFragment(),
-    RFSettingsFragment(),
+    RFHeThongFragment(),
   ];
 //
 //

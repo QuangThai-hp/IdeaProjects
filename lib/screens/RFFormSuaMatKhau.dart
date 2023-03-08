@@ -10,25 +10,27 @@ import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+
 import '../utils/RFString.dart';
 
 import 'package:provider/provider.dart';
 
-
-class RFFormSuaKhachHang extends StatefulWidget {
-  static const routeName = '/form-sua';
- final String? nid,name,phone;
-  RFFormSuaKhachHang({ this.nid, this.name, this.phone});
+class RFFormSuaMatKhau extends StatefulWidget {
+  static const routeName = '';
+ final String? nid;
+  RFFormSuaMatKhau({ this.nid,});
   @override
-  _RFFormSuaKhachHangState createState() => _RFFormSuaKhachHangState();
+  _RFFormSuaMatKhauState createState() => _RFFormSuaMatKhauState();
 }
 
-class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController dienThoaiController = TextEditingController();
+class _RFFormSuaMatKhauState extends State<RFFormSuaMatKhau> {
+  TextEditingController MatKhauHienTaiController = TextEditingController();
+  TextEditingController MatKhauMoiController = TextEditingController();
+  TextEditingController NhapLaiMatKhauController = TextEditingController();
 
-  FocusNode fullNameFocusNode = FocusNode();
-  FocusNode dienThoaiFocusNode = FocusNode();
+  FocusNode MatKhauHienTaiFocusNode = FocusNode();
+  FocusNode MatKhauMoiFocusNode = FocusNode();
+  FocusNode NhapLaiMatKhauFocusNode = FocusNode();
 
   FocusNode f4 = FocusNode();
 
@@ -37,8 +39,7 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
   @override
   void initState() {
     super.initState();
-    fullNameController = TextEditingController(text: widget.name);
-    dienThoaiController = TextEditingController(text: widget.phone);
+
     init();
   }
 
@@ -62,8 +63,8 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
     try {
       await Provider.of<KhachHangs>(context, listen: false).editKhachHang(
         widget.nid,
-        fullNameController.text,
-        dienThoaiController.text,
+        MatKhauHienTaiController.text,
+        MatKhauMoiController.text,
       );
       setState(() {
         _isLoading = false;
@@ -92,13 +93,14 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
           children: [
             Text('Sửa thông tin khách hàng', style: boldTextStyle(size: 18)),
             16.height,
+
             AppTextField(
-              controller: fullNameController,
-              focus: fullNameFocusNode,
-              nextFocus: dienThoaiFocusNode,
+              controller: MatKhauHienTaiController,
+              focus: MatKhauHienTaiFocusNode,
+              nextFocus: MatKhauMoiFocusNode,
               textFieldType: TextFieldType.NAME,
               decoration: rfInputDecoration(
-                lableText: "Họ tên",
+                lableText: "Mật Khẩu Cũ",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -111,11 +113,28 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
             ),
             16.height,
             AppTextField(
-              controller: dienThoaiController,
-              focus: dienThoaiFocusNode,
+              controller: MatKhauMoiController,
+              focus: MatKhauMoiFocusNode,
+              nextFocus: NhapLaiMatKhauFocusNode,
               textFieldType: TextFieldType.PHONE,
               decoration: rfInputDecoration(
-                lableText: "Điện thoại",
+                lableText: "Mật Khẩu Mới",
+                showLableText: true,
+                suffixIcon: Container(
+                  padding: EdgeInsets.all(2),
+                  decoration: boxDecorationWithRoundedCorners(
+                      boxShape: BoxShape.circle,
+                      backgroundColor: rf_rattingBgColor),
+                  child: Icon(Icons.done, color: Colors.white, size: 14),
+                ),
+              ),
+            ),
+            16.height,  AppTextField(
+              controller: NhapLaiMatKhauController,
+              focus: NhapLaiMatKhauFocusNode,
+              textFieldType: TextFieldType.PHONE,
+              decoration: rfInputDecoration(
+                lableText: "Nhập lại Mật Khẩu",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -127,7 +146,7 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
               ),
             ),
             16.height,
-            16.height,
+            
             if (_isLoading)
               CircularProgressIndicator()
             else
@@ -148,7 +167,7 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
                   () {
 
                 RFHomeScreen rf_home = new RFHomeScreen();
-                rf_home.selectedIndex = 1;
+                rf_home.selectedIndex = 4;
                 rf_home.launch(context);
 
 

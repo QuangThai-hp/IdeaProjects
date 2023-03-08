@@ -46,6 +46,7 @@ class NhuCaus with ChangeNotifier {
           'Charset': 'utf-8',
         }
     );
+    print(jsonDecode(response.body)['nid']);
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['nid'],
       title: jsonDecode(response.body)['title'],
@@ -60,7 +61,7 @@ class NhuCaus with ChangeNotifier {
         name: jsonDecode(response.body)['quanHuyen']['name'],
       ),
       phuongXa: jsonDecode(response.body)['phuongXa'] == null ? null : KhuVuc(
-        tid: jsonDecode(response.body)['phuongXa']['tid'].toInt(),
+        tid: jsonDecode(response.body)['phuongXa']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['phuongXa']['name'],
       ),
       soPhongNgu: jsonDecode(response.body)['soPhongNgu'].toString().toInt(),
@@ -81,6 +82,8 @@ class NhuCaus with ChangeNotifier {
       chieuRong: jsonDecode(response.body)['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['soTienCoc'].toString().toDouble(),
       ghiChu: jsonDecode(response.body)['ghiChu'],
+
+
     );
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
@@ -112,8 +115,11 @@ class NhuCaus with ChangeNotifier {
       final String noImageUrl = 'https://happyhomehaiphong.com/images/da-luu/no-image.png';
 
       extractedData.forEach((element) {
+
         loadedNhuCaus.add(NhuCau(
           nid: element['nid'],
+
+
           field_dien_thoai: element['field_dien_thoai'],
           title: element['title'],
           field_gia: element['field_gia'].toString().toDouble(),
@@ -126,6 +132,7 @@ class NhuCaus with ChangeNotifier {
           field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'].toString(),
           field_anh_san_pham: (element['field_nhom_nhu_cau'] == 'Cần mua' ? canMuaUrlImage : (element['field_nhom_nhu_cau'] == 'Cần thuê' ? canThueUrlImage : (element['field_anh_san_pham'] == '' ? noImageUrl : element['field_anh_san_pham']))),
         ));
+
       });
       print(loadedNhuCaus.length);
       _items = loadedNhuCaus;
@@ -137,5 +144,21 @@ class NhuCaus with ChangeNotifier {
     //   throw error;
     // }
   }
+  Future<void> delete(int? nid) async{
+    final response = await http.post(
+        Uri.parse(RFXoaNhuCau),
+        body: json.encode({
+          'uid': this.uid,
+          'auth': this.authToken,
+          'nid': nid
+        }),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Charset': 'utf-8',
+        }
+    );
 
+    //json.decode(response.body) as Map<String, dynamic>;
+    notifyListeners();
+  }
 }

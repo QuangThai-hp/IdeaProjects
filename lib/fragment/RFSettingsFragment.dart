@@ -4,11 +4,15 @@ import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/RFFormSuaMatKhau.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+import 'package:url_launcher/url_launcher.dart';
 class RFSettingsFragment extends StatefulWidget {
   @override
   State<RFSettingsFragment> createState() => _RFSettingsFragmentState();
@@ -79,11 +83,24 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('10 Applied', style: secondaryTextStyle()),
+                SelectableText(''
+                    '123456789'),
+                TextButton(onPressed: () async {
+                 final Uri url=Uri(
+                    scheme: 'tel',
+                        path:"123456789",
+                  );
+
+                     launchUrl(url);
+
+
+                },
+                  child: Text('033466333', style: secondaryTextStyle()),),
+
                 8.width,
                 Container(height: 10, width: 1, color: appStore.isDarkModeOn ? white : gray.withOpacity(0.4)),
                 8.width,
-                Text('Kathmandu', style: secondaryTextStyle()),
+                Text('manh@gmail.com', style: secondaryTextStyle()),
               ],
             ),
             16.height,
@@ -93,26 +110,27 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                 backgroundColor: appStore.isDarkModeOn ? scaffoldDarkColor : rf_selectedCategoryBgColor,
               ),
               padding: EdgeInsets.all(16),
-              child: Row(
+               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  rf_person.iconImage(iconColor: rf_primaryColor).paddingOnly(top: 4),
-                  16.width,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Text("Tên Đăng Nhâp : MAnh8333333", style: boldTextStyle(color: rf_primaryColor)),
+
+                  8.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Edit Profile", style: boldTextStyle(color: rf_primaryColor)),
-                      8.height,
-                      Text(
-                        "Edit all the basic profile information associated with your profile",
-                        style: secondaryTextStyle(color: gray),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      Text("Mat khau : MAnh8333333", style: boldTextStyle(color: rf_primaryColor)),
+                      TextButton(onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => RFFormSuaMatKhau(),
+                        )
+                        );
+                      }, child: Text('thay doi mat khau')),
                     ],
-                  ).expand(),
+                  ),
+
                 ],
-              ),
+              ).expand(),
             ),
             SettingItemWidget(
               title: "Dark Mode",

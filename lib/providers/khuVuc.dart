@@ -6,7 +6,7 @@ class KhuVuc with ChangeNotifier {
   final String type;
 
   KhuVuc({
-    this.tid = 0,
+    this.tid,
     this.name = '',
     this.type = '',
   });

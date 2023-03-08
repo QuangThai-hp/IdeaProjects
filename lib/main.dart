@@ -8,6 +8,7 @@ import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 import 'package:room_finder_flutter/screens/RFFormSuaKhachHang.dart';
+import 'package:room_finder_flutter/screens/RFFormSuaMatKhau.dart';
 
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
@@ -135,6 +136,7 @@ class MyApp extends StatelessWidget {
             RFSignUpScreen.routeName: (ctx) => RFSignUpScreen(),
             RFFormNhuCauScreen.routeName: (ctx) => RFFormNhuCauScreen(),
             RFFormSuaKhachHang.routeName:(ctx)=>RFFormSuaKhachHang(),
+            RFFormSuaMatKhau.routeName:(ctx)=>RFFormSuaMatKhau(),
 
           },
         ),
