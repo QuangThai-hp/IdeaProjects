@@ -121,7 +121,7 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
               children: [
                 OutlinedButton(
                   onPressed: () {
-                    launchCall("0357306896");
+
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: context.scaffoldBackgroundColor,
@@ -134,7 +134,7 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                     children: [
                       rf_call.iconImage(iconColor: appStore.isDarkModeOn ? white : rf_primaryColor),
                       8.width,
-                      Text('Gọi ngay', style: boldTextStyle(color: appStore.isDarkModeOn ? white : rf_primaryColor)),
+                      Text('Nhu Cầu', style: boldTextStyle(color: appStore.isDarkModeOn ? white : rf_primaryColor)),
                     ],
                   ),
                 ).expand(),
@@ -150,11 +150,11 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                       rf_message.iconImage(iconColor: whiteColor),
                       // rfCommonCachedNetworkImage(rf_message, color: white, height: 16, width: 16),
                       8.width,
-                      Text('Email ', style: boldTextStyle(color: white)),
+                      Text('Khách Hàng ', style: boldTextStyle(color: white)),
                     ],
                   ),
                   onTap: () {
-                    launchMail("demo@gmail.com");
+
                   },
                 ).expand()
               ],

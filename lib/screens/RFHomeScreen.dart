@@ -50,6 +50,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
       unselectedFontSize: 12,
       selectedItemColor: rf_primaryColor,
       type: BottomNavigationBarType.fixed,
+      //
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.clean_hands_outlined, size: 22),
