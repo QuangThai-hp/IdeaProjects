@@ -108,7 +108,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   List<KhuVuc> quanHuyen = [];
   List<KhuVuc> phuongXa = [];
   List<DonViTinh> donViTinh = [];
-  List<String> pathImages = [];
 
   Future<void> _loadKhuVuc(String type, int? parentId, int? phuongXaTidSelected) async{
     setState(() {
@@ -295,7 +294,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         "field_chieu_rong": chieuRongController.text,
         "field_so_tien_coc": tienDatCocController.text,
         "field_ghi_chu": ghiChuController.text,
-        "field_anh_san_pham": sanPham.field_anh_san_pham
+        "field_anh_san_pham": sanPham.field_anh_san_pham,
+        "field_deleted_anh_san_pham": sanPham.field_deleted_anh_san_pham
       };
       print(toJson());
       await Provider.of<SanPhams>(context, listen: false).save(
@@ -853,13 +853,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                           ),
                           16.height,
 
-                          ImageVideoUpload(
-                            listPathImage: (List<String> listImage){
-                              setState(() {
-                                pathImages = listImage;
-                              });
-                            },
-                          )
+                          ImageVideoUpload()
                         ],
                       ),
                     ),
