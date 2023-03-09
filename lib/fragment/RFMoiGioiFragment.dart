@@ -130,7 +130,7 @@ class _RFMoiGioiFragmentState extends State<RFMoiGioiFragment> {
                   children: [
                     Text("Thông tin sản phẩm đáp ứng", style: boldTextStyle(size: 20)),
                     DanhSachKetNoi(),
-                  ],
+                  ],//
                 ),
               ),
             ),

@@ -14,7 +14,7 @@ import 'dart:convert';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 class RFHeThongFragment extends StatefulWidget {
   @override
   State<RFHeThongFragment> createState() => _RFHeThongFragmentState();
@@ -92,49 +92,30 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
             16.height,
             Text('Pham the Manh', style: boldTextStyle(size: 18)),
             8.height,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    final Uri url = Uri(
-                      scheme: 'tel',
-                      path: "123456789",
-                    );
-
-                    launchUrl(url);
-                  },
-                  child: Text('033466333', style: secondaryTextStyle()),
-                ),
-                8.width,
-                Container(
-                    height: 10,
-                    width: 1,
-                    color:
-                        appStore.isDarkModeOn ? white : gray.withOpacity(0.4)),
-                8.width,
-                Text('manh@gmail.com', style: secondaryTextStyle()),
-              ],
-            ),
             16.height,
             Row(
               children: [
                 OutlinedButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     backgroundColor: context.scaffoldBackgroundColor,
                     side: BorderSide(color: context.dividerColor, width: 1),
                     padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      rf_call.iconImage(iconColor: appStore.isDarkModeOn ? white : rf_primaryColor),
+                      rf_call.iconImage(
+                          iconColor:
+                              appStore.isDarkModeOn ? white : rf_primaryColor),
                       8.width,
-                      Text('Nhu Cầu', style: boldTextStyle(color: appStore.isDarkModeOn ? white : rf_primaryColor)),
+                      Text('Gọi ngay',
+                          style: boldTextStyle(
+                              color: appStore.isDarkModeOn
+                                  ? white
+                                  : rf_primaryColor)),
                     ],
                   ),
                 ).expand(),
@@ -142,7 +123,8 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                 AppButton(
                   color: rf_primaryColor,
                   elevation: 0.0,
-                  shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shapeBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   width: context.width(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -150,118 +132,269 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                       rf_message.iconImage(iconColor: whiteColor),
                       // rfCommonCachedNetworkImage(rf_message, color: white, height: 16, width: 16),
                       8.width,
-                      Text('Khách Hàng ', style: boldTextStyle(color: white)),
+                      Text('Nhắn tin ', style: boldTextStyle(color: white)),
                     ],
                   ),
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                 ).expand()
               ],
             ).paddingSymmetric(horizontal: 16),
             16.height,
             Container(
-              margin: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-              decoration: boxDecorationWithRoundedCorners(
-                backgroundColor: appStore.isDarkModeOn
-                    ? scaffoldDarkColor
-                    : rf_selectedCategoryBgColor,
-              ),
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Tên Đăng Nhâp : MAnh8333333",
-                      style: boldTextStyle(color: rf_primaryColor)),
-                  8.height,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Mat khau : MAnh8333333",
-                          style: boldTextStyle(color: rf_primaryColor)),
-                      OutlinedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RFFormSuaMatKhau()
-                          )
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            Icon(Icons.replay,color:rf_primaryColor ,),
-                            Text('Thay Đổi',style:TextStyle(color: rf_primaryColor,fontWeight: FontWeight.bold),),
-
-                          ],
-                        ),
-                        style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )),
-                      ),
-                    ],
-                  ),
-                ],
-              ).expand(),
+              height: 42.0,
+              width: SizeConfig.screenWidth,
+              color: Colors.black12,
             ),
-            // SettingItemWidget(
-            //   title: "Dark Mode",
-            //   leading: Icon(Icons.dark_mode_outlined,
-            //       size: 18, color: rf_primaryColor),
-            //   titleTextStyle: primaryTextStyle(),
-            //   trailing: Switch(
-            //     value: appStore.isDarkModeOn,
-            //     activeTrackColor: rf_primaryColor,
-            //     onChanged: (bool value) {
-            //       appStore.toggleDarkMode(value: value);
-            //       setStatusBarColor(rf_primaryColor,
-            //           statusBarIconBrightness: Brightness.light);
-            //       setState(() {});
-            //     },
-            //   ),
-            //   padding: EdgeInsets.only(left: 40, right: 16, top: 8),
-            //   onTap: () {
-            //     //
-            //   },
-            // ),
-            ListView.builder(
-              padding: EdgeInsets.only(left: 22),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: settingData.length,
-              itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = settingData[index];
-                return Container(
-                  margin: EdgeInsets.only(right: 24),
-                  child: SettingItemWidget(
-                    title: data.roomCategoryName.validate(),
-                    leading: data.img
-                        .validate()
-                        .iconImage(iconColor: rf_primaryColor, size: 18),
-                    titleTextStyle: primaryTextStyle(),
-                    onTap: () {
-                      if (index == 4) {
-                        showConfirmDialogCustom(
-                          context,
-                          cancelable: false,
-                          title: "Bạn có thích đăng xuất khỏi server trái đất",
-                          dialogType: DialogType.CONFIRMATION,
-                          onCancel: (v) {
+            Container(
+              margin: EdgeInsets.only(left: 24),
+              child: Column(
+                children: [
+                  TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.payments_outlined,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Giao dịch',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_right))
+                        ],
+                      )),
+                  10.height,
+                  TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.document_scanner_outlined,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Tài liệu học tập',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_right))
+                        ],
+                      )),
+                  10.height,
+                  TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.directions,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Danh mục Quận huyện',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_right))
+                        ],
+                      )),
+                  10.height,
+                  TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.contacts,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Danh mục Phường xã',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_right))
+                        ],
+                      )),
+                  10.height,
+                  TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.contacts,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Danh mục Hướng',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_right))
+                        ],
+                      )),
+                ],
+              ),
+            ),
+            Container(
+              height: 42.0,
+              width: SizeConfig.screenWidth,
+              color: Colors.black12,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 24),
+              child: Column(
+                children: [
+                  TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.medical_information_outlined,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Thay đổi thông tin cá nhân',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_right))
+                        ],
+                      )),
+                  10.height,
+                  TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.contacts,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Thông tin liên hệ',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_right))
+                        ],
+                      )),
+                  10.height,
+                  TextButton(
+                      onPressed: () {
+                        showConfirmDialogCustom(context,
+                            cancelable: false,
+                            dialogType: DialogType.DELETE,
+                            centerImage: 'https://cdn.pixabay.com/photo/2023/01/23/09/26/cat-7738210__340.jpg',
+                            title: 'Bạn có muốn đăng xuất', onCancel: (v) {
+
+                          finish(context);
+                        }, onAccept: (v) {
+                          RFEmailSignInScreen().launch(v).then((value) {
                             finish(context);
-                          },
-                          onAccept: (v) {
-                            RFEmailSignInScreen().launch(v).then((value) {
-                              finish(context);
-                            });
-                          },
-                        );
-                      } else {
-                        data.newScreenWidget.validate().launch(context);
-                      }
-                    },
-                  ),
-                );
-              },
+                          });
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.logout,
+                                color: Colors.blue,
+                                size: 30,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                'Đăng xuất',
+                                style: TextStyle(
+                                    color: color_primary_black, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )),
+                ],
+              ),
             ),
           ],
         ),
