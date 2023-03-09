@@ -110,14 +110,14 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   List<DonViTinh> donViTinh = [];
   List<String> pathImages = [];
 
-  Future<void> _loadKhuVuc(String type, int? parentId) async{
+  Future<void> _loadKhuVuc(String type, int? parentId, int? phuongXaTidSelected) async{
     setState(() {
       phuongXa = [];
       selectedPhuongXa = null;
     });
-    if(!quanLoaded || !phuongXaLoaded)
 
-      // try
+    if(!quanLoaded || !phuongXaLoaded)
+    // try
     {
       KhuVucs khuVucs = await Provider.of<KhuVucs>(context, listen: false);
       khuVucs.getListKhuVuc(
@@ -133,6 +133,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           setState(() {
             phuongXa = khuVucs.items;
             phuongXaLoaded = true;
+            if(phuongXaTidSelected != null)
+              phuongXa.forEach((element) {
+                if(element.tid == phuongXaTidSelected)
+                  selectedPhuongXa = element;
+              });
           });
         }
       });
@@ -141,10 +146,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     //   RFWidget.showErrorDialog(error.message, context);
     // } catch (error){
     //   print(error);
-      // showInDialog(context, barrierDismissible: true, builder: (context) {
-      //   return RFCongratulatedDialog();
-      // });
-      // RFWidget.showErrorDialog('Kiểm tra lại kết nối và đường truyền Internet', context);
+    //   showInDialog(context, barrierDismissible: true, builder: (context) {
+    //     return RFCongratulatedDialog();
+    //   });
+    //   RFWidget.showErrorDialog('Kiểm tra lại kết nối và đường truyền Internet', context);
     // }
   }
 
@@ -172,6 +177,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     if(!nhuCauLoaded){
       print(widget.nid);
       NhuCaus nhuCaus = await Provider.of<NhuCaus>(context, listen: false);
+
       nhuCaus.getNhuCauByNid(widget.nid!).then((value){
         setState(() {
           nhuCauLoaded = true;
@@ -193,15 +199,22 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           ghiChuController.text = nhuCaus.nhuCau.ghiChu.toString();
           // Load dữ liệu quận huyện đã chọn
           quanHuyen.forEach((element) {
-            if(nhuCaus.nhuCau.quanHuyen?.name == element.name)
+            if(nhuCaus.nhuCau.quanHuyen?.name == element.name){
               selectedQuan = element;
+              final phuongXa = nhuCaus.nhuCau.phuongXa;
+              if(phuongXa != null){
+                phuongXaLoaded = false;
+                _loadKhuVuc('Phường xã', selectedQuan?.tid, phuongXa.tid);
+              }
+            }
           });
 
-          // Load dữ liệu phường xã
-          phuongXa.forEach((element) {
-            if(nhuCaus.nhuCau.phuongXa?.name == element.name)
-              selectedPhuongXa = element;
-          });
+          // phuongXa.forEach((element2) {
+          //   if(nhuCaus.nhuCau.phuongXa?.name == element2.name){
+          //     selectedPhuongXa = element2;
+          //     print("Phuong xã: ${selectedPhuongXa?.tid}");
+          //   }
+          // });
 
         });
       });
@@ -210,32 +223,22 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   }
   @override
   void didChangeDependencies() {
-    if(this.initForm){
-      _loadKhuVuc('Quận huyện', null);
-      _loadDVT();
-      setState(() {
-        this.initForm = false;
-      });
-    }
 
-    if(widget.nid != null){
-      _loadNhuCau();
 
-    }
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   void initState() {
-    // if(widget.nid != null){
-    // _loadNhuCauSua();
-    //   load dữ liệu khởi tạo
-    // }
-    setState(() {
-      ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-    });
 
+    if(widget.nid != null){
+      _loadNhuCau();
+    }else{
+      setState(() {
+        ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+      });
+    }
     super.initState();
     init();
   }
@@ -388,7 +391,15 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         tenForm = 'Thêm khách hàng và nhu cầu cần thuê';
         nhomNhuCau = 'Cần thuê';
       }
+    }
 
+    if(this.initForm){
+      _loadKhuVuc('Quận huyện', null, null);
+      _loadDVT();
+
+      setState(() {
+        this.initForm = false;
+      });
     }
 
     return Scaffold(
@@ -523,7 +534,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                   value: selectedQuan,
                                   elevation: 16,
                                   style: primaryTextStyle(),
-                                  hint: Text('Quận', style: primaryTextStyle()),
+                                  hint: Text('Quận huyện', style: primaryTextStyle()),
                                   isExpanded: true,
                                   underline: Container(
                                     height: 0,
@@ -534,7 +545,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       selectedQuan = newValue;
                                       phuongXaLoaded = false;
                                     });
-                                    _loadKhuVuc('Phường xã', newValue?.tid);
+                                    _loadKhuVuc('Phường xã', newValue?.tid, null);
                                   },
                                   items: quanHuyen.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
                                     return DropdownMenuItem<KhuVuc>(
@@ -551,30 +562,29 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
                                       backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
                                     ),
-                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<KhuVuc>(
-                                  value: selectedPhuongXa,
-                                  elevation: 16,
-                                  style: primaryTextStyle(),
-                                  hint: Text('Phường xã', style: primaryTextStyle()),
-                                  isExpanded: true,
-                                  underline: Container(
-                                    height: 0,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (KhuVuc? newValue) {
-                                    print('thay doi ${newValue!.name}');
-                                    setState(() {
-                                      selectedPhuongXa = newValue;
-                                    });
-                                  },
-                                  items: phuongXa.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
-                                    return DropdownMenuItem<KhuVuc>(
-                                      value: value,
-                                      child: Text(value.name),
-                                    );
-                                  }).toList(),
-                                ),
+                                    padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                    child: DropdownButton<KhuVuc>(
+                                      value: selectedPhuongXa,
+                                      elevation: 16,
+                                      style: primaryTextStyle(),
+                                      hint: Text('Phường xã', style: primaryTextStyle()),
+                                      isExpanded: true,
+                                      underline: Container(
+                                        height: 0,
+                                        color: Colors.deepPurpleAccent,
+                                      ),
+                                      onChanged: (KhuVuc? newValue) {
+                                        setState(() {
+                                          selectedPhuongXa = newValue;
+                                        });
+                                      },
+                                      items: phuongXa.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
+                                        return DropdownMenuItem<KhuVuc>(
+                                          value: value,
+                                          child: Text(value.name),
+                                        );
+                                      }).toList(),
+                                    ),
                               )),
                             ],
                           ),
@@ -629,7 +639,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                       huongNhuCau = newValue.toString();
                                     });
                                   },
-                                  items: <String>['Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông tứ trạch', 'Tây tứ trạch', 'Khác'].map<DropdownMenuItem<String>>((String value) {
+                                  items: <String>['Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông Tứ Trạch', 'Tây Tứ Trạch'].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),

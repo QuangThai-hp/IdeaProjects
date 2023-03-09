@@ -47,6 +47,7 @@ class NhuCaus with ChangeNotifier {
         }
     );
     print(jsonDecode(response.body)['nid']);
+    print(jsonDecode(response.body)['phuongXa']);
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['nid'],
       title: jsonDecode(response.body)['title'],
@@ -82,15 +83,12 @@ class NhuCaus with ChangeNotifier {
       chieuRong: jsonDecode(response.body)['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['soTienCoc'].toString().toDouble(),
       ghiChu: jsonDecode(response.body)['ghiChu'],
-
-
     );
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
   }
 
   Future<void> getListNhuCau(String? type) async{
-    print(type);
     // try
     {
       final response = await http.post(
@@ -118,13 +116,11 @@ class NhuCaus with ChangeNotifier {
 
         loadedNhuCaus.add(NhuCau(
           nid: element['nid'],
-
-
           field_dien_thoai: element['field_dien_thoai'],
           title: element['title'],
           field_gia: element['field_gia'].toString().toDouble(),
           field_dien_tich: element['field_dien_tich'].toString().toDouble(),
-          field_huong: element['field_huong'],
+          field_huong: element['field_huong'].toString(),
           field_quan_huyen: element['field_quan_huyen'],
           field_phuong_xa: element['field_phuong_xa'],
           field_nhom_nhu_cau: element['field_nhom_nhu_cau'],

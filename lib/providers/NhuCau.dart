@@ -55,7 +55,7 @@ final String? tinhTrangNoiThat;
     this.soTienCoc,
     this.ghiChu,
 
-    this.field_huong,
+    this.field_huong  = '',
     this.soPhongNgu,
     this.SoPhongVeSinh,
     this.soTang,

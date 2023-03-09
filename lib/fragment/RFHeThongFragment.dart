@@ -9,12 +9,8 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
+
 class RFHeThongFragment extends StatefulWidget {
   @override
   State<RFHeThongFragment> createState() => _RFHeThongFragmentState();
