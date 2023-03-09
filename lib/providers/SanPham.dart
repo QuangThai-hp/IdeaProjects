@@ -34,6 +34,7 @@ class SanPham with ChangeNotifier {
   final int? field_so_phong_ngu;
   final String field_trang_thai_nhu_cau;
   late List<String>? field_anh_san_pham = [];
+  late List<String>? field_deleted_anh_san_pham = [];
 
   final KhachHangChuNha? khachHangChuNha;
 
@@ -67,6 +68,7 @@ class SanPham with ChangeNotifier {
     this.field_so_phong_ngu,
     this.field_trang_thai_nhu_cau = 'Chưa kết nối',
     this.field_anh_san_pham,
+    this.field_deleted_anh_san_pham,
     this.khachHangChuNha
   });
 

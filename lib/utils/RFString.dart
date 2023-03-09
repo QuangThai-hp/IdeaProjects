@@ -11,6 +11,7 @@ const RFBaseSignUp = "https://happyhomehaiphong.com/api/register";
 const RFBaseSanPhamChoThue = "https://happyhomehaiphong.com/api/san-pham-cho-thue";
 
 const RFImagesUpload = "https://happyhomehaiphong.com/api/get-images-upload";
+const RFDeleteImagesUploaded = "https://happyhomehaiphong.com/api/delete-images-uploaded";
 const RFGetKhuVuc = "https://happyhomehaiphong.com/api/get-khu-vuc";
 const RFGetDonViTinh = "https://happyhomehaiphong.com/api/get-don-vi-tinh";
 const RFGetNhuCau="https://happyhomehaiphong.com/api/danh-sach-nhu-cau";
