@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 
@@ -104,7 +105,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               5.height,
-                              Text(nhuCaus[index].title, style: TextStyle(color: appStore.textPrimaryColor, fontWeight: FontWeight.bold),),
+                              Text("[${nhuCaus[index].nid}] - ${nhuCaus[index].title}", style: TextStyle(color: appStore.textPrimaryColor, fontWeight: FontWeight.bold),),
                               text(nhuCaus[index].field_quan_huyen == null ? '' : nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
                               SizedBox(height: 2),
                               // Row(
@@ -128,7 +129,9 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                 children: [
                                   Icon(Icons.monetization_on, size: 14, color: color_primary_black,),
                                   5.width,
-                                  text(nhuCaus[index].field_gia.toString(), textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                  text(
+                                    NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCaus[index].field_gia), textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                                  ),
                                   5.width,
                                   Text(nhuCaus[index].field_don_vi_tinh, style: TextStyle(color: t7textColorSecondary, fontSize: textSizeSMedium) ), //, fontSize: textSizeSMedium),
                                 ],

@@ -108,6 +108,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   List<KhuVuc> quanHuyen = [];
   List<KhuVuc> phuongXa = [];
   List<DonViTinh> donViTinh = [];
+  List<String> hinhAnhs = [];
 
   Future<void> _loadKhuVuc(String type, int? parentId, int? phuongXaTidSelected) async{
     setState(() {
@@ -181,6 +182,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         setState(() {
           nhuCauLoaded = true;
           nhomNhuCau = nhuCaus.nhuCau.nhuCau;
+          ngayNhapController.text = nhuCaus.nhuCau.ngayNhap!;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
           hoTenKhachHangController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.hoTen : '');
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
@@ -196,6 +198,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           chieuDaiController.text = nhuCaus.nhuCau.chieuDai.toString();
           chieuRongController.text = nhuCaus.nhuCau.chieuRong.toString();
           ghiChuController.text = nhuCaus.nhuCau.ghiChu.toString();
+          hinhAnhs = nhuCaus.nhuCau.hinhAnhs;
           // Load dữ liệu quận huyện đã chọn
           quanHuyen.forEach((element) {
             if(nhuCaus.nhuCau.quanHuyen?.name == element.name){
@@ -207,14 +210,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
               }
             }
           });
-
-          // phuongXa.forEach((element2) {
-          //   if(nhuCaus.nhuCau.phuongXa?.name == element2.name){
-          //     selectedPhuongXa = element2;
-          //     print("Phuong xã: ${selectedPhuongXa?.tid}");
-          //   }
-          // });
-
         });
       });
     }
@@ -311,7 +306,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     }
     on HttpException catch(error){
       showErrorDialog(error.message, context);
-    }    catch (error){
+    }
+    catch (error){
       print(error);
       showErrorDialog('Could not authentication you. Please again later', context);
     }
@@ -853,7 +849,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                           ),
                           16.height,
 
-                          ImageVideoUpload()
+                          ImageVideoUpload(images: hinhAnhs)
                         ],
                       ),
                     ),

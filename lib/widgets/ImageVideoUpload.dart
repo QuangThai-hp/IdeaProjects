@@ -14,7 +14,10 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ImageVideoUpload extends StatefulWidget {
-  const ImageVideoUpload({Key? key}) : super(key: key);
+  List<String> images = [];
+
+  ImageVideoUpload({required this.images}); // const ImageVideoUpload({Key? key}) : super(key: key);
+
   @override
   State<ImageVideoUpload> createState() => _ImageVideoUploadState();
 }
@@ -23,7 +26,6 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
 
   XFile? image;
 
-  List<String> _images = [];
   List<String> _deletedImages = [];
 
   final ImagePicker picker = ImagePicker();
@@ -59,7 +61,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
               // getImageServer();
               setState(() {
                 for(var i = 0; i<message['fileName'].length; i++)
-                  _images.add(message['fileName'][i]);
+                  widget.images.add(message['fileName'][i]);
                 _setPathImages();
 
                 _dangUploadHinhAnh = false;
@@ -89,7 +91,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
             setState(() {
-              _images.add(message['fileName'][0]);
+              widget.images!.add(message['fileName'][0]);
               _dangUploadHinhAnh = false;
             });
             _setPathImages();
@@ -107,7 +109,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
   void deleteImageFromServer(String fileName) {
     setState(() {
       _deletedImages.add(fileName);
-      _images.removeWhere((element) => element == fileName);
+      widget.images!.removeWhere((element) => element == fileName);
     });
     _setPathImages();
   }
@@ -122,7 +124,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
 
   Future<void> _setPathImages() async{
     SanPham sanPham = Provider.of<SanPham>(context, listen: false);
-    sanPham.field_anh_san_pham = _images;
+    sanPham.field_anh_san_pham = widget.images;
     sanPham.field_deleted_anh_san_pham = _deletedImages;
   }
 
@@ -180,11 +182,11 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
     return
         Column(
           children: [
-            _images.length > 0 ?
+            widget.images!.length > 0 ?
             (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),)  :
             GridView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: _images.length,
+              itemCount: widget.images!.length,
               padding: EdgeInsets.all(8),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -202,19 +204,19 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (_) {
                                 return FullScreenImageViewer(
-                                  imageUrl: _images[index],
+                                  imageUrl: widget.images![index],
                                   tag: "generate_a_unique_tag",
                                 );
                               }));
                         },
                         child: Hero(
                           child: Image(
-                            image: NetworkImage(_images[index]),
+                            image: NetworkImage(widget.images![index]),
                             fit: BoxFit.cover,
                             height: context.height() / 6,
                             width: MediaQuery.of(context).size.width,
                           ),
-                          tag: _images[index],
+                          tag: widget.images![index],
                         ),
                       ),
                     ),
@@ -226,7 +228,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
                         ),
                         onPressed: () {
                           // print(_images[index]);
-                          deleteImageFromServer(_images[index]);
+                          deleteImageFromServer(widget.images![index]);
                         },
                         icon: Icon(Icons.delete, size: 16.0,),
                         label: Text('Xóa'),
