@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:room_finder_flutter/components/RFHotelListComponent.dart';
-import 'package:room_finder_flutter/components/RFLocationComponent.dart';
-import 'package:room_finder_flutter/components/RFRecentUpdateComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
-import 'package:room_finder_flutter/providers/customer.dart';
-import 'package:room_finder_flutter/providers/SanPhams.dart';
-import 'package:room_finder_flutter/screens/RFLocationViewAllScreen.dart';
-import 'package:room_finder_flutter/screens/RFRecentupdateViewAllScreen.dart';
 import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
-import 'package:room_finder_flutter/screens/RFViewAllHotelListScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauCanThueList.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
 
 
 import '../widgets/CusomerList.dart';
@@ -161,7 +148,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
 
             _isLoading ? Center(
               child: CircularProgressIndicator(),
-            ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex],)
+            ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex], reset: true,)
 
           ],
         ),
