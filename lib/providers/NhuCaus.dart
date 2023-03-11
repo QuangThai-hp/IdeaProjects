@@ -61,7 +61,6 @@ class NhuCaus with ChangeNotifier {
     print(jsonDecode(response.body));
 
     map['field_anh_san_pham'] = jsonDecode(response.body)['field_anh_san_pham'];
-    map['field_anh_san_pham'] = jsonDecode(response.body)['field_anh_san_pham'];
 
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['nid'],
@@ -83,7 +82,7 @@ class NhuCaus with ChangeNotifier {
       ),
       soPhongNgu: jsonDecode(response.body)['soPhongNgu'].toString().toInt(),
       SoPhongVeSinh: jsonDecode(response.body)['SoPhongVeSinh'].toString().toInt(),
-      field_huong: jsonDecode(response.body)['huong'],
+      field_huong: jsonDecode(response.body)['field_huong'],
       soTang: jsonDecode(response.body)['soTang'].toString().toInt(),
       thongTinPhapLy: jsonDecode(response.body)['thongTinPhapLy'],
       tinhTrangNoiThat: jsonDecode(response.body)['tinhTrangNoiThat'].toString(),
@@ -161,6 +160,7 @@ class NhuCaus with ChangeNotifier {
     //   throw error;
     // }
   }
+
   Future<void> delete(int? nid) async{
     final response = await http.post(
         Uri.parse(RFXoaNhuCau),
