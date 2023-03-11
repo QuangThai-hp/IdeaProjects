@@ -36,6 +36,7 @@ dependencies:
   video_player: ^2.5.1
   flutter_svg: ^1.1.5
   flutter_custom_dialog: ^1.2.0
+  ionicons: ^0.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 
@@ -48,8 +49,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
           widget.reset = false;
         });
       }
-      print("start btn: ${start}");
-      print("reset btn: ${widget.reset}");
     });
   }
 
@@ -149,6 +148,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                           ],
                                         ),
                                         Row(
+
                                           children: [
                                             Icon(Icons.refresh, size: 14, color: color_primary_black,),
                                             5.width,
@@ -178,10 +178,11 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       children: <Widget>[
                                         Row(
                                           children: [
-                                            Icon(Icons.handshake,color:Colors.blueAccent, size: 18, ), // icon
+                                            Icon(Ionicons.git_branch_outline,color:Colors.blueAccent, size: 18, ), // icon
+                                            2.width,
                                             Text("Kết nối",style: TextStyle(
                                                 color: Colors.blueAccent,
-                                                fontSize: 14
+                                                fontSize: 12
                                             )), // text
                                           ],
                                         )
@@ -200,11 +201,11 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(Icons.remove_red_eye,color:Colors.green, size: 18, ), // icon
-                                            4.width,
+                                            Icon(Ionicons.eye_outline,color:Colors.green, size: 18, ), // icon
+                                            2.width,
                                             Text("Chi tiết",style: TextStyle(
                                                 color: Colors.green,
-                                                fontSize: 14
+                                                fontSize: 12
                                             )), // text
                                           ],
                                         )
@@ -219,20 +220,42 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       )
                                       );
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white
-
-                                    ),
+                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(Icons.edit,color:Colors.green, size: 18, ), // icon
-                                            4.width,
+                                            Icon(Ionicons.pencil_sharp,color:Colors.green, size: 18, ), // icon
+                                            2.width,
                                             Text("Sửa",style: TextStyle(
                                                 color: Colors.green,
-                                                fontSize: 14
+                                                fontSize: 12
+                                            )), // text
+                                          ],
+                                        )
+
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)
+                                      )
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(Ionicons.copy_outline,color:Colors.green, size: 18, ), // icon
+                                            2.width,
+                                            Text("Copy",style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 12
                                             )), // text
                                           ],
                                         )
@@ -258,11 +281,11 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       children: <Widget>[
                                         Row(
                                           children: [
-                                            Icon(Icons.restore_from_trash_outlined,color:Colors.red, size: 18, ), // icon
-                                            4.width,
+                                            Icon(Ionicons.trash, color:Colors.red, size: 18, ), // icon
+                                            2.width,
                                             Text("Xoá",style: TextStyle(
                                                 color: Colors.redAccent,
-                                                fontSize: 14
+                                                fontSize: 12
                                             )), // text
                                           ],
                                         )
