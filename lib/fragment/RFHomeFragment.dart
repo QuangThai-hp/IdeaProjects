@@ -56,103 +56,84 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RFCommonAppComponent(
-        routeName: 'home-tab-0',
-        chucNang: true,
-        title: RFAppName,
-        subTitle: 'Thêm nhanh',
-        mainWidgetHeight: 250,
-        subWidgetHeight: 220,
-        cardWidget: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Tìm kiếm sản phẩm', style: boldTextStyle(size: 18)),
-            16.height,
-            AppTextField(
-              textFieldType: TextFieldType.EMAIL,
-              decoration: rfInputDecoration(
-                hintText: "Nhập thông tin sản phẩm cần tìm",
-                showPreFixIcon: true,
-                showLableText: false,
-                prefixIcon: Icon(Icons.location_on, color: rf_primaryColor, size: 18),
-              ),
-            ),
-            16.height,
-            AppButton(
-              color: rf_primaryColor,
-              elevation: 0.0,
-              child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
-              width: context.width(),
-              onTap: () {
-                print('timkiem');
-                RFSearchDetailScreen().launch(context);
-
-              },
-            ),
-            TextButton(
-              onPressed: () {
-                //
-              },
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Text('Tìm kiếm nâng cao', style: primaryTextStyle(), textAlign: TextAlign.end),
-              ),
-            )
-          ],
-        ),
-
-        subWidget: Column(
-          children: [
-            HorizontalList(
-              padding: EdgeInsets.only(right: 16, left: 16),
-              wrapAlignment: WrapAlignment.spaceEvenly,
-              itemCount: categoryData.length,
-              itemBuilder: (BuildContext context, int index) {
-                String data = categoryData[index];
-
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectCategoryIndex = index;
-                    });
-                  },
-                  child: Container(
-
-                    margin: EdgeInsets.only(right: 8),
-                    decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: appStore.isDarkModeOn
-                          ? scaffoldDarkColor
-                          : selectCategoryIndex == index
-                              ? rf_selectedCategoryBgColor
-                              : rf_categoryBgColor,
-
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: Text(
-                      data.validate(),
-                      style: boldTextStyle(color: selectCategoryIndex == index ? rf_primaryColor : gray),
-                    ),
-                  ),
-                );
-              },
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Nhu cầu', style: boldTextStyle(color: appStore.textPrimaryColor)),
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+          ),
+          body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.only(top: 20, bottom: 30),
+            child: Stack(
+              clipBehavior: Clip.none,
               children: [
-                Text('Nhu cầu: ${categoryData[selectCategoryIndex]}', style: boldTextStyle()),
+                Container(
+                  child: Column(
+                    children: [
+                      HorizontalList(
+                        padding: EdgeInsets.only(right: 16, left: 16),
+                        wrapAlignment: WrapAlignment.spaceEvenly,
+                        itemCount: categoryData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String data = categoryData[index];
+
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectCategoryIndex = index;
+                              });
+                            },
+                            child: Container(
+
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: boxDecorationWithRoundedCorners(
+                                backgroundColor: appStore.isDarkModeOn
+                                    ? scaffoldDarkColor
+                                    : selectCategoryIndex == index
+                                    ? rf_selectedCategoryBgColor
+                                    : rf_categoryBgColor,
+
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: Text(
+                                data.validate(),
+                                style: boldTextStyle(color: selectCategoryIndex == index ? rf_primaryColor : gray),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Nhu cầu: ${categoryData[selectCategoryIndex]}', style: boldTextStyle()),
+                        ],
+                      ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
+                      _isLoading ? Center(
+                        child: CircularProgressIndicator(),
+                      ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex], reset: true,)
+
+                    ],
+                  ),
+                ),
               ],
-            ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-
-            _isLoading ? Center(
-              child: CircularProgressIndicator(),
-            ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex], reset: true,)
-
-          ],
-        ),
-      ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            heroTag: '1',
+            elevation: 5,
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil('/form-nhu-cau', (route)=>false);
+              // toasty(context, 'Default FAB Button');
+            },
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+        )
     );
   }
 }
