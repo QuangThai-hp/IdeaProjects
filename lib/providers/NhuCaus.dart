@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,14 @@ class NhuCaus with ChangeNotifier {
   final String uid;
   late NhuCau _nhuCau = NhuCau(hinhAnhs: []);
   List<String> file_images = [];
+  late int _start;
+
+  int get start => _start;
+
+  set start(int value) {
+    _start = value;
+  }
+
   final map = Map<String, dynamic>();
 
   set nhuCau(NhuCau value) {
@@ -30,7 +39,7 @@ class NhuCaus with ChangeNotifier {
 
   NhuCau get nhuCau => _nhuCau;
 
-  NhuCaus(this.authToken, this.uid, this._items);
+  NhuCaus(this.authToken, this.uid, this._items, this._start);
   List<NhuCau> get items{
     return [..._items];
   }
@@ -51,6 +60,7 @@ class NhuCaus with ChangeNotifier {
     );
     print(jsonDecode(response.body));
 
+    map['field_anh_san_pham'] = jsonDecode(response.body)['field_anh_san_pham'];
     map['field_anh_san_pham'] = jsonDecode(response.body)['field_anh_san_pham'];
 
     _nhuCau = new NhuCau(
@@ -95,9 +105,8 @@ class NhuCaus with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getListNhuCau(String? type) async{
+  Future<void> getListNhuCau(String? type, int start, int limit) async{
     print(RFGetNhuCauByPhanLoai);
-    print(type);
     // try
     {
       final response = await http.post(
@@ -105,7 +114,9 @@ class NhuCaus with ChangeNotifier {
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
-            'type': type // Tất cả / Cần mua / Cần bán / Cần thuê / Cho thuê / Huỷ
+            'type': type,
+            'start': start,
+            'length': limit// Tất cả / Cần mua / Cần bán / Cần thuê / Cho thuê / Huỷ
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -113,7 +124,7 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
-      print(jsonDecode(response.body)['content']);
+      _start = jsonDecode(response.body)['startBtn'].toString().toDouble().toInt();
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<NhuCau> loadedNhuCaus = [];
