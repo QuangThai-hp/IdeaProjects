@@ -6,12 +6,9 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/providers/NhuCau.dart';
 import 'package:room_finder_flutter/providers/NhuCaus.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/providers/SanPhams.dart';
-import 'package:room_finder_flutter/providers/SanPham.dart';
 
 import '../main.dart';
 import '../utils/RFString.dart';
@@ -76,15 +73,19 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                     return
                       GestureDetector(
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 16),
+                          margin: EdgeInsets.only(bottom: 8),
                           child: Column(
                             children: <Widget>[
-
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text("[${nhuCaus[index].nid}] - ${nhuCaus[index].title}", style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),)
+                              ),
+                              8.height,
                               Row(
                                 children: [
                                   Container(
-                                    height: width * 0.32,
-                                    width: width * 0.32,
+                                    height: width * 0.25,
+                                    width: width * 0.25,
                                     child: Stack(
                                       children: <Widget>[
                                         Container(
@@ -99,14 +100,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                             ),
                                           ),
                                         )
-
-                                        // Align(
-                                        //   alignment: Alignment.topRight,
-                                        //   child: Container(
-                                        //     margin: EdgeInsets.only(right: 10, top: 10),
-                                        //     child: Icon(Icons.favorite_border, color: appStore.iconColor, size: 20),
-                                        //   ),
-                                        // ),
                                       ],
                                     ),
                                   ),
@@ -116,8 +109,13 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         5.height,
-                                        Text("[${nhuCaus[index].nid}] - ${nhuCaus[index].title}", style: TextStyle(color: appStore.textPrimaryColor, fontWeight: FontWeight.bold),),
-                                        text(nhuCaus[index].field_quan_huyen == null ? '' : nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
+                                        Row(
+                                          children: [
+                                            Icon(Ionicons.navigate_circle, size: 18, color: color_primary_black,),
+                                            5.width,
+                                            text(nhuCaus[index].field_quan_huyen == null ? '' : nhuCaus[index].field_quan_huyen, maxLine: 1, textColor: appStore.textSecondaryColor, fontSize: textSizeSMedium),
+                                          ],
+                                        ),
                                         SizedBox(height: 2),
                                         // Row(
                                         //   children: <Widget>[
@@ -138,7 +136,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                         // ),
                                         Row(
                                           children: [
-                                            Icon(Icons.monetization_on, size: 14, color: color_primary_black,),
+                                            Icon(Ionicons.card, size: 18, color: color_primary_black,),
                                             5.width,
                                             text(
                                                 NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCaus[index].field_gia), textColor: t7textColorSecondary, fontSize: textSizeSMedium
@@ -150,13 +148,12 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                         Row(
 
                                           children: [
-                                            Icon(Icons.refresh, size: 14, color: color_primary_black,),
+                                            Icon(Ionicons.git_branch, size: 14, color: color_primary_black,),
                                             5.width,
                                             text(nhuCaus[index].field_trang_thai_nhu_cau != '' ? nhuCaus[index].field_trang_thai_nhu_cau : 'Chưa kết nối', maxLine: 1, isLongText: true, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
                                           ],
                                         ),
                                         SizedBox(height: 8),
-                                        Divider(height: 0.5, color: t7view_color, thickness: 1)
                                       ],
                                     ),
                                   )
@@ -178,12 +175,9 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       children: <Widget>[
                                         Row(
                                           children: [
-                                            Icon(Ionicons.git_branch_outline,color:Colors.blueAccent, size: 18, ), // icon
+                                            Icon(Ionicons.git_branch_outline,color: rf_primaryColor, size: 18, ), // icon
                                             2.width,
-                                            Text("Kết nối",style: TextStyle(
-                                                color: Colors.blueAccent,
-                                                fontSize: 12
-                                            )), // text
+                                            Text("Kết nối",style: TextStyle(fontSize: 12,color: rf_primaryColor)), // text
                                           ],
                                         )
 
@@ -201,11 +195,9 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(Ionicons.eye_outline,color:Colors.green, size: 18, ), // icon
+                                            Icon(Ionicons.eye_outline,color: rf_primaryColor, size: 18, ), // icon
                                             2.width,
-                                            Text("Chi tiết",style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize: 12
+                                            Text("Chi tiết",style: TextStyle(color: rf_primaryColor, fontSize: 12
                                             )), // text
                                           ],
                                         )
@@ -226,10 +218,10 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(Ionicons.pencil_sharp,color:Colors.green, size: 18, ), // icon
+                                            Icon(Ionicons.pencil_sharp,color: rf_primaryColor, size: 18, ), // icon
                                             2.width,
                                             Text("Sửa",style: TextStyle(
-                                                color: Colors.green,
+                                                color: rf_primaryColor,
                                                 fontSize: 12
                                             )), // text
                                           ],
@@ -251,10 +243,10 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(Ionicons.copy_outline,color:Colors.green, size: 18, ), // icon
+                                            Icon(Ionicons.copy_outline, color: rf_primaryColor, size: 18, ), // icon
                                             2.width,
                                             Text("Copy",style: TextStyle(
-                                                color: Colors.green,
+                                                color: rf_primaryColor,
                                                 fontSize: 12
                                             )), // text
                                           ],
@@ -293,8 +285,8 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                     ),
                                   ),
                                 ],
-                              )
-
+                              ),
+                              Divider(height: 0.5, color: t7view_color, thickness: 1),
                             ],
                           ),
                         ),

@@ -122,6 +122,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.redAccent,
             heroTag: '1',
             elevation: 5,
             onPressed: () {

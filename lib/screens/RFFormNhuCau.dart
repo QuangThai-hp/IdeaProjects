@@ -181,6 +181,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       nhuCaus.getNhuCauByNid(widget.nid!).then((value){
         setState(() {
           nhuCauLoaded = true;
+          huongNhuCau = nhuCaus.nhuCau.field_huong;
           nhomNhuCau = nhuCaus.nhuCau.nhuCau;
           ngayNhapController.text = nhuCaus.nhuCau.ngayNhap!;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
@@ -188,8 +189,9 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
           soTangController.text = nhuCaus.nhuCau.soTang.toString();
           soPhongNguController.text = nhuCaus.nhuCau.soPhongNgu.toString();
+          soPhongVeSinhController.text = nhuCaus.nhuCau.SoPhongVeSinh.toString();
           phapLyController.text = nhuCaus.nhuCau.thongTinPhapLy.toString();
-          giaController.text = nhuCaus.nhuCau.field_gia.toString();
+          giaController.text = intl.NumberFormat.decimalPattern().format(nhuCaus.nhuCau.field_gia);//NumberFormat("###.0#", "vi_VN").format();//nhuCaus.nhuCau.field_gia.toString();
           dienTichController.text = nhuCaus.nhuCau.field_dien_tich.toString();
           tinhTrangNoiThatController.text = nhuCaus.nhuCau.tinhTrangNoiThat.toString();
           giaBangSoController.text = intl.NumberFormat.decimalPattern().format(nhuCaus.nhuCau.giaBangSo);//NumberFormat("###.0#", "vi_VN").format();
@@ -199,6 +201,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           chieuRongController.text = nhuCaus.nhuCau.chieuRong.toString();
           ghiChuController.text = nhuCaus.nhuCau.ghiChu.toString();
           hinhAnhs = nhuCaus.nhuCau.hinhAnhs;
+
           // Load dữ liệu quận huyện đã chọn
           quanHuyen.forEach((element) {
             if(nhuCaus.nhuCau.quanHuyen?.name == element.name){
@@ -208,6 +211,12 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                 phuongXaLoaded = false;
                 _loadKhuVuc('Phường xã', selectedQuan?.tid, phuongXa.tid);
               }
+            }
+          });
+
+          donViTinh.forEach((element) {
+            if(nhuCaus.nhuCau.donViTinhGia?.name == element.name){
+              selectedDonViTinh = element;
             }
           });
         });
