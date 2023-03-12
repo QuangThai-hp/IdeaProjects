@@ -66,8 +66,8 @@ class NhuCaus with ChangeNotifier {
       nid: jsonDecode(response.body)['nid'],
       title: jsonDecode(response.body)['title'],
       khachHangChuNha: jsonDecode(response.body)['KhachHangChuNha'] == null ? null : KhachHangChuNha(
-        hoTen: jsonDecode(response.body)['KhachHangChuNha']['hoTen'],
-        dienThoai: jsonDecode(response.body)['KhachHangChuNha']['dienThoai'],
+        hoTen: jsonDecode(response.body)['KhachHangChuNha']['hoTen'] == null ? '' : jsonDecode(response.body)['KhachHangChuNha']['hoTen'],
+        dienThoai: jsonDecode(response.body)['KhachHangChuNha']['dienThoai'] == null ? '' : jsonDecode(response.body)['KhachHangChuNha']['dienThoai'],
       ),
 
       nhuCau: jsonDecode(response.body)['nhuCau'],
@@ -146,6 +146,11 @@ class NhuCaus with ChangeNotifier {
           field_don_vi_tinh: element['field_don_vi_tinh'].toString(),
           field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'].toString(),
           field_anh_san_pham: (element['field_nhom_nhu_cau'] == 'Cần mua' ? canMuaUrlImage : (element['field_nhom_nhu_cau'] == 'Cần thuê' ? canThueUrlImage : (element['field_anh_san_pham'] == '' ? noImageUrl : element['field_anh_san_pham']))),
+          khachHangChuNha: KhachHangChuNha(
+            hoTen: element['hoTen'] == null ? '' : element['hoTen'],
+            dienThoai: element['field_dien_thoai'] == null ? "" : element['field_dien_thoai'],
+          ),
+          hoTen: element['hoTenNguoiNhap'] == null ? '' : element['hoTenNguoiNhap'],
           hinhAnhs: []
         ));
 

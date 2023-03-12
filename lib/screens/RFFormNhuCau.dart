@@ -871,17 +871,18 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                               ),
                               16.height,
 
-                              ImageVideoUpload(images: hinhAnhs)
                             ],
                           ),
                         ),
                       ),
                     ),
+                    ImageVideoUpload(images: hinhAnhs),
+
                     if(_isLoading)
                       CircularProgressIndicator()
                     else
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.only(left: 20, right: 20, top: 0),
                         child: AppButton(
                           color: rf_primaryColor,
                           child: Text('Lưu lại', style: boldTextStyle(color: white)),

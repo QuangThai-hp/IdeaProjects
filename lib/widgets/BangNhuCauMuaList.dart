@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -117,26 +118,9 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                           ],
                                         ),
                                         SizedBox(height: 2),
-                                        // Row(
-                                        //   children: <Widget>[
-                                        //     RatingBar(
-                                        //       initialRating: 5,
-                                        //       minRating: 1,
-                                        //       itemSize: 16,
-                                        //       direction: Axis.horizontal,
-                                        //       itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                        //       itemBuilder: (context, _) => Icon(
-                                        //         Icons.star,
-                                        //         color: t7colorPrimary,
-                                        //       ),
-                                        //       onRatingUpdate: (rating) {},
-                                        //     ),
-                                        //     text(mListings[index].hotel_review, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
-                                        //   ],
-                                        // ),
                                         Row(
                                           children: [
-                                            Icon(Ionicons.card, size: 18, color: color_primary_black,),
+                                            Icon(Icons.monetization_on, size: 18, color: color_primary_black,),
                                             5.width,
                                             text(
                                                 NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCaus[index].field_gia), textColor: t7textColorSecondary, fontSize: textSizeSMedium
@@ -153,7 +137,45 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                             text(nhuCaus[index].field_trang_thai_nhu_cau != '' ? nhuCaus[index].field_trang_thai_nhu_cau : 'Chưa kết nối', maxLine: 1, isLongText: true, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
                                           ],
                                         ),
-                                        SizedBox(height: 8),
+                                        Row(
+                                          children: [
+                                            Icon(Ionicons.person, size: 14, color: color_primary_black,),
+                                            5.width,
+                                            Expanded(
+                                                child: text(nhuCaus[index].khachHangChuNha?.hoTen, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                            ),
+                                            10.width,
+                                            Icon(Ionicons.call, size: 14, color: color_primary_black,),
+                                            5.width,
+                                            text(nhuCaus[index].khachHangChuNha?.dienThoai, textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(Ionicons.person, size: 14, color: color_primary_black,),
+                                            5.width,
+                                            Expanded(
+                                              child: InkWell(
+                                                child: text("Sale: ${nhuCaus[index].hoTen}", textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                                onTap: () => {
+                                                  Clipboard.setData(ClipboardData(text: nhuCaus[index].hoTen))
+                                                      .then((value) { //only if ->
+                                                        final snackBar = SnackBar(
+                                                          content: Text('Đã sao chép thông tin người nhập'),
+                                                          action: SnackBarAction(
+                                                            label: 'Undo',
+                                                            onPressed: () {},
+                                                          ),
+                                                        );
+
+                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar); // -> show a notification
+                                                  })
+                                                },
+                                              ),
+                                              // child: text("Sale: ${nhuCaus[index].hoTen}", textColor: t7textColorSecondary, fontSize: textSizeSMedium),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   )
