@@ -21,12 +21,13 @@ import 'package:room_finder_flutter/providers/NhuCaus.dart';
 import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/providers/KhachHang.dart';
 import 'package:room_finder_flutter/providers/KhachHangs.dart';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 AppStore appStore = AppStore();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Hive.initFlutter();
   await initialize();
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
