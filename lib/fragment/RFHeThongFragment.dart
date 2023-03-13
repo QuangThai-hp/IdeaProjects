@@ -354,19 +354,30 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                   10.height,
                   TextButton(
                       onPressed: () {
-                        showConfirmDialogCustom(context,
-                            cancelable: false,
-                            dialogType: DialogType.DELETE,
-                            centerImage: 'https://cdn.pixabay.com/photo/2023/01/23/09/26/cat-7738210__340.jpg',
-                            title: 'Bạn có muốn đăng xuất', onCancel: (v) {
-
-                          finish(context);
-                        }, onAccept: (v) {
-                          RFEmailSignInScreen().launch(v).then((value) {
-                            finish(context);
-                          });
-                        });
+                       showDialog(context: context, builder: (BuildContext context)=> AlertDialog(
+                         title: const Text('Đăng xuất'),
+                         content: const Text('Bạn có chắc đăng xuất'),
+                         actions: <Widget>[
+                           TextButton(
+                             onPressed: (){
+                               finish(context);
+                             },
+                             child: const Text('Hủy'),
+                           ),
+                           TextButton(
+                             onPressed: (){
+                               RFEmailSignInScreen().launch(context).then((value){
+                                 finish(context);
+                               });
+                             },
+                             child: const Text('OK'),
+                           ),
+                         ],
+                       ),);
                       },
+                      //  RFEmailSignInScreen().launch(v).then((value) {
+                      //                             finish(context);
+                      //                           });
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -398,3 +409,4 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
     );
   }
 }
+//

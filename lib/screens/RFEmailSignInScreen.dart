@@ -14,13 +14,14 @@ import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 import '../components/RFCongratulatedDialog.dart';
 import '../models/http_exeption.dart';
 import '../utils/RFWidget.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 enum AuthMode { Signup, Login }
 
 // ignore: must_be_immutable
 class RFEmailSignInScreen extends StatefulWidget {
   static const routeName = '/sign-in';
-
   bool showDialog;
   String contentAlert = '';
 
@@ -35,11 +36,8 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   AuthMode _authMode = AuthMode.Login;
 
-  Map<String, String> _authData = {
-    'email': '',
-    'password': ''
-  };
-
+  Map<String, String> _authData = {'email': '', 'password': ''};
+  bool isChecked = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -47,29 +45,52 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
   FocusNode passWordFocusNode = FocusNode();
 
   Timer? timer;
+  late Box box1;
 
   @override
   void initState() {
     super.initState();
+    createBox();
+
     init();
   }
 
+  void createBox() async {
+    box1 = await Hive.openBox('emailController');
+    getData();
+  }
+
+  void getData() async {
+    if(box1.get('emailController')!=null){
+      emailController.text=box1.get('emailController');
+      isChecked==true;
+      setState(() { });
+    };
+    if(box1.get('passwordController')!=null){
+      passwordController.text=box1.get('passwordController');
+      isChecked==true;
+      setState(() { });
+    };
+  }
   void init() async {
-    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
 
     widget.showDialog
         ? Timer.run(() {
-      showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (_) {
-          Future.delayed(Duration(seconds: 5), () {
-            Navigator.of(context).pop(true);
-          });
-          return Material(type: MaterialType.transparency, child: RFConformationDialog(widget.contentAlert));
-        },
-      );
-    })
+            showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (_) {
+                Future.delayed(Duration(seconds: 5), () {
+                  Navigator.of(context).pop(true);
+                });
+                return Material(
+                    type: MaterialType.transparency,
+                    child: RFConformationDialog(widget.contentAlert));
+              },
+            );
+          })
         : SizedBox();
   }
 
@@ -78,32 +99,31 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
     if (mounted) super.setState(fn);
   }
 
-  Future<void> _submit() async{
+  Future<void> _submit() async {
+    if (isChecked) {
+      box1.put('emailController', emailController.text);
+      box1.put('passwordController', passwordController.text);
+    }
     setState(() {
       _isLoading = true;
     });
 
-    try
-    {
-      await Provider.of<Auth>(context, listen: false).login(
-          emailController.text,
-          passwordController.text,
-        context
-      );
-      Navigator.of(context).pushNamedAndRemoveUntil('/home', (route)=>false);
+    try {
+      await Provider.of<Auth>(context, listen: false)
+          .login(emailController.text, passwordController.text, context);
+      Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
       // showInDialog(context, barrierDismissible: true, builder: (context) {
       //   return RFCongratulatedDialog('Thông báo', 'Đăng nhập thành công');
       // });
-
-    }
-    on HttpException catch(error){
+    } on HttpException catch (error) {
       RFWidget.showErrorDialog(error.message, context);
-    } catch (error){
+    } catch (error) {
       print(error);
       showInDialog(context, barrierDismissible: true, builder: (context) {
         return RFCongratulatedDialog();
       });
-      RFWidget.showErrorDialog('Could not authentication you. Please again later', context);
+      RFWidget.showErrorDialog(
+          'Could not authentication you. Please again later', context);
     }
     setState(() {
       _isLoading = false;
@@ -149,7 +169,22 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
               ),
             ),
             32.height,
-            if(_isLoading)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Nhớ mật khẩu',
+
+                ),
+                Checkbox(
+                    value: isChecked,
+                    onChanged: (value) {
+                      isChecked = !isChecked;
+                      setState(() {});
+                    })
+              ],
+            ),
+            if (_isLoading)
               CircularProgressIndicator()
             else
               AppButton(
@@ -171,8 +206,11 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
             ),
           ],
         ),
-        subWidget: socialLoginWidget(context, title1: "Bạn chưa có tài khoản? ", title2: "Đăng ký ngay", callBack: () {
-          Navigator.of(context).pushNamedAndRemoveUntil('/sign-up', (route)=>false);
+        subWidget: socialLoginWidget(context,
+            title1: "Bạn chưa có tài khoản? ",
+            title2: "Đăng ký ngay", callBack: () {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/sign-up', (route) => false);
         }),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
+import 'package:room_finder_flutter/fragment/RFChatGPTFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHeThongFragment.dart';
 import 'package:room_finder_flutter/fragment/RFMoiGioiFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
@@ -37,11 +38,11 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     RFHomeFragment(),
     RFKhachHangFragment(),
     RFMoiGioiFragment(),
-    RFAccountFragment(),
+    RFChatGPTFragment(),
     RFHeThongFragment(),
   ];
 //
-//
+
   Widget _bottomTab() {
     return BottomNavigationBar(
       currentIndex: widget._selectedIndex,

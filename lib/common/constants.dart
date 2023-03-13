@@ -85,3 +85,4 @@ const List listOfCarBrandName = ["Mercedes", "Tesla", "BMW", "Honda", "Toyota", 
 const DATE_FORMAT_2 = 'd MMM, yyyy';
 const DATE_FORMAT_VN = 'dd/MM/yyyy';
 const int headingTextSize = 20;
+const apiSecetKey="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";
