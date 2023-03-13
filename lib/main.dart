@@ -56,12 +56,13 @@ class MyApp extends StatelessWidget {
           // create: ,
         ),
         ChangeNotifierProxyProvider<Auth, NhuCaus>(
-          create: (_) => NhuCaus('', '', []),
+          create: (_) => NhuCaus('', '', [], 0),
           update: (_, auth, previousNhuCaus) {
             return NhuCaus(
               auth.token,
               auth.userId,
-              previousNhuCaus == null ? [] : previousNhuCaus.items
+              previousNhuCaus == null ? [] : previousNhuCaus.items,
+              0
             );
           },
           // create: ,

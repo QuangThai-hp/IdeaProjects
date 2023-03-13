@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:room_finder_flutter/components/RFHotelListComponent.dart';
-import 'package:room_finder_flutter/components/RFLocationComponent.dart';
-import 'package:room_finder_flutter/components/RFRecentUpdateComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
-import 'package:room_finder_flutter/providers/customer.dart';
-import 'package:room_finder_flutter/providers/SanPhams.dart';
-import 'package:room_finder_flutter/screens/RFLocationViewAllScreen.dart';
-import 'package:room_finder_flutter/screens/RFRecentupdateViewAllScreen.dart';
 import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
-import 'package:room_finder_flutter/screens/RFViewAllHotelListScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauCanThueList.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
-import 'package:room_finder_flutter/widgets/BangNhuCauBanList.dart';
 
 
 import '../widgets/CusomerList.dart';
@@ -69,103 +56,85 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RFCommonAppComponent(
-        routeName: 'home-tab-0',
-        chucNang: true,
-        title: RFAppName,
-        subTitle: 'Thêm nhanh',
-        mainWidgetHeight: 250,
-        subWidgetHeight: 220,
-        cardWidget: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Tìm kiếm sản phẩm', style: boldTextStyle(size: 18)),
-            16.height,
-            AppTextField(
-              textFieldType: TextFieldType.EMAIL,
-              decoration: rfInputDecoration(
-                hintText: "Nhập thông tin sản phẩm cần tìm",
-                showPreFixIcon: true,
-                showLableText: false,
-                prefixIcon: Icon(Icons.location_on, color: rf_primaryColor, size: 18),
-              ),
-            ),
-            16.height,
-            AppButton(
-              color: rf_primaryColor,
-              elevation: 0.0,
-              child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
-              width: context.width(),
-              onTap: () {
-                print('timkiem');
-                RFSearchDetailScreen().launch(context);
-
-              },
-            ),
-            TextButton(
-              onPressed: () {
-                //
-              },
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Text('Tìm kiếm nâng cao', style: primaryTextStyle(), textAlign: TextAlign.end),
-              ),
-            )
-          ],
-        ),
-
-        subWidget: Column(
-          children: [
-            HorizontalList(
-              padding: EdgeInsets.only(right: 16, left: 16),
-              wrapAlignment: WrapAlignment.spaceEvenly,
-              itemCount: categoryData.length,
-              itemBuilder: (BuildContext context, int index) {
-                String data = categoryData[index];
-
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectCategoryIndex = index;
-                    });
-                  },
-                  child: Container(
-
-                    margin: EdgeInsets.only(right: 8),
-                    decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: appStore.isDarkModeOn
-                          ? scaffoldDarkColor
-                          : selectCategoryIndex == index
-                              ? rf_selectedCategoryBgColor
-                              : rf_categoryBgColor,
-
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: Text(
-                      data.validate(),
-                      style: boldTextStyle(color: selectCategoryIndex == index ? rf_primaryColor : gray),
-                    ),
-                  ),
-                );
-              },
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Nhu cầu', style: boldTextStyle(color: appStore.textPrimaryColor)),
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+          ),
+          body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.only(top: 20, bottom: 30),
+            child: Stack(
+              clipBehavior: Clip.none,
               children: [
-                Text('Nhu cầu: ${categoryData[selectCategoryIndex]}', style: boldTextStyle()),
+                Container(
+                  child: Column(
+                    children: [
+                      HorizontalList(
+                        padding: EdgeInsets.only(right: 16, left: 16),
+                        wrapAlignment: WrapAlignment.spaceEvenly,
+                        itemCount: categoryData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String data = categoryData[index];
+
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectCategoryIndex = index;
+                              });
+                            },
+                            child: Container(
+
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: boxDecorationWithRoundedCorners(
+                                backgroundColor: appStore.isDarkModeOn
+                                    ? scaffoldDarkColor
+                                    : selectCategoryIndex == index
+                                    ? rf_selectedCategoryBgColor
+                                    : rf_categoryBgColor,
+
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: Text(
+                                data.validate(),
+                                style: boldTextStyle(color: selectCategoryIndex == index ? rf_primaryColor : gray),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Nhu cầu: ${categoryData[selectCategoryIndex]}', style: boldTextStyle()),
+                        ],
+                      ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
+                      _isLoading ? Center(
+                        child: CircularProgressIndicator(),
+                      ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex], reset: true,)
+
+                    ],
+                  ),
+                ),
               ],
-            ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-
-            _isLoading ? Center(
-              child: CircularProgressIndicator(),
-            ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex],)
-
-          ],
-        ),
-      ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.redAccent,
+            heroTag: '1',
+            elevation: 5,
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil('/form-nhu-cau', (route)=>false);
+              // toasty(context, 'Default FAB Button');
+            },
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+        )
     );
   }
 }

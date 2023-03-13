@@ -13,7 +13,6 @@ class RFCommonAppComponent extends StatefulWidget {
   final Widget? accountCircleWidget;
   final double? mainWidgetHeight;
   final double? subWidgetHeight;
-  final bool? chucNang;
   final String? routeName;
 
   RFCommonAppComponent({
@@ -24,7 +23,6 @@ class RFCommonAppComponent extends StatefulWidget {
     this.mainWidgetHeight,
     this.subWidgetHeight,
     this.accountCircleWidget,
-    this.chucNang,
     this.routeName
   });
 
@@ -54,180 +52,6 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
                 Text(widget.title.validate(), style: boldTextStyle(color: white, size: 22)),
                 4.height,
                 Text(widget.subTitle.validate(), style: primaryTextStyle(color: white)),
-                (widget.chucNang != null && widget.chucNang == true) ? Container(
-                  padding: EdgeInsets.only(left: 2, right: 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RFFormNhuCauScreen(nhom: "Khách hàng", previousPage: widget.routeName)
-                                  ),
-                                  (route) => false);
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: getColorFromHex('#f2866c'),
-                              primary: getColorFromHex('#f2866c'),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.add_circle, color: Colors.white, size: 16,),
-                                4.width,
-                                Text('Khách hàng', style: TextStyle(color: Colors.white, fontSize: 12),)
-                              ],
-                            )
-                        ),
-                      ),
-                      8.width,
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cần Mua", previousPage: widget.routeName)
-                                  ),
-                                      (route) => false);
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: getColorFromHex('#f2866c'),
-                              primary: getColorFromHex('#f2866c'),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.add_circle, color: Colors.white, size: 16,),
-                                4.width,
-                                Text('Mua', style: TextStyle(color: Colors.white, fontSize: 12),)
-                              ],
-                            )
-                        ),
-                      ),
-                      8.width,
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButton(
-
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cho thuê", previousPage: widget.routeName)
-                                  ),
-                                      (route) => false);
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: getColorFromHex('#f2866c'),
-                              primary: getColorFromHex('#f2866c'),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.add_circle, color: Colors.white, size: 16,),
-                                4.width,
-                                Text('Cho thuê', style: TextStyle(color: Colors.white, fontSize: 12),)
-                              ],
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                ) : SizedBox(width: 5,),
-                widget.chucNang != null && widget.chucNang == true ? Container(
-                  padding: EdgeInsets.only(left: 2, right: 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButton(
-
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RFFormNhuCauScreen(nhom: "Chủ nhà", previousPage: widget.routeName)
-                                  ),
-                                      (route) => false);
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: getColorFromHex('#f2866c'),
-                              primary: getColorFromHex('#f2866c'),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.add_circle, color: Colors.white, size: 16,),
-                                4.width,
-                                Text('Chủ nhà', style: TextStyle(color: Colors.white, fontSize: 12),)
-                              ],
-                            )
-                        ),
-                      ),
-                      8.width,
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButton(
-
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cần Bán", previousPage: widget.routeName)
-                                  ),
-                                      (route) => false);
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: getColorFromHex('#f2866c'),
-                              primary: getColorFromHex('#f2866c'),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.add_circle, color: Colors.white, size: 16,),
-                                4.width,
-                                Text('Bán', style: TextStyle(color: Colors.white, fontSize: 12),)
-                              ],
-                            )
-                        ),
-                      ),
-                      8.width,
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButton(
-
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RFFormNhuCauScreen(nhom: "Cần thuê", previousPage: widget.routeName)
-                                  ),
-                                      (route) => false);
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: getColorFromHex('#f2866c'),
-                              primary: getColorFromHex('#f2866c'),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.add_circle, color: Colors.white, size: 16,),
-                                4.width,
-                                Text('Cần thuê', style: TextStyle(color: Colors.white, fontSize: 12),)
-                              ],
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                ) : SizedBox(width: 5,),
               ],
             ),
           ),

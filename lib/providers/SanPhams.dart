@@ -75,11 +75,7 @@ class SanPhams with ChangeNotifier {
   }
 
   Future<void> save(Map<String, dynamic> sanPham, String routeAfterSave, BuildContext context) async {
-    // print(json.encode({
-    //   'uid': uid,
-    //   'auth': authToken,
-    //   'sanPham': sanPham
-    // }));
+    print(RFSaveSanPham);
     try
     {
       final response = await http.post(
@@ -101,7 +97,7 @@ class SanPhams with ChangeNotifier {
         throw HttpException(responseData['content']);
       else{
         RFHomeScreen rfHomeScreenFragment = new RFHomeScreen();
-        rfHomeScreenFragment.selectedIndex = 1;
+        rfHomeScreenFragment.selectedIndex = 0;
         rfHomeScreenFragment.contentAlert = responseData['content'];
         rfHomeScreenFragment.showDialog = true;
         rfHomeScreenFragment.launch(context);

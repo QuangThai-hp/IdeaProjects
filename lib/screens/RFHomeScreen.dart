@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
+import 'package:room_finder_flutter/fragment/RFChatGPTFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHeThongFragment.dart';
 import 'package:room_finder_flutter/fragment/RFMoiGioiFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
@@ -36,7 +38,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     RFHomeFragment(),
     RFKhachHangFragment(),
     RFMoiGioiFragment(),
-    RFAccountFragment(),
+    RFChatGPTFragment(),
     RFHeThongFragment(),
   ];
 //
@@ -53,29 +55,29 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
       //
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.clean_hands_outlined, size: 22),
+          icon: Icon(Ionicons.business_outline, size: 22),
           label: 'Nhu cầu',
-          activeIcon: Icon(Icons.clean_hands, color: rf_primaryColor, size: 22),
+          activeIcon: Icon(Ionicons.business, color: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline, size: 22), //rf_search.iconImage(),
+          icon: Icon(Ionicons.people_circle_outline, size: 22), //rf_search.iconImage(),
           label: 'Khách hàng',
-          activeIcon: Icon(Icons.person, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
+          activeIcon: Icon(Ionicons.people_circle, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.handshake_outlined, size: 22), //rf_search.iconImage(),
-          label: 'Môi giới',
-          activeIcon: Icon(Icons.handshake, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
+          icon: Icon(Ionicons.git_branch_outline, size: 22), //rf_search.iconImage(),
+          label: 'Kết nối',
+          activeIcon: Icon(Ionicons.git_branch, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.change_circle_outlined, size: 22), //rf_search.iconImage(),
+          icon: Icon(Ionicons.chatbubble_ellipses_outline, size: 22), //rf_search.iconImage(),
           label: 'Nhắn tin',
-          activeIcon: Icon(Icons.change_circle, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
+          activeIcon: Icon(Ionicons.chatbubble_ellipses, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings_outlined, size: 22), //rf_search.iconImage(),
-          label: 'Cài đặt',
-          activeIcon: Icon(Icons.settings, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
+          icon: Icon(Ionicons.apps_outline, size: 22), //rf_search.iconImage(),
+          label: 'Thêm',
+          activeIcon: Icon(Icons.apps, color: rf_primaryColor, size: 22,)// rf_search.iconImage(iconColor: rf_primaryColor),
         ),
       ],
     );

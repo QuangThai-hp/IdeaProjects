@@ -108,16 +108,16 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   List<KhuVuc> quanHuyen = [];
   List<KhuVuc> phuongXa = [];
   List<DonViTinh> donViTinh = [];
-  List<String> pathImages = [];
+  List<String> hinhAnhs = [];
 
-  Future<void> _loadKhuVuc(String type, int? parentId) async{
+  Future<void> _loadKhuVuc(String type, int? parentId, int? phuongXaTidSelected) async{
     setState(() {
       phuongXa = [];
       selectedPhuongXa = null;
     });
-    if(!quanLoaded || !phuongXaLoaded)
 
-      // try
+    if(!quanLoaded || !phuongXaLoaded)
+    // try
     {
       KhuVucs khuVucs = await Provider.of<KhuVucs>(context, listen: false);
       khuVucs.getListKhuVuc(
@@ -133,6 +133,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           setState(() {
             phuongXa = khuVucs.items;
             phuongXaLoaded = true;
+            if(phuongXaTidSelected != null)
+              phuongXa.forEach((element) {
+                if(element.tid == phuongXaTidSelected)
+                  selectedPhuongXa = element;
+              });
           });
         }
       });
@@ -141,10 +146,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     //   RFWidget.showErrorDialog(error.message, context);
     // } catch (error){
     //   print(error);
-      // showInDialog(context, barrierDismissible: true, builder: (context) {
-      //   return RFCongratulatedDialog();
-      // });
-      // RFWidget.showErrorDialog('Kiểm tra lại kết nối và đường truyền Internet', context);
+    //   showInDialog(context, barrierDismissible: true, builder: (context) {
+    //     return RFCongratulatedDialog();
+    //   });
+    //   RFWidget.showErrorDialog('Kiểm tra lại kết nối và đường truyền Internet', context);
     // }
   }
 
@@ -172,17 +177,21 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     if(!nhuCauLoaded){
       print(widget.nid);
       NhuCaus nhuCaus = await Provider.of<NhuCaus>(context, listen: false);
+
       nhuCaus.getNhuCauByNid(widget.nid!).then((value){
         setState(() {
           nhuCauLoaded = true;
+          huongNhuCau = nhuCaus.nhuCau.field_huong;
           nhomNhuCau = nhuCaus.nhuCau.nhuCau;
+          ngayNhapController.text = nhuCaus.nhuCau.ngayNhap!;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
           hoTenKhachHangController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.hoTen : '');
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
           soTangController.text = nhuCaus.nhuCau.soTang.toString();
           soPhongNguController.text = nhuCaus.nhuCau.soPhongNgu.toString();
+          soPhongVeSinhController.text = nhuCaus.nhuCau.SoPhongVeSinh.toString();
           phapLyController.text = nhuCaus.nhuCau.thongTinPhapLy.toString();
-          giaController.text = nhuCaus.nhuCau.field_gia.toString();
+          giaController.text = intl.NumberFormat.decimalPattern().format(nhuCaus.nhuCau.field_gia);//NumberFormat("###.0#", "vi_VN").format();//nhuCaus.nhuCau.field_gia.toString();
           dienTichController.text = nhuCaus.nhuCau.field_dien_tich.toString();
           tinhTrangNoiThatController.text = nhuCaus.nhuCau.tinhTrangNoiThat.toString();
           giaBangSoController.text = intl.NumberFormat.decimalPattern().format(nhuCaus.nhuCau.giaBangSo);//NumberFormat("###.0#", "vi_VN").format();
@@ -191,18 +200,25 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           chieuDaiController.text = nhuCaus.nhuCau.chieuDai.toString();
           chieuRongController.text = nhuCaus.nhuCau.chieuRong.toString();
           ghiChuController.text = nhuCaus.nhuCau.ghiChu.toString();
+          hinhAnhs = nhuCaus.nhuCau.hinhAnhs;
+
           // Load dữ liệu quận huyện đã chọn
           quanHuyen.forEach((element) {
-            if(nhuCaus.nhuCau.quanHuyen?.name == element.name)
+            if(nhuCaus.nhuCau.quanHuyen?.name == element.name){
               selectedQuan = element;
+              final phuongXa = nhuCaus.nhuCau.phuongXa;
+              if(phuongXa != null){
+                phuongXaLoaded = false;
+                _loadKhuVuc('Phường xã', selectedQuan?.tid, phuongXa.tid);
+              }
+            }
           });
 
-          // Load dữ liệu phường xã
-          phuongXa.forEach((element) {
-            if(nhuCaus.nhuCau.phuongXa?.name == element.name)
-              selectedPhuongXa = element;
+          donViTinh.forEach((element) {
+            if(nhuCaus.nhuCau.donViTinhGia?.name == element.name){
+              selectedDonViTinh = element;
+            }
           });
-
         });
       });
     }
@@ -210,32 +226,22 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   }
   @override
   void didChangeDependencies() {
-    if(this.initForm){
-      _loadKhuVuc('Quận huyện', null);
-      _loadDVT();
-      setState(() {
-        this.initForm = false;
-      });
-    }
 
-    if(widget.nid != null){
-      _loadNhuCau();
 
-    }
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   void initState() {
-    // if(widget.nid != null){
-    // _loadNhuCauSua();
-    //   load dữ liệu khởi tạo
-    // }
-    setState(() {
-      ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-    });
 
+    if(widget.nid != null){
+      _loadNhuCau();
+    }else{
+      setState(() {
+        ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+      });
+    }
     super.initState();
     init();
   }
@@ -292,7 +298,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         "field_chieu_rong": chieuRongController.text,
         "field_so_tien_coc": tienDatCocController.text,
         "field_ghi_chu": ghiChuController.text,
-        "field_anh_san_pham": sanPham.field_anh_san_pham
+        "field_anh_san_pham": sanPham.field_anh_san_pham,
+        "field_deleted_anh_san_pham": sanPham.field_deleted_anh_san_pham
       };
       print(toJson());
       await Provider.of<SanPhams>(context, listen: false).save(
@@ -308,7 +315,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     }
     on HttpException catch(error){
       showErrorDialog(error.message, context);
-    }    catch (error){
+    }
+    catch (error){
       print(error);
       showErrorDialog('Could not authentication you. Please again later', context);
     }
@@ -359,6 +367,19 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    Widget leadingWidget() {
+      return BackButton(
+        color: appStore.textPrimaryColor,
+        onPressed: () {
+          // toasty(context, 'Back button');
+          RFHomeScreen rf_home = new RFHomeScreen();
+          rf_home.selectedIndex = 0;
+          rf_home.launch(context);
+        },
+      );
+    }
+
     if(widget.nid == null){
       if(widget.nhom == 'Khách hàng'){
         tenForm = 'Thêm khách và nhu cầu mua / thuê';
@@ -388,510 +409,503 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         tenForm = 'Thêm khách hàng và nhu cầu cần thuê';
         nhomNhuCau = 'Cần thuê';
       }
-
     }
 
-    return Scaffold(
-      body: RFCommonAppComponent(
-        title: RFAppName,
-        subTitle: tenForm,
-        mainWidgetHeight: 150,
-        subWidgetHeight: 115,
-        cardWidget: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Nhập đầy đủ thông tin có dấu *', style: primaryTextStyle(),)
-          ],
-        ),
-        subWidget:
-            Column(
+    if(this.initForm){
+      _loadKhuVuc('Quận huyện', null, null);
+      _loadDVT();
+
+      setState(() {
+        this.initForm = false;
+      });
+    }
+
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text('Cập nhật thông tin nhu cầu', style: boldTextStyle(color: appStore.textPrimaryColor)),
+            backgroundColor: Colors.white,
+            leading: leadingWidget(),
+          ),
+        body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.only(top: 20, bottom: 30),
+            child: Stack(
+              clipBehavior: Clip.none,
               children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Form(
-                    key: _formKey,
-                    child: Padding(
-                      padding: EdgeInsets.all(0.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Expanded(child: TextFormField(
-                                controller: ngayNhapController,
-                                focusNode: ngayNhapFocusNode,
-                                readOnly: true,
-                                onTap: () {
-                                  selectDateAndTime(context);
-                                },
-                                onFieldSubmitted: (v) {
-                                  ngayNhapFocusNode.unfocus();
-                                  FocusScope.of(context).requestFocus(f4);
-                                },
-                                decoration: inputDecoration(
-                                  context,
-                                  hintText: "Ngày nhập",
-                                  suffixIcon: Icon(Icons.calendar_month_rounded, size: 16, color: appStore.isDarkModeOn ? white : gray),
-                                ),
-                              )),
-                              8.width,
-                              Expanded(child: Container(
-                                decoration: boxDecorationWithRoundedCorners(
-                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                                ),
-                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<String>(
-                                  value: nhomNhuCau,
-                                  elevation: 16,
-                                  style: primaryTextStyle(),
-                                  hint: Text('Nhóm nhu cầu', style: primaryTextStyle()),
-                                  isExpanded: true,
-                                  underline: Container(
-                                    height: 0,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      nhomNhuCau = newValue;
-                                    });
-                                  },
-                                  items: <String>['Cần mua', 'Cần bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ))
-                            ],
-                          ),
-                          16.height,
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text('Thông tin ${doiTuong}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),),
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: hoTenKhachHangController,
-                            focus: hoTenKhachHangFocusNode,
-                            nextFocus: dienThoaiFocusNode,
-                            textFieldType: TextFieldType.NAME,
-                            decoration: rfInputDecoration(
-                              lableText: "Họ tên ${doiTuong} *",
-                              showLableText: true,
-                            ),
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: dienThoaiController,
-                            focus: dienThoaiFocusNode,
-                            nextFocus: soPhongNguFocusNode,
-                            textFieldType: TextFieldType.PHONE,
-                            decoration: rfInputDecoration(
-                              lableText: "Điện thoại ${doiTuong} *",
-                              showLableText: true,
-                            ),
-                          ),
-                          16.height,
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text('Thông tin nhu cầu ${nhomNhuCau != '-- Loại hình --' ? nhomNhuCau : ''}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),),
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: tieuDeSanPhamController,
-                            focus: tieuDeSanPhamFocusNode,
-                            textFieldType: TextFieldType.NAME,
-                            decoration: rfInputDecoration(
-                              lableText: "Tiêu đề *",
-                              showLableText: true,
-                            ),
-                            minLines: 3,
-                            maxLines: 100,
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Expanded(
-                                child: !quanLoaded ? Center(child: CircularProgressIndicator(),) : Container(
-                                  decoration: boxDecorationWithRoundedCorners(
-                                    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                                    backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                                  ),
-                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<KhuVuc>(
-                                  value: selectedQuan,
-                                  elevation: 16,
-                                  style: primaryTextStyle(),
-                                  hint: Text('Quận', style: primaryTextStyle()),
-                                  isExpanded: true,
-                                  underline: Container(
-                                    height: 0,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (KhuVuc? newValue) {
-                                    setState(() {
-                                      selectedQuan = newValue;
-                                      phuongXaLoaded = false;
-                                    });
-                                    _loadKhuVuc('Phường xã', newValue?.tid);
-                                  },
-                                  items: quanHuyen.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
-                                    return DropdownMenuItem<KhuVuc>(
-                                      value: value,
-                                      child: Text(value.name == null ? '' : value.name),
-                                    );
-                                  }).toList(),
-                                ),
-                              )),
-                              8.width,
-                              Expanded(
-                                  child: !phuongXaLoaded ? Center(child: CircularProgressIndicator(),) : Container(
-                                    decoration: boxDecorationWithRoundedCorners(
-                                      borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                                      backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                                    ),
-                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<KhuVuc>(
-                                  value: selectedPhuongXa,
-                                  elevation: 16,
-                                  style: primaryTextStyle(),
-                                  hint: Text('Phường xã', style: primaryTextStyle()),
-                                  isExpanded: true,
-                                  underline: Container(
-                                    height: 0,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (KhuVuc? newValue) {
-                                    print('thay doi ${newValue!.name}');
-                                    setState(() {
-                                      selectedPhuongXa = newValue;
-                                    });
-                                  },
-                                  items: phuongXa.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
-                                    return DropdownMenuItem<KhuVuc>(
-                                      value: value,
-                                      child: Text(value.name),
-                                    );
-                                  }).toList(),
-                                ),
-                              )),
-                            ],
-                          ),
-                          16.height,
-                          Row(
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: EdgeInsets.all(0.0),
+                          child: Column(
                             children: <Widget>[
-                              Expanded(child: AppTextField(
-                                controller: soPhongNguController,
-                                focus: soPhongNguFocusNode,
-                                nextFocus: soPhongVeSinhFocusNode,
-                                textFieldType: TextFieldType.NUMBER,
-                                decoration: rfInputDecoration(
-                                  lableText: "Số phòng ngủ",
-                                  showLableText: true,
-                                ),
-                              )),
-                              8.width,
-                              Expanded(child: AppTextField(
-                                controller: soPhongVeSinhController,
-                                focus: soPhongVeSinhFocusNode,
-                                nextFocus: soTangFocusNode,
-                                textFieldType: TextFieldType.NUMBER,
-                                decoration: rfInputDecoration(
-                                  lableText: "Số phòng vệ sinh",
-                                  showLableText: true,
-                                ),
-                              ),
-                              )
-                            ],
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Expanded(child: Container(
-                                decoration: boxDecorationWithRoundedCorners(
-                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
-                                ),
-                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                child: DropdownButton<String>(
-                                  value: huongNhuCau,
-                                  elevation: 16,
-                                  style: primaryTextStyle(),
-                                  hint: Text('Hướng', style: primaryTextStyle()),
-                                  isExpanded: true,
-                                  underline: Container(
-                                    height: 0,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      huongNhuCau = newValue.toString();
-                                    });
-                                  },
-                                  items: <String>['Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông tứ trạch', 'Tây tứ trạch', 'Khác'].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              )),
-                              8.width,
-                              Expanded(child: AppTextField(
-                                controller: soTangController,
-                                focus: soTangFocusNode,
-                                nextFocus: phapLyFocusNode,
-                                decoration: rfInputDecoration(
-                                  showLableText: true,
-                                  lableText: 'Số tầng',
-                                ),
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true),
-                                ],
-                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                textFieldType: TextFieldType.NUMBER,
-                              )),
-                            ],
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: phapLyController,
-                            focus: phapLyFocusNode,
-                            nextFocus: tinhTrangNoiThatFocusNode,
-                            textFieldType: TextFieldType.NAME,
-                            decoration: rfInputDecoration(
-                              lableText: "Thông tin pháp lý",
-                              showLableText: true,
-                            ),
-                            minLines: 3,
-                            maxLines: 100,
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: tinhTrangNoiThatController,
-                            focus: tinhTrangNoiThatFocusNode,
-                            nextFocus: giaFocusNode,
-                            textFieldType: TextFieldType.NAME,
-                            decoration: rfInputDecoration(
-                              lableText: "Tình trạng nội thất",
-                              showLableText: true,
-                            ),
-                            minLines: 3,
-                            maxLines: 100,
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Expanded(child: AppTextField(
-                                controller: giaController,
-                                focus: giaFocusNode,
-                                nextFocus: donViTinhFocusNode,
-                                decoration: rfInputDecoration(
-                                  showLableText: true,
-                                  lableText: 'Giá',
-                                ),
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true),
-                                ],
-                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                textFieldType: TextFieldType.NUMBER,
-                              )),
-                              8.width,
-                              Expanded(
-                                  child: !donViTinhLoaded ? Center(child: CircularProgressIndicator(),) : Container(
+                              Row(
+                                children: [
+                                  Expanded(child: TextFormField(
+                                    controller: ngayNhapController,
+                                    focusNode: ngayNhapFocusNode,
+                                    readOnly: true,
+                                    onTap: () {
+                                      selectDateAndTime(context);
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      ngayNhapFocusNode.unfocus();
+                                      FocusScope.of(context).requestFocus(f4);
+                                    },
+                                    decoration: inputDecoration(
+                                      context,
+                                      hintText: "Ngày nhập",
+                                      suffixIcon: Icon(Icons.calendar_month_rounded, size: 16, color: appStore.isDarkModeOn ? white : gray),
+                                    ),
+                                  )),
+                                  8.width,
+                                  Expanded(child: Container(
                                     decoration: boxDecorationWithRoundedCorners(
                                       borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
                                       backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
                                     ),
                                     padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                                    child: DropdownButton<DonViTinh>(
-                                      value: selectedDonViTinh,
+                                    child: DropdownButton<String>(
+                                      value: nhomNhuCau,
                                       elevation: 16,
                                       style: primaryTextStyle(),
-                                      hint: Text('Đơn vị tính', style: primaryTextStyle()),
+                                      hint: Text('Nhóm nhu cầu', style: primaryTextStyle()),
                                       isExpanded: true,
                                       underline: Container(
                                         height: 0,
                                         color: Colors.deepPurpleAccent,
                                       ),
-                                      onChanged: (DonViTinh? newValue) {
+                                      onChanged: (newValue) {
                                         setState(() {
-                                          selectedDonViTinh = newValue;
+                                          nhomNhuCau = newValue;
                                         });
                                       },
-                                      items: donViTinh.map<DropdownMenuItem<DonViTinh>>((DonViTinh value) {
-                                        return DropdownMenuItem<DonViTinh>(
+                                      items: <String>['Cần mua', 'Cần bán', 'Cho thuê', 'Cần thuê'].map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
                                           value: value,
-                                          child: Text(value.name!),
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ))
+                                ],
+                              ),
+                              16.height,
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text('Thông tin ${doiTuong}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),),
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: hoTenKhachHangController,
+                                focus: hoTenKhachHangFocusNode,
+                                nextFocus: dienThoaiFocusNode,
+                                textFieldType: TextFieldType.NAME,
+                                decoration: rfInputDecoration(
+                                  lableText: "Họ tên ${doiTuong} *",
+                                  showLableText: true,
+                                ),
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: dienThoaiController,
+                                focus: dienThoaiFocusNode,
+                                nextFocus: soPhongNguFocusNode,
+                                textFieldType: TextFieldType.PHONE,
+                                decoration: rfInputDecoration(
+                                  lableText: "Điện thoại ${doiTuong} *",
+                                  showLableText: true,
+                                ),
+                              ),
+                              16.height,
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text('Thông tin nhu cầu ${nhomNhuCau != '-- Loại hình --' ? nhomNhuCau : ''}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),),
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: tieuDeSanPhamController,
+                                focus: tieuDeSanPhamFocusNode,
+                                textFieldType: TextFieldType.NAME,
+                                decoration: rfInputDecoration(
+                                  lableText: "Tiêu đề *",
+                                  showLableText: true,
+                                ),
+                                minLines: 3,
+                                maxLines: 100,
+                              ),
+                              16.height,
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: !quanLoaded ? Center(child: CircularProgressIndicator(),) : Container(
+                                        decoration: boxDecorationWithRoundedCorners(
+                                          borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                          backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                        ),
+                                        padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                        child: DropdownButton<KhuVuc>(
+                                          value: selectedQuan,
+                                          elevation: 16,
+                                          style: primaryTextStyle(),
+                                          hint: Text('Quận huyện', style: primaryTextStyle()),
+                                          isExpanded: true,
+                                          underline: Container(
+                                            height: 0,
+                                            color: Colors.deepPurpleAccent,
+                                          ),
+                                          onChanged: (KhuVuc? newValue) {
+                                            setState(() {
+                                              selectedQuan = newValue;
+                                              phuongXaLoaded = false;
+                                            });
+                                            _loadKhuVuc('Phường xã', newValue?.tid, null);
+                                          },
+                                          items: quanHuyen.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
+                                            return DropdownMenuItem<KhuVuc>(
+                                              value: value,
+                                              child: Text(value.name == null ? '' : value.name),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      )),
+                                  8.width,
+                                  Expanded(
+                                      child: !phuongXaLoaded ? Center(child: CircularProgressIndicator(),) : Container(
+                                        decoration: boxDecorationWithRoundedCorners(
+                                          borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                          backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                        ),
+                                        padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                        child: DropdownButton<KhuVuc>(
+                                          value: selectedPhuongXa,
+                                          elevation: 16,
+                                          style: primaryTextStyle(),
+                                          hint: Text('Phường xã', style: primaryTextStyle()),
+                                          isExpanded: true,
+                                          underline: Container(
+                                            height: 0,
+                                            color: Colors.deepPurpleAccent,
+                                          ),
+                                          onChanged: (KhuVuc? newValue) {
+                                            setState(() {
+                                              selectedPhuongXa = newValue;
+                                            });
+                                          },
+                                          items: phuongXa.map<DropdownMenuItem<KhuVuc>>((KhuVuc value) {
+                                            return DropdownMenuItem<KhuVuc>(
+                                              value: value,
+                                              child: Text(value.name),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              16.height,
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: AppTextField(
+                                    controller: soPhongNguController,
+                                    focus: soPhongNguFocusNode,
+                                    nextFocus: soPhongVeSinhFocusNode,
+                                    textFieldType: TextFieldType.NUMBER,
+                                    decoration: rfInputDecoration(
+                                      lableText: "Số phòng ngủ",
+                                      showLableText: true,
+                                    ),
+                                  )),
+                                  8.width,
+                                  Expanded(child: AppTextField(
+                                    controller: soPhongVeSinhController,
+                                    focus: soPhongVeSinhFocusNode,
+                                    nextFocus: soTangFocusNode,
+                                    textFieldType: TextFieldType.NUMBER,
+                                    decoration: rfInputDecoration(
+                                      lableText: "Số phòng vệ sinh",
+                                      showLableText: true,
+                                    ),
+                                  ),
+                                  )
+                                ],
+                              ),
+                              16.height,
+                              Row(
+                                children: [
+                                  Expanded(child: Container(
+                                    decoration: boxDecorationWithRoundedCorners(
+                                      borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                      backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                    ),
+                                    padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                    child: DropdownButton<String>(
+                                      value: huongNhuCau,
+                                      elevation: 16,
+                                      style: primaryTextStyle(),
+                                      hint: Text('Hướng', style: primaryTextStyle()),
+                                      isExpanded: true,
+                                      underline: Container(
+                                        height: 0,
+                                        color: Colors.deepPurpleAccent,
+                                      ),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          huongNhuCau = newValue.toString();
+                                        });
+                                      },
+                                      items: <String>['Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông Tứ Trạch', 'Tây Tứ Trạch'].map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
                                         );
                                       }).toList(),
                                     ),
                                   )),
-                            ],
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: giaBangSoController,
-                            focus: giaBangSoFocusNode,
-                            nextFocus: dienTichFocusNode,
-                            decoration: rfInputDecoration(
-                              showLableText: true,
-                              lableText: 'Giá bằng số (1000000) *',
-                            ),
-                            inputFormatters: [
-                              ThousandsFormatter(allowFraction: true),
-                            ],
-                            keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                            textFieldType: TextFieldType.NUMBER,
-                          ),
-                          16.height,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(child: AppTextField(
-                                controller: dienTichController,
-                                focus: dienTichFocusNode,
-                                nextFocus: dienTichSuDugFocusNode,
+                                  8.width,
+                                  Expanded(child: AppTextField(
+                                    controller: soTangController,
+                                    focus: soTangFocusNode,
+                                    nextFocus: phapLyFocusNode,
+                                    decoration: rfInputDecoration(
+                                      showLableText: true,
+                                      lableText: 'Số tầng',
+                                    ),
+                                    inputFormatters: [
+                                      ThousandsFormatter(allowFraction: true),
+                                    ],
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    textFieldType: TextFieldType.NUMBER,
+                                  )),
+                                ],
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: phapLyController,
+                                focus: phapLyFocusNode,
+                                nextFocus: tinhTrangNoiThatFocusNode,
+                                textFieldType: TextFieldType.NAME,
+                                decoration: rfInputDecoration(
+                                  lableText: "Thông tin pháp lý",
+                                  showLableText: true,
+                                ),
+                                minLines: 3,
+                                maxLines: 100,
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: tinhTrangNoiThatController,
+                                focus: tinhTrangNoiThatFocusNode,
+                                nextFocus: giaFocusNode,
+                                textFieldType: TextFieldType.NAME,
+                                decoration: rfInputDecoration(
+                                  lableText: "Tình trạng nội thất",
+                                  showLableText: true,
+                                ),
+                                minLines: 3,
+                                maxLines: 100,
+                              ),
+                              16.height,
+                              Row(
+                                children: [
+                                  Expanded(child: AppTextField(
+                                    controller: giaController,
+                                    focus: giaFocusNode,
+                                    nextFocus: donViTinhFocusNode,
+                                    decoration: rfInputDecoration(
+                                      showLableText: true,
+                                      lableText: 'Giá',
+                                    ),
+                                    inputFormatters: [
+                                      ThousandsFormatter(allowFraction: true),
+                                    ],
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    textFieldType: TextFieldType.NUMBER,
+                                  )),
+                                  8.width,
+                                  Expanded(
+                                      child: !donViTinhLoaded ? Center(child: CircularProgressIndicator(),) : Container(
+                                        decoration: boxDecorationWithRoundedCorners(
+                                          borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                          backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                        ),
+                                        padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                        child: DropdownButton<DonViTinh>(
+                                          value: selectedDonViTinh,
+                                          elevation: 16,
+                                          style: primaryTextStyle(),
+                                          hint: Text('Đơn vị tính', style: primaryTextStyle()),
+                                          isExpanded: true,
+                                          underline: Container(
+                                            height: 0,
+                                            color: Colors.deepPurpleAccent,
+                                          ),
+                                          onChanged: (DonViTinh? newValue) {
+                                            setState(() {
+                                              selectedDonViTinh = newValue;
+                                            });
+                                          },
+                                          items: donViTinh.map<DropdownMenuItem<DonViTinh>>((DonViTinh value) {
+                                            return DropdownMenuItem<DonViTinh>(
+                                              value: value,
+                                              child: Text(value.name!),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: giaBangSoController,
+                                focus: giaBangSoFocusNode,
+                                nextFocus: dienTichFocusNode,
                                 decoration: rfInputDecoration(
                                   showLableText: true,
-                                  lableText: 'Diện tích đất',
+                                  lableText: 'Giá bằng số (1000000) *',
                                 ),
                                 inputFormatters: [
                                   ThousandsFormatter(allowFraction: true),
                                 ],
                                 keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
                                 textFieldType: TextFieldType.NUMBER,
-                              )),
-                              8.width,
-                              Expanded(child: AppTextField(
-                                controller: dienTichSuDungController,
-                                focus: dienTichSuDugFocusNode,
-                                nextFocus: chieuDaiFocusNode,
+                              ),
+                              16.height,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(child: AppTextField(
+                                    controller: dienTichController,
+                                    focus: dienTichFocusNode,
+                                    nextFocus: dienTichSuDugFocusNode,
+                                    decoration: rfInputDecoration(
+                                      showLableText: true,
+                                      lableText: 'Diện tích đất',
+                                    ),
+                                    inputFormatters: [
+                                      ThousandsFormatter(allowFraction: true),
+                                    ],
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    textFieldType: TextFieldType.NUMBER,
+                                  )),
+                                  8.width,
+                                  Expanded(child: AppTextField(
+                                    controller: dienTichSuDungController,
+                                    focus: dienTichSuDugFocusNode,
+                                    nextFocus: chieuDaiFocusNode,
+                                    decoration: rfInputDecoration(
+                                      showLableText: true,
+                                      lableText: 'Diện tích sử dụng',
+                                    ),
+                                    inputFormatters: [
+                                      ThousandsFormatter(allowFraction: true),
+                                    ],
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    textFieldType: TextFieldType.NUMBER,
+                                  ))
+                                ],
+                              ),
+                              16.height,
+                              Row(
+                                children: [
+                                  Expanded(child: AppTextField(
+                                    controller: chieuDaiController,
+                                    focus: chieuDaiFocusNode,
+                                    nextFocus: chieuRongFocusNode,
+                                    decoration: rfInputDecoration(
+                                      showLableText: true,
+                                      lableText: 'Chiều dài',
+                                    ),
+                                    inputFormatters: [
+                                      ThousandsFormatter(allowFraction: true),
+                                    ],
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    textFieldType: TextFieldType.NUMBER,
+                                  )),
+                                  8.width,
+                                  Expanded(child: AppTextField(
+                                    controller: chieuRongController,
+                                    focus: chieuRongFocusNode,
+                                    nextFocus: tienDatCocFocusNode,
+                                    decoration: rfInputDecoration(
+                                      showLableText: true,
+                                      lableText: 'Chiều rộng',
+                                    ),
+                                    inputFormatters: [
+                                      ThousandsFormatter(allowFraction: true),
+                                    ],
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    textFieldType: TextFieldType.NUMBER,
+                                  ))
+                                ],
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: tienDatCocController,
+                                focus: tienDatCocFocusNode,
+                                nextFocus: ghiChuFocusNode,
                                 decoration: rfInputDecoration(
                                   showLableText: true,
-                                  lableText: 'Diện tích sử dụng',
+                                  lableText: 'Số tiền cọc (triệu đồng)',
                                 ),
                                 inputFormatters: [
                                   ThousandsFormatter(allowFraction: true),
                                 ],
                                 keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
                                 textFieldType: TextFieldType.NUMBER,
-                              ))
-                            ],
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Expanded(child: AppTextField(
-                                controller: chieuDaiController,
-                                focus: chieuDaiFocusNode,
-                                nextFocus: chieuRongFocusNode,
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: ghiChuController,
+                                focus: ghiChuFocusNode,
+                                textFieldType: TextFieldType.NAME,
                                 decoration: rfInputDecoration(
+                                  lableText: "Ghi chú",
                                   showLableText: true,
-                                  lableText: 'Chiều dài',
                                 ),
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true),
-                                ],
-                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                textFieldType: TextFieldType.NUMBER,
-                              )),
-                              8.width,
-                              Expanded(child: AppTextField(
-                                controller: chieuRongController,
-                                focus: chieuRongFocusNode,
-                                nextFocus: tienDatCocFocusNode,
-                                decoration: rfInputDecoration(
-                                  showLableText: true,
-                                  lableText: 'Chiều rộng',
-                                ),
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true),
-                                ],
-                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                textFieldType: TextFieldType.NUMBER,
-                              ))
-                            ],
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: tienDatCocController,
-                            focus: tienDatCocFocusNode,
-                            nextFocus: ghiChuFocusNode,
-                            decoration: rfInputDecoration(
-                              showLableText: true,
-                              lableText: 'Số tiền cọc (triệu đồng)',
-                            ),
-                            inputFormatters: [
-                              ThousandsFormatter(allowFraction: true),
-                            ],
-                            keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                            textFieldType: TextFieldType.NUMBER,
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: ghiChuController,
-                            focus: ghiChuFocusNode,
-                            textFieldType: TextFieldType.NAME,
-                            decoration: rfInputDecoration(
-                              lableText: "Ghi chú",
-                              showLableText: true,
-                            ),
-                            minLines: 3,
-                            maxLines: 100,
-                          ),
-                          16.height,
+                                minLines: 3,
+                                maxLines: 100,
+                              ),
+                              16.height,
 
-                          ImageVideoUpload(
-                            listPathImage: (List<String> listImage){
-                              setState(() {
-                                pathImages = listImage;
-                              });
-                            },
-                          )
-                        ],
+                              ImageVideoUpload(images: hinhAnhs)
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                if(_isLoading)
-                  CircularProgressIndicator()
-                else
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: AppButton(
-                      color: rf_primaryColor,
-                      child: Text('Lưu lại', style: boldTextStyle(color: white)),
-                      width: context.width(),
-                      elevation: 0,
-                      onTap: () {
-                        _submit();
-                        // RFHomeScreen().launch(context);
+                    if(_isLoading)
+                      CircularProgressIndicator()
+                    else
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: AppButton(
+                          color: rf_primaryColor,
+                          child: Text('Lưu lại', style: boldTextStyle(color: white)),
+                          width: context.width(),
+                          elevation: 0,
+                          onTap: () {
+                            _submit();
+                            // RFHomeScreen().launch(context);
+                          },
+                        ),
+                      ),
+                    8.height,
+                    rfCommonRichText(title: "Huỷ nhập dữ liệu. ", subTitle: "Quay lại").paddingAll(8).onTap(() {
+                        RFHomeScreen rf_home = new RFHomeScreen();
+                        rf_home.selectedIndex = 0;
+                        rf_home.launch(context);
                       },
                     ),
-                  ),
-                8.height,
-                rfCommonRichText(title: "Huỷ nhập dữ liệu. ", subTitle: "Quay lại").paddingAll(8).onTap(
-                  () {
-
-                      RFHomeScreen rf_home = new RFHomeScreen();
-                      rf_home.selectedIndex = 0;
-                      rf_home.launch(context);
-
-
-                        // rf_search.
-                    // Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route)=>false);
-                  },
-                ),
-              ],
+                  ],
+                )
+              ]
             )
-        // subWidget: rfCommonRichText(title: "Bạn đã có tài khoản? ", subTitle: "Đăng nhập ngay").paddingAll(8).onTap(
-        //   () {
-        //     Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route)=>false);
-        //   },
-        // ),
-      ),
+        ),
+      )
     );
   }
 }

@@ -94,30 +94,17 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
                             children: [
                               ElevatedButton.icon(
                                 onPressed: () {
-
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => RFFormSuaKhachHang(nid: dataKhachHang.nid,name: dataKhachHang.hoTen,phone: dataKhachHang.field_dien_thoai,)
-                                  )
-                                  );
-
-                                setState(() {
-
-                                });
-
+                                  ));
                                 },
-                                icon: Icon( // <-- Icon
-                                  Icons.edit,
-                                  size: 24.0,
-                                ),
+                                icon: Icon(Icons.edit, size: 24.0,),
                                 label: Text('Sửa'), // <-- Text
                               ),
                               8.width,
                               ElevatedButton.icon(
                                 onPressed: () {},
-                                icon: Icon( // <-- Icon
-                                  Icons.delete,
-                                  size: 24.0,
-                                ),
+                                icon: Icon(Icons.delete, size: 24.0,),
                                 label: Text('Xóa'), // <-- Text
                               ),
                             ],

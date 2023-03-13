@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,17 @@ class NhuCaus with ChangeNotifier {
   late List<NhuCau> _items = [];
   final String authToken;
   final String uid;
-  late NhuCau _nhuCau = NhuCau();
+  late NhuCau _nhuCau = NhuCau(hinhAnhs: []);
+  List<String> file_images = [];
+  late int _start;
+
+  int get start => _start;
+
+  set start(int value) {
+    _start = value;
+  }
+
+  final map = Map<String, dynamic>();
 
   set nhuCau(NhuCau value) {
     _nhuCau = value;
@@ -28,12 +39,13 @@ class NhuCaus with ChangeNotifier {
 
   NhuCau get nhuCau => _nhuCau;
 
-  NhuCaus(this.authToken, this.uid, this._items);
+  NhuCaus(this.authToken, this.uid, this._items, this._start);
   List<NhuCau> get items{
     return [..._items];
   }
 
   Future<void> getNhuCauByNid(int nid) async{
+    print(RFGetThongTinNhuCau);
     final response = await http.post(
         Uri.parse(RFGetThongTinNhuCau),
         body: json.encode({
@@ -46,7 +58,10 @@ class NhuCaus with ChangeNotifier {
           'Charset': 'utf-8',
         }
     );
-    print(jsonDecode(response.body)['nid']);
+    print(jsonDecode(response.body));
+
+    map['field_anh_san_pham'] = jsonDecode(response.body)['field_anh_san_pham'];
+
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['nid'],
       title: jsonDecode(response.body)['title'],
@@ -56,6 +71,7 @@ class NhuCaus with ChangeNotifier {
       ),
 
       nhuCau: jsonDecode(response.body)['nhuCau'],
+      ngayNhap: jsonDecode(response.body)['ngayNhap'],
       quanHuyen: jsonDecode(response.body)['quanHuyen'] == null ? null : KhuVuc(
         tid: jsonDecode(response.body)['quanHuyen']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['quanHuyen']['name'],
@@ -66,7 +82,7 @@ class NhuCaus with ChangeNotifier {
       ),
       soPhongNgu: jsonDecode(response.body)['soPhongNgu'].toString().toInt(),
       SoPhongVeSinh: jsonDecode(response.body)['SoPhongVeSinh'].toString().toInt(),
-      field_huong: jsonDecode(response.body)['huong'],
+      field_huong: jsonDecode(response.body)['field_huong'],
       soTang: jsonDecode(response.body)['soTang'].toString().toInt(),
       thongTinPhapLy: jsonDecode(response.body)['thongTinPhapLy'],
       tinhTrangNoiThat: jsonDecode(response.body)['tinhTrangNoiThat'].toString(),
@@ -82,15 +98,14 @@ class NhuCaus with ChangeNotifier {
       chieuRong: jsonDecode(response.body)['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['soTienCoc'].toString().toDouble(),
       ghiChu: jsonDecode(response.body)['ghiChu'],
-
-
+      hinhAnhs: (map['field_anh_san_pham'] as List).map((item) => item as String).toList()//jsonDecode(response.body)['field_anh_san_pham'] == null || jsonDecode(response.body)['field_anh_san_pham'] == '' ? [] : jsonDecode(response.body)['field_anh_san_pham'],
     );
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
   }
 
-  Future<void> getListNhuCau(String? type) async{
-    print(type);
+  Future<void> getListNhuCau(String? type, int start, int limit) async{
+    print(RFGetNhuCauByPhanLoai);
     // try
     {
       final response = await http.post(
@@ -98,7 +113,9 @@ class NhuCaus with ChangeNotifier {
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
-            'type': type // Tất cả / Cần mua / Cần bán / Cần thuê / Cho thuê / Huỷ
+            'type': type,
+            'start': start,
+            'length': limit// Tất cả / Cần mua / Cần bán / Cần thuê / Cho thuê / Huỷ
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -106,7 +123,7 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
-      print(jsonDecode(response.body)['content']);
+      _start = jsonDecode(response.body)['startBtn'].toString().toDouble().toInt();
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<NhuCau> loadedNhuCaus = [];
@@ -118,19 +135,18 @@ class NhuCaus with ChangeNotifier {
 
         loadedNhuCaus.add(NhuCau(
           nid: element['nid'],
-
-
           field_dien_thoai: element['field_dien_thoai'],
           title: element['title'],
           field_gia: element['field_gia'].toString().toDouble(),
           field_dien_tich: element['field_dien_tich'].toString().toDouble(),
-          field_huong: element['field_huong'],
+          field_huong: element['field_huong'].toString(),
           field_quan_huyen: element['field_quan_huyen'],
           field_phuong_xa: element['field_phuong_xa'],
           field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
           field_don_vi_tinh: element['field_don_vi_tinh'].toString(),
           field_trang_thai_nhu_cau: element['field_trang_thai_nhu_cau'].toString(),
           field_anh_san_pham: (element['field_nhom_nhu_cau'] == 'Cần mua' ? canMuaUrlImage : (element['field_nhom_nhu_cau'] == 'Cần thuê' ? canThueUrlImage : (element['field_anh_san_pham'] == '' ? noImageUrl : element['field_anh_san_pham']))),
+          hinhAnhs: []
         ));
 
       });
@@ -144,6 +160,7 @@ class NhuCaus with ChangeNotifier {
     //   throw error;
     // }
   }
+
   Future<void> delete(int? nid) async{
     final response = await http.post(
         Uri.parse(RFXoaNhuCau),

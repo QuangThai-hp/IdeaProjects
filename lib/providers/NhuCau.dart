@@ -36,6 +36,7 @@ final String? tinhTrangNoiThat;
   final String field_anh_san_pham;
   final String field_trang_thai_nhu_cau;
   final String field_don_vi_tinh;
+  List<String> hinhAnhs = [];
 
   NhuCau({
     this.nid = '',
@@ -55,7 +56,7 @@ final String? tinhTrangNoiThat;
     this.soTienCoc,
     this.ghiChu,
 
-    this.field_huong,
+    this.field_huong  = '',
     this.soPhongNgu,
     this.SoPhongVeSinh,
     this.soTang,
@@ -70,7 +71,8 @@ final String? tinhTrangNoiThat;
      this.field_nhom_nhu_cau = '',
      this.field_anh_san_pham = '',
     this.field_trang_thai_nhu_cau = '',
-    this.field_don_vi_tinh = ''
+    this.field_don_vi_tinh = '',
+    required this.hinhAnhs
   });
 
 

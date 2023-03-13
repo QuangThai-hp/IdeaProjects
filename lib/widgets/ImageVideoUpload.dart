@@ -5,16 +5,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/providers/SanPham.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
+import 'package:room_finder_flutter/widgets/FullScreenImageViewer.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ImageVideoUpload extends StatefulWidget {
-  // const ImageVideoUpload({Key? key}) : super(key: key);
-  Function(List<String>) listPathImage;
-  ImageVideoUpload({required this.listPathImage});
+  List<String> images = [];
+
+  ImageVideoUpload({required this.images}); // const ImageVideoUpload({Key? key}) : super(key: key);
 
   @override
   State<ImageVideoUpload> createState() => _ImageVideoUploadState();
@@ -24,7 +26,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
 
   XFile? image;
 
-  List<String> _images = [];
+  List<String> _deletedImages = [];
 
   final ImagePicker picker = ImagePicker();
 
@@ -59,7 +61,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
               // getImageServer();
               setState(() {
                 for(var i = 0; i<message['fileName'].length; i++)
-                  _images.add(message['fileName'][i]);
+                  widget.images.add(message['fileName'][i]);
                 _setPathImages();
 
                 _dangUploadHinhAnh = false;
@@ -89,7 +91,7 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
             setState(() {
-              _images.add(message['fileName'][0]);
+              widget.images!.add(message['fileName'][0]);
               _dangUploadHinhAnh = false;
             });
             _setPathImages();
@@ -104,24 +106,12 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
     }
   }
 
-  Future getImageServer() async {
-  //   try{
-  //
-  //     final response = await http.get(Uri.parse('http://192.168.1.4/latihan/flutter_upload_image/list.php'));
-  //
-  //     if(response.statusCode == 200){
-  //       final data = jsonDecode(response.body);
-  //
-  //       setState(() {
-  //         _images = data;
-  //       });
-  //     }
-  //
-  //   }catch(e){
-  //
-  //     print(e);
-  //
-  //   }
+  void deleteImageFromServer(String fileName) {
+    setState(() {
+      _deletedImages.add(fileName);
+      widget.images!.removeWhere((element) => element == fileName);
+    });
+    _setPathImages();
   }
 
   @override
@@ -134,7 +124,8 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
 
   Future<void> _setPathImages() async{
     SanPham sanPham = Provider.of<SanPham>(context, listen: false);
-    sanPham.field_anh_san_pham = _images;
+    sanPham.field_anh_san_pham = widget.images;
+    sanPham.field_deleted_anh_san_pham = _deletedImages;
   }
 
   //show popup dialog
@@ -186,16 +177,16 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
   @override
   Widget build(BuildContext context) {
     double cardWidth = context.width() / 2;
-    double cardHeight = context.height() / 4;
+    double cardHeight = context.height() / 3.5;
 
     return
         Column(
           children: [
-            _images.length > 0 ?
+            widget.images!.length > 0 ?
             (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),)  :
             GridView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: _images.length,
+              itemCount: widget.images!.length,
               padding: EdgeInsets.all(8),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -208,22 +199,39 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
                   children: <Widget>[
                     ClipRRect(
                       borderRadius: new BorderRadius.circular(12.0),
-                      child:Image(
-                        image: NetworkImage(_images[index]),
-                        fit: BoxFit.cover,
-                        height: context.height() / 6,
-                        width: MediaQuery.of(context).size.width,
+                      child:GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                                return FullScreenImageViewer(
+                                  imageUrl: widget.images![index],
+                                  tag: "generate_a_unique_tag",
+                                );
+                              }));
+                        },
+                        child: Hero(
+                          child: Image(
+                            image: NetworkImage(widget.images![index]),
+                            fit: BoxFit.cover,
+                            height: context.height() / 6,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                          tag: widget.images![index],
+                        ),
                       ),
                     ),
-                    // SizedBox(height: 4),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4, right: 4),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          // Text(model.name, style: primaryTextStyle(color: appStore.textPrimaryColor)),
-                        ],
+                    Container(
+                      alignment: Alignment.center,
+                      child: TextButton.icon(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.red,
+                        ),
+                        onPressed: () {
+                          // print(_images[index]);
+                          deleteImageFromServer(widget.images![index]);
+                        },
+                        icon: Icon(Icons.delete, size: 16.0,),
+                        label: Text('Xóa'),
                       ),
                     )
                   ],
