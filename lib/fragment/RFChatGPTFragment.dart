@@ -91,6 +91,7 @@ class _RFChatGPTFragmentState extends State<RFChatGPTFragment> {
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16),bottomRight: Radius.circular(16))
 
                 )),
+            //
             Expanded(
               child: _buildList(),
             ),

@@ -42,7 +42,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     RFHeThongFragment(),
   ];
 //
-//
+
   Widget _bottomTab() {
     return BottomNavigationBar(
       currentIndex: widget._selectedIndex,
