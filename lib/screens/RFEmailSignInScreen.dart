@@ -24,8 +24,8 @@ class RFEmailSignInScreen extends StatefulWidget {
   static const routeName = '/sign-in';
   bool showDialog;
   String contentAlert = '';
-
-  RFEmailSignInScreen({this.showDialog = false});
+  bool clear=false;
+  RFEmailSignInScreen({this.showDialog = false,this.clear=false});
 
   @override
   _RFEmailSignInScreenState createState() => _RFEmailSignInScreenState();
@@ -50,11 +50,19 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
   @override
   void initState() {
     super.initState();
+
     createBox();
 
     init();
   }
+  void clear() async{
 
+
+
+  setState(() {
+    box1.clear();
+  });
+  }
   void createBox() async {
     box1 = await Hive.openBox('emailController');
     getData();
@@ -63,14 +71,27 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
   void getData() async {
     if(box1.get('emailController')!=null){
       emailController.text=box1.get('emailController');
-      isChecked==true;
+      isChecked==false;
       setState(() { });
     };
     if(box1.get('passwordController')!=null){
       passwordController.text=box1.get('passwordController');
-      isChecked==true;
+      isChecked==false;
       setState(() { });
     };
+    if(widget.clear==true){
+
+      passwordController.text='';
+      emailController.text='';
+
+      setState(() { });
+
+
+    }
+    if(passwordController.text!=''&&emailController.text!=''){
+      _submit();
+    }
+
   }
   void init() async {
     setStatusBarColor(rf_primaryColor,
@@ -103,6 +124,7 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
     if (isChecked) {
       box1.put('emailController', emailController.text);
       box1.put('passwordController', passwordController.text);
+      box1.put('isChecked', true);
     }
     setState(() {
       _isLoading = true;
@@ -167,23 +189,26 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
                 lableText: 'Mật khẩu',
                 showLableText: true,
               ),
-            ),
-            32.height,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Nhớ mật khẩu',
 
-                ),
+            ),
+            4.height,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
                 Checkbox(
                     value: isChecked,
                     onChanged: (value) {
                       isChecked = !isChecked;
                       setState(() {});
-                    })
+                    }),
+                Text(
+                  'Nhớ mật khẩu',
+
+                ),
+
               ],
             ),
+            4.height,
             if (_isLoading)
               CircularProgressIndicator()
             else

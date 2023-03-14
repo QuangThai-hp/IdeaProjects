@@ -4,6 +4,7 @@ import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+
 import 'package:room_finder_flutter/screens/RFFormSuaMatKhau.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
@@ -366,9 +367,10 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                            ),
                            TextButton(
                              onPressed: (){
-                               RFEmailSignInScreen().launch(context).then((value){
-                                 finish(context);
-                               });
+
+                               Navigator.of(context).push(MaterialPageRoute(
+                                   builder: (context) => RFEmailSignInScreen(clear: true,)
+                               ));
                              },
                              child: const Text('OK'),
                            ),
