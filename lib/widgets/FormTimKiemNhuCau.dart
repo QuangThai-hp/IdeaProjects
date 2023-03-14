@@ -1,10 +1,15 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'dart:convert';
+
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/KhuVuc.dart';
 import 'package:search_choices/search_choices.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
+import '../providers/NhuCaus.dart';
 import '../utils/RFWidget.dart';
 
 class FormTimKiemNhuCau extends StatefulWidget {
@@ -13,42 +18,103 @@ class FormTimKiemNhuCau extends StatefulWidget {
 }
 
 class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
-  final _popupCustomValidationKey = GlobalKey<DropdownSearchState<int>>();
+  List<DropdownMenuItem> nhuCaus = [
+    DropdownMenuItem(
+      value: 'Cần mua',
+      child: Text('Cần mua'),
+    ),
+    DropdownMenuItem(
+      value: 'Cần bán',
+      child: Text('Cần bán'),
+    ),
+    DropdownMenuItem(
+      value: 'Cần thuê',
+      child: Text('Cần thuê'),
+    ),
+    DropdownMenuItem(
+      value: 'Cho thuê',
+      child: Text('Cho thuê'),
+    ),
+  ];
 
-  final String loremIpsum =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-  List<DropdownMenuItem> items = [];
+  List listToSearch=['Đông', 'Tây', 'Nam','Bắc', 'Đông Nam', 'Đông Bắc', 'Tây Nam', 'Tây Bắc', 'Đông Tứ Trạch', 'Tây Tứ Trạch'];
+
+  List<DropdownMenuItem> listQuan = [];
+  List<DropdownMenuItem> listPhuongXa = [];
+  List<DropdownMenuItem> mucGiaChoThue = [];
+  List<DropdownMenuItem> mucGiaBan = [];
+  List<DropdownMenuItem> mucGia = [];
+  List<DropdownMenuItem> dienTich = [];
+
+  List<DropdownMenuItem> listHuong = [ //'', '', '','', '', 'Đông ', '', 'Tây ', '', ''
+    DropdownMenuItem(
+      value: 'Đông',
+      child: Text('Đông'),
+    ),
+    DropdownMenuItem(
+      value: 'Tây',
+      child: Text('Tây'),
+    ),
+    DropdownMenuItem(
+      value: 'Nam',
+      child: Text('Nam'),
+    ),
+    DropdownMenuItem(
+      value: 'Bắc',
+      child: Text('Bắc'),
+    ),
+    DropdownMenuItem(
+      value: 'Đông Nam',
+      child: Text('Đông Nam'),
+    ),
+    DropdownMenuItem(
+      value: 'Đông Bắc',
+      child: Text('Đông Bắc'),
+    ),
+    DropdownMenuItem(
+      value: 'Đông Bắc',
+      child: Text('Đông Bắc'),
+    ),
+    DropdownMenuItem(
+      value: 'Tây Nam',
+      child: Text('Tây Nam'),
+    ),
+    DropdownMenuItem(
+      value: 'Tây Bắc',
+      child: Text('Tây Bắc'),
+    ),
+    DropdownMenuItem(
+      value: 'Đông Tứ Trạch',
+      child: Text('Đông Tứ Trạch'),
+    ),
+    DropdownMenuItem(
+      value: 'Tây Tứ Trạch',
+      child: Text('Tây Tứ Trạch'),
+    ),
+  ];
 
   @override
   void initState() {
-    // TODO: implement initState
-    String wordPair = "";
-    loremIpsum
-        .toLowerCase()
-        .replaceAll(",", "")
-        .replaceAll(".", "")
-        .split(" ")
-        .forEach((word) {
-      if (wordPair.isEmpty) {
-        wordPair = "$word ";
-      } else {
-        wordPair += word;
-        if (items.indexWhere((item) {
-          return (item.value == wordPair);
-        }) ==
-            -1) {
-          items.add(DropdownMenuItem(
-            value: wordPair,
-            child: Text(wordPair),
-          ));
-        }
-        wordPair = "";
+    final provider = Provider.of<NhuCaus>(context, listen: false);
+    provider.khoiTaoTimKiemNhuCau().then((value){
+      if(this.mounted){
+        setState(() {
+          provider.khuVuc.forEach((element) {
+            listQuan.add(DropdownMenuItem(child: Text(element.name), value: element.tid,));
+          });
+        });
       }
     });
+    // TODO: implement initState
     super.initState();
   }
 
-  String selectedValue = '';
+  late List selectedList;
+  var selected;
+  String selectedNhuCau = '';
+  String selectedHuong = '';
+  List<String> selectedListHuong = [];
+  int? selectedValueQuan = null;
   TextEditingController textEditingController = TextEditingController();
   // const FormTimKiemNhuCau({Key? key}) : super(key: key);
   @override
@@ -89,68 +155,101 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                 ],
               )
             ),
-
             SearchChoices.single(
-              items: items,
-              value: selectedValue,
+              items: nhuCaus,
+              value: selectedNhuCau,
               hint: "Chọn nhu cầu",
               searchHint: "Nhu cầu",
               onChanged: (value) {
                 setState(() {
-                  selectedValue = value;
+                  print('nhu cầu ${value}');
+                  selectedNhuCau = value;
                 });
               },
               isExpanded: true,
             ),
-            SearchChoices.single(
-              items: items,
-              value: selectedValue,
+            listQuan.length == 0 ? Center(child: CircularProgressIndicator(),) : SearchChoices.single(
+              items: listQuan,
+              value: selectedValueQuan,
               hint: "Nhập tên Quận",
               searchHint: "Tên Quận",
               onChanged: (value) {
+                print(value);
                 setState(() {
-                  selectedValue = value;
+                  selectedValueQuan = value;
                 });
+                print(selectedValueQuan);
               },
               isExpanded: true,
             ),
-            SearchChoices.single(
-              items: items,
-              value: selectedValue,
-              hint: "Nhập tên Phường",
-              searchHint: "Tên Phường",
-              onChanged: (value) {
-                setState(() {
-                  selectedValue = value;
-                });
+            // SearchChoices.single(
+            //   items: listPhuongXa,
+            //   value: selectedValue,
+            //   hint: "Nhập tên Phường",
+            //   searchHint: "Tên Phường",
+            //   onChanged: (value) {
+            //     setState(() {
+            //       selectedValue = value;
+            //     });
+            //   },
+            //   isExpanded: true,
+            // ),
+            // SearchChoices.single(
+            //   items: mucGia,
+            //   value: selectedValue,
+            //   hint: "Mức giá",
+            //   searchHint: "Mức giá",
+            //   onChanged: (value) {
+            //     setState(() {
+            //       selectedValue = value;
+            //     });
+            //   },
+            //   isExpanded: true,
+            // ),
+            // SearchChoices.single(
+            //   items: dienTich,
+            //   value: selectedValue,
+            //   hint: "Diện tích",
+            //   searchHint: "Diện tích",
+            //   onChanged: (value) {
+            //     setState(() {
+            //       selectedValue = value;
+            //     });
+            //   },
+            //   isExpanded: true,
+            // ),
+            CustomSearchableDropDown(
+              initialValue: [],
+              items: listToSearch,
+              label: 'Chọn hướng',
+              multiSelectTag: 'Hướng',
+              multiSelectValuesAsWidget: true,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Colors.blue
+                  ),
+              ),
+              multiSelect: true,
+              hint: 'Từ khoá tìm kiếm ...',
+              prefixIcon:  Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Icon(Icons.search),
+              ),
+              dropDownMenuItems: listToSearch.map((item) {
+                return item;
+              }).toList() ?? [],
+              onChanged: (value){
+                print(value.toString());
+                if(value!=null)
+                {
+                  selectedList = jsonDecode(value);
+                }
+                else{
+                  selectedList.clear();
+                }
               },
-              isExpanded: true,
             ),
-            SearchChoices.single(
-              items: items,
-              value: selectedValue,
-              hint: "Mức giá",
-              searchHint: "Mức giá",
-              onChanged: (value) {
-                setState(() {
-                  selectedValue = value;
-                });
-              },
-              isExpanded: true,
-            ),
-            SearchChoices.single(
-              items: items,
-              value: selectedValue,
-              hint: "Diện tích",
-              searchHint: "Diện tích",
-              onChanged: (value) {
-                setState(() {
-                  selectedValue = value;
-                });
-              },
-              isExpanded: true,
-            ),
-            30.height,
+            16.height,
             GestureDetector(
               onTap: () {
                 // finish(context);

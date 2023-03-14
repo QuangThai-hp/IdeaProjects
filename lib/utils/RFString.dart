@@ -9,6 +9,7 @@ const RFGetSanPhamByType = "https://happyhomehaiphong.com/api/get-san-pham";
 const RFSaveSanPham = "https://happyhomehaiphong.com/api/save-san-pham";
 const RFBaseSignUp = "https://happyhomehaiphong.com/api/register";
 const RFBaseSanPhamChoThue = "https://happyhomehaiphong.com/api/san-pham-cho-thue";
+const RFBaseKhoiTaoTimKiemNhuCau = "https://happyhomehaiphong.com/api/khoi-tao-tim-kiem-nhu-cau";
 
 const RFImagesUpload = "https://happyhomehaiphong.com/api/get-images-upload";
 const RFDeleteImagesUploaded = "https://happyhomehaiphong.com/api/delete-images-uploaded";

@@ -25,10 +25,12 @@ class _BangKhachHangListState extends State<BangKhachHangList> {
   Future<void> _reloadKhachHangList(BuildContext context) async{
     final provider = Provider.of<KhachHangs>(context);
     provider.getListKhachHang().then((value){
-      setState(() {
-        khachHangs = provider.items;
-        isLoadedData = '1';
-      });
+      if(this.mounted){
+        setState(() {
+          khachHangs = provider.items;
+          isLoadedData = '1';
+        });
+      }
     });
   }
 
