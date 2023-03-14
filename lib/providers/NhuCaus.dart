@@ -15,11 +15,17 @@ import 'SanPham.dart';
 
 class NhuCaus with ChangeNotifier {
   late List<NhuCau> _items = [];
+  late List<KhuVuc> _khuVuc = [];
   final String authToken;
   final String uid;
   late NhuCau _nhuCau = NhuCau(hinhAnhs: []);
   List<String> file_images = [];
   late int _start;
+  List<KhuVuc> get khuVuc => _khuVuc;
+
+  set khuVuc(List<KhuVuc> value) {
+    _khuVuc = value;
+  }
 
   int get start => _start;
 
@@ -183,4 +189,41 @@ class NhuCaus with ChangeNotifier {
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
   }
+
+  Future<void> khoiTaoTimKiemNhuCau() async{
+    print(RFBaseKhoiTaoTimKiemNhuCau);
+    // try
+        {
+      final response = await http.post(
+          Uri.parse(RFBaseKhoiTaoTimKiemNhuCau),
+          body: json.encode({
+            'uid': this.uid,
+            'auth': this.authToken,
+          }),
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+          }
+      );
+
+      final listQuan = List<Map<String, dynamic>>.from(jsonDecode(response.body)['listQuan']);
+      // final mucGiaNhaBan = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaBan']);
+      // final mucGiaNhaChoThue = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaChoThue']);
+      // final khoangDienTich = List<Map<String, dynamic>>.from(jsonDecode(response.body)['khoangDienTich']);
+      listQuan.forEach((element) {
+        _khuVuc.add(KhuVuc(
+          tid: element['tid'].toString().toInt(),
+          name: element['name']
+        ));
+      });
+      // _items = loadedNhuCaus;
+      // if(!responseData['success'])
+      //   throw HttpException(responseData['content']);
+      notifyListeners();
+    }
+    // catch(error){
+    //   throw error;
+    // }
+  }
+
 }

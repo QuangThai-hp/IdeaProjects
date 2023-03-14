@@ -37,6 +37,13 @@ dependencies:
   flutter_svg: ^1.1.5
   flutter_custom_dialog: ^1.2.0
   ionicons: ^0.2.2
+  dropdown_button2: ^2.0.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  dropdown_search: ^5.0.6
+  search_choices: ^2.2.5
+  multiselect: ^0.1.0
+  custom_searchable_dropdown: ^2.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
