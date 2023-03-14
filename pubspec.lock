@@ -257,6 +257,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.8"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      sha256: "4458d81bfd24207f3d58f66f78097064e02f810f94cf1bc80bf20fe7685ebc80"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      sha256: "55106e8290acaa97ed15bea1fdad82c3cf0c248dd410e651f5a8ac6870f783ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.6"
   fake_async:
     dependency: transitive
     description:
@@ -896,6 +912,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  search_choices:
+    dependency: "direct main"
+    description:
+      name: search_choices
+      sha256: "4c379407ea642613669f788ec9b41cfb156f55800e8f69c727478c37db025c47"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.5"
   shared_preferences:
     dependency: transitive
     description:

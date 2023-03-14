@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
@@ -7,7 +8,9 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
-
+import 'package:room_finder_flutter/widgets/FormTimKiemNhuCau.dart';
+import 'package:room_finder_flutter/widgets/Select2.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/CusomerList.dart';
 
@@ -19,6 +22,22 @@ class RFHomeFragment extends StatefulWidget {
 class _RFHomeFragmentState extends State<RFHomeFragment> {
   var _isInit = true;
   var _isLoading = false;
+  Icon actionIcon = Icon(
+    Icons.search,
+    color: Colors.white,
+  );
+  final List<String> items = [
+    'Item1',
+    'Item2',
+    'Item3',
+    'Item4',
+    'Item5',
+    'Item6',
+    'Item7',
+    'Item8',
+  ];
+  String? selectedValue;
+
   List<String> categoryData = [
     'Tất cả',
     'Cần mua',
@@ -30,9 +49,21 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   int selectCategoryIndex = 0;
   bool locationWidth = true;
 
+  Widget appBarTitle = Text("Nhu cầu", style: boldTextStyle(color: appStore.textPrimaryColor));
+  FocusNode focusNode = FocusNode();
+  bool isSearching = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController hoTenKhachHangController = TextEditingController();
+  TextEditingController QuanController = TextEditingController();
+  TextEditingController PhuongController = TextEditingController();
+  FocusNode hoTenKhachHangFocusNode = FocusNode();
+  FocusNode QuanFocusNode = FocusNode();
+  FocusNode PhuongFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
+    isSearching = false;
     init();
   }
 
@@ -54,14 +85,26 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
     // TODO: implement dispose
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Nhu cầu', style: boldTextStyle(color: appStore.textPrimaryColor)),
+            title: appBarTitle,
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                icon: Icon(actionIcon.icon, color: appStore.textPrimaryColor),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => FormTimKiemNhuCau(),
+                  );
+                },
+              ),
+            ],
           ),
           body: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
