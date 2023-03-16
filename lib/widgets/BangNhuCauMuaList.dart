@@ -45,6 +45,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
           trangThaiCu = widget.phanLoai;
           start = provider.start;
           widget.reset = false;
+          print(start);
         });
       }
     });
@@ -342,6 +343,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           onPressed: () {
                             setState(() {
                               start == -1 ? start = 0 : start -= 20;
+                              print(start);
                             });
                             _reloadNhuCau(context);
                           },

@@ -101,7 +101,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) => FormTimKiemNhuCau(),
-                  );
+                  ).then((value) => null);
                 },
               ),
             ],

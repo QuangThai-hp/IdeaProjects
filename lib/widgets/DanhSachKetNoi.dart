@@ -44,15 +44,7 @@ class _DanhSachKetNoiState extends State<DanhSachKetNoi> {
   late String isLoadedData = '';
   bool isExpanded = false;
 
-  Future<void> _reloadKhachHangList(BuildContext context) async {
-    final provider = Provider.of<KhachHangs>(context);
-    provider.getListKhachHang().then((value) {
-      setState(() {
-        khachHangs = provider.items;
-        isLoadedData = '1';
-      });
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -161,26 +153,33 @@ class _DanhSachKetNoiState extends State<DanhSachKetNoi> {
                                       5.width,
                                       TextButton(
                                         onPressed: () {
-                                          showConfirmDialogCustom(
-                                            context,
-                                            cancelable: false,
-                                            title: "Bạn chắc chắn muốn kết nối",
-                                            dialogType: DialogType.CONFIRMATION,
+                                          showDialog(context: context, builder: (BuildContext context)=> AlertDialog(
+                                            title: const Text('Kết nối'),
+                                            content: const Text('Bạn có muốn kết nối'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: (){
+                                                  finish(context);
+                                                },
+                                                child: const Text('Hủy'),
+                                              ),
+                                              TextButton(
+                                                onPressed: (){
+                                                  RFHomeScreen rf_home = new RFHomeScreen();
+                                                  rf_home.selectedIndex = 0;
+                                                  rf_home.launch(context);
+                                                },
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),);
 
-                                            onCancel: (v) {
-                                              finish(context);
-                                            },
-                                            onAccept: (v) {
-                                              RFHomeScreen rf_home = new RFHomeScreen();
-                                              rf_home.selectedIndex = 0;
-                                              rf_home.launch(context);
-                                            },
-                                          );
                                         },
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.white
 
                                         ),
+                                //
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [

@@ -161,7 +161,7 @@ class NhuCaus with ChangeNotifier {
         ));
 
       });
-      print(loadedNhuCaus.length);
+
       _items = loadedNhuCaus;
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
