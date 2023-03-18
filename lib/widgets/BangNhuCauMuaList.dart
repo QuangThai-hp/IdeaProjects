@@ -40,6 +40,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
       });
 
     provider.getListNhuCau(widget.phanLoai, widget.thongTinTimKiem, this.start, this.limit).then((value){
+      print("Thông tin tìm kiếm: ${widget.thongTinTimKiem}");
       if(this.mounted){
         if(widget.thongTinTimKiem != null){
           setState(() {
@@ -55,7 +56,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
           trangThaiCu = widget.phanLoai;
           start = provider.start;
           widget.reset = false;
-          widget.thongTinTimKiem = null;
+          // widget.thongTinTimKiem = null;
         });
       }
     });
@@ -66,19 +67,19 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
     var width = MediaQuery.of(context).size.width;
     double c_width = MediaQuery.of(context).size.width*0.8;
 
-    if(trangThaiCu != widget.phanLoai || widget.thongTinTimKiem != null){
+    if(trangThaiCu != widget.phanLoai || (widget.thongTinTimKiem != null && widget.timKiem == '')){
       _reloadNhuCau();
     }
 
     return
-      trangThaiCu != widget.phanLoai || trangThaiCu == '' || widget.thongTinTimKiem != null ?
+      trangThaiCu != widget.phanLoai || trangThaiCu == '' || (widget.thongTinTimKiem != null && widget.timKiem == '') ?
       Center(child: CircularProgressIndicator(),) :
       nhuCaus.length == 0 ? Text('Không có thông tin nhu cầu') // không phân trang
           : Column(
             children: [
-                widget.thongTinTimKiem != null ? Column(
+                widget.timKiem != '' ? Column(
                   children: [
-                    Text(widget.timKiem),
+                    Text('Thông tin tìm kiếm: '),
                     8.height,
                   ],
                 ) : SizedBox(),

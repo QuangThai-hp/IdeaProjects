@@ -21,8 +21,8 @@ class DanhSachNhuCaus with ChangeNotifier {
   }
 
   Future<void> getListDanhSachNhuCau( String? idKhachHang) async{
-    // try
-    // {
+    try
+    {
       final response = await http.post(
           Uri.parse(RFDanhSachNhuCau),
           body: json.encode({
@@ -51,10 +51,10 @@ class DanhSachNhuCaus with ChangeNotifier {
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
       notifyListeners();
-    // }
-    // catch(error){
-    //   throw error;
-    // }
+    }
+    catch(error){
+      throw error;
+    }
   }
 
 }

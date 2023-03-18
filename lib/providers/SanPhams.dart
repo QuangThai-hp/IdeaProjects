@@ -24,56 +24,6 @@ class SanPhams with ChangeNotifier {
     return _items.firstWhere((element) => element.nid == id);
   }
 
-  // Lấy danh sách sản phẩm theo loại (Mua bán / Cho thuê)
-  Future<void> getListSanPham(String type) async{
-    try
-    {
-      final response = await http.post(
-          Uri.parse(RFGetSanPhamByType),
-          body: json.encode({
-            'uid': this.uid,
-            'auth': this.authToken,
-            'type': type,
-          }),
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Charset': 'utf-8',
-          }
-      );
-
-      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['nhuCau']); //json.decode(response.body) as Map<String, dynamic>;
-      final List<SanPham> loadedSanPhams = [];
-      extractedData.forEach((element) {
-
-          // loadedSanPhams.add(SanPham(
-          //     nid: element['nid'],
-          //
-          //     hoTen: element['hoTen'],
-          //   field_dien_thoai: element['field_dien_thoai'],
-          //
-          //   title: element['title'],
-          //
-          //     field_gia: element['field_gia'].toString().toDouble(),
-          //   field_dien_tich: element['field_dien_tich'].toString().toDouble(),
-          //   field_huong: element['field_huong'],
-          //   field_quan_huyen: element['field_quan_huyen'],
-          //   field_phuong_xa: element['field_phuong_xa'],
-          //   field_nhom_nhu_cau: element['field_nhom_nhu_cau'],
-          //     // field_phan_loai_nhom_san_pham: element['field_phan_loai_nhom_san_pham'],
-          //     // field_dien_tich: element['field_dien_tich'].toString().toDouble(),
-          // ));
-
-      });//
-      _items = loadedSanPhams;
-      // if(!responseData['success'])
-      //   throw HttpException(responseData['content']);
-      notifyListeners();
-    }
-    catch(error){
-      throw error;
-    }
-  }
-
   Future<void> save(Map<String, dynamic> sanPham, String routeAfterSave, BuildContext context) async {
     print(RFSaveSanPham);
     try
