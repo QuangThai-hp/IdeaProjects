@@ -17,8 +17,10 @@ import '../utils/RFWidget.dart';
 
 class BangNhuCauCanMuaList extends StatefulWidget {
   String phanLoai = 'Tất cả';
+  String timKiem = '';
   bool reset = false;
-  BangNhuCauCanMuaList({required this.phanLoai, required this.reset});
+  Map<String, dynamic>? thongTinTimKiem;
+  BangNhuCauCanMuaList({required this.phanLoai, required this.reset, this.thongTinTimKiem});
 
   @override
   State<BangNhuCauCanMuaList> createState() => _BangNhuCauCanMuaListState();
@@ -30,21 +32,30 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
   int start = 0;
   int limit = 10;
 
-  Future<void> _reloadNhuCau(BuildContext context) async{
+  Future<void> _reloadNhuCau() async{
     final provider = Provider.of<NhuCaus>(context, listen: false);
-    print(widget.phanLoai);
     if(widget.reset)
       setState(() {
         this.start = 0;
       });
 
-    provider.getListNhuCau(widget.phanLoai, this.start, this.limit).then((value){
+    provider.getListNhuCau(widget.phanLoai, widget.thongTinTimKiem, this.start, this.limit).then((value){
       if(this.mounted){
+        if(widget.thongTinTimKiem != null){
+          setState(() {
+            widget.timKiem = 'Thông tin tìm kiếm:';
+          });
+        }
+        else
+          setState(() {
+            widget.timKiem = '';
+          });
         setState(() {
           nhuCaus = provider.items;
           trangThaiCu = widget.phanLoai;
           start = provider.start;
           widget.reset = false;
+          widget.thongTinTimKiem = null;
         });
       }
     });
@@ -55,14 +66,22 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
     var width = MediaQuery.of(context).size.width;
     double c_width = MediaQuery.of(context).size.width*0.8;
 
-    if(trangThaiCu != widget.phanLoai)
-      _reloadNhuCau(context);
+    if(trangThaiCu != widget.phanLoai || widget.thongTinTimKiem != null){
+      _reloadNhuCau();
+    }
+
     return
-      trangThaiCu != widget.phanLoai || trangThaiCu == '' ?
+      trangThaiCu != widget.phanLoai || trangThaiCu == '' || widget.thongTinTimKiem != null ?
       Center(child: CircularProgressIndicator(),) :
       nhuCaus.length == 0 ? Text('Không có thông tin nhu cầu') // không phân trang
           : Column(
             children: [
+                widget.thongTinTimKiem != null ? Column(
+                  children: [
+                    Text(widget.timKiem),
+                    8.height,
+                  ],
+                ) : SizedBox(),
                 ListView.builder(
                 scrollDirection: Axis.vertical,
                   itemCount: nhuCaus.length,
@@ -343,7 +362,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             setState(() {
                               start == -1 ? start = 0 : start -= 20;
                             });
-                            _reloadNhuCau(context);
+                            _reloadNhuCau();
                           },
                         ),
                       ) : SizedBox(width: 0,), //Trang cuối hoặc từ trang 2 trở đi
@@ -360,7 +379,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           ),
                           iconSize: 30,
                           onPressed: () {
-                            _reloadNhuCau(context);
+                            _reloadNhuCau();
                           },
                         ),
                       ) : SizedBox(),

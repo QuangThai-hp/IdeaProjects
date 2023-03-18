@@ -20,24 +20,11 @@ class RFHomeFragment extends StatefulWidget {
 }
 
 class _RFHomeFragmentState extends State<RFHomeFragment> {
-  var _isInit = true;
   var _isLoading = false;
   Icon actionIcon = Icon(
     Icons.search,
     color: Colors.white,
   );
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
-  ];
-  String? selectedValue;
-
   List<String> categoryData = [
     'Tất cả',
     'Cần mua',
@@ -48,6 +35,8 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   ];
   int selectCategoryIndex = 0;
   bool locationWidth = true;
+  Map<String, dynamic>? thongTinTimKiem;
+  bool timKiem = false;
 
   Widget appBarTitle = Text("Nhu cầu", style: boldTextStyle(color: appStore.textPrimaryColor));
   FocusNode focusNode = FocusNode();
@@ -63,7 +52,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   @override
   void initState() {
     super.initState();
-    isSearching = false;
+    // isSearching = false;
     init();
   }
 
@@ -100,7 +89,13 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) => FormTimKiemNhuCau(),
+                    builder: (BuildContext context) => FormTimKiemNhuCau(
+                      callback: (value){
+                        setState(() {
+                          thongTinTimKiem = value;
+                        });
+                    },
+                    ),
                   );
                 },
               ),
@@ -126,10 +121,11 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                             onTap: () {
                               setState(() {
                                 selectCategoryIndex = index;
+                                timKiem = false;
+                                thongTinTimKiem = null;
                               });
                             },
                             child: Container(
-
                               margin: EdgeInsets.only(right: 8),
                               decoration: boxDecorationWithRoundedCorners(
                                 backgroundColor: appStore.isDarkModeOn
@@ -137,7 +133,6 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                                     : selectCategoryIndex == index
                                     ? rf_selectedCategoryBgColor
                                     : rf_categoryBgColor,
-
                               ),
                               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                               child: Text(
@@ -156,8 +151,11 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                       ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
                       _isLoading ? Center(
                         child: CircularProgressIndicator(),
-                      ) : BangNhuCauCanMuaList(phanLoai: categoryData[selectCategoryIndex], reset: true,)
-
+                      ) : BangNhuCauCanMuaList(
+                        phanLoai: categoryData[selectCategoryIndex],
+                        reset: true,
+                        thongTinTimKiem: thongTinTimKiem,
+                      )
                     ],
                   ),
                 ),

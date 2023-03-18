@@ -52,6 +52,7 @@ class NhuCaus with ChangeNotifier {
 
   Future<void> getNhuCauByNid(int nid) async{
     print(RFGetThongTinNhuCau);
+    print(nid);
     final response = await http.post(
         Uri.parse(RFGetThongTinNhuCau),
         body: json.encode({
@@ -64,59 +65,62 @@ class NhuCaus with ChangeNotifier {
           'Charset': 'utf-8',
         }
     );
-    print(jsonDecode(response.body));
+    if(!jsonDecode(response.body)['success'])
+      throw HttpException(jsonDecode(response.body)['content']);
 
-    map['field_anh_san_pham'] = jsonDecode(response.body)['field_anh_san_pham'];
+    map['field_anh_san_pham'] = jsonDecode(response.body)['content']['field_anh_san_pham'];
 
     _nhuCau = new NhuCau(
-      nid: jsonDecode(response.body)['nid'],
-      title: jsonDecode(response.body)['title'],
-      khachHangChuNha: jsonDecode(response.body)['KhachHangChuNha'] == null ? null : KhachHangChuNha(
-        hoTen: jsonDecode(response.body)['KhachHangChuNha']['hoTen'] == null ? '' : jsonDecode(response.body)['KhachHangChuNha']['hoTen'],
-        dienThoai: jsonDecode(response.body)['KhachHangChuNha']['dienThoai'] == null ? '' : jsonDecode(response.body)['KhachHangChuNha']['dienThoai'],
+      nid: jsonDecode(response.body)['content']['nid'],
+      title: jsonDecode(response.body)['content']['title'],
+      khachHangChuNha: jsonDecode(response.body)['content']['KhachHangChuNha'] == null ? null : KhachHangChuNha(
+        hoTen: jsonDecode(response.body)['content']['KhachHangChuNha']['hoTen'] == null ? '' : jsonDecode(response.body)['content']['KhachHangChuNha']['hoTen'],
+        dienThoai: jsonDecode(response.body)['content']['KhachHangChuNha']['dienThoai'] == null ? '' : jsonDecode(response.body)['content']['KhachHangChuNha']['dienThoai'],
       ),
 
-      nhuCau: jsonDecode(response.body)['nhuCau'],
-      ngayNhap: jsonDecode(response.body)['ngayNhap'],
-      quanHuyen: jsonDecode(response.body)['quanHuyen'] == null ? null : KhuVuc(
-        tid: jsonDecode(response.body)['quanHuyen']['tid'].toString().toInt(),
-        name: jsonDecode(response.body)['quanHuyen']['name'],
+      nhuCau: jsonDecode(response.body)['content']['nhuCau'],
+      ngayNhap: jsonDecode(response.body)['content']['ngayNhap'],
+      quanHuyen: jsonDecode(response.body)['content']['quanHuyen'] == null ? null : KhuVuc(
+        tid: jsonDecode(response.body)['content']['quanHuyen']['tid'].toString().toInt(),
+        name: jsonDecode(response.body)['content']['quanHuyen']['name'],
       ),
-      phuongXa: jsonDecode(response.body)['phuongXa'] == null ? null : KhuVuc(
-        tid: jsonDecode(response.body)['phuongXa']['tid'].toString().toInt(),
-        name: jsonDecode(response.body)['phuongXa']['name'],
+      phuongXa: jsonDecode(response.body)['content']['phuongXa'] == null ? null : KhuVuc(
+        tid: jsonDecode(response.body)['content']['phuongXa']['tid'].toString().toInt(),
+        name: jsonDecode(response.body)['content']['phuongXa']['name'],
       ),
-      soPhongNgu: jsonDecode(response.body)['soPhongNgu'].toString().toInt(),
-      SoPhongVeSinh: jsonDecode(response.body)['SoPhongVeSinh'].toString().toInt(),
-      field_huong: jsonDecode(response.body)['field_huong'],
-      soTang: jsonDecode(response.body)['soTang'].toString().toInt(),
-      thongTinPhapLy: jsonDecode(response.body)['thongTinPhapLy'],
-      tinhTrangNoiThat: jsonDecode(response.body)['tinhTrangNoiThat'].toString(),
-      field_gia: jsonDecode(response.body)['field_gia'].toString().toDouble(),
-      donViTinhGia: jsonDecode(response.body)['donViTinhGia'] == null ? null : DonViTinh(
-        tid: jsonDecode(response.body)['donViTinhGia']['tid'].toString().toInt(),
-        name: jsonDecode(response.body)['donViTinhGia']['name'],
+      soPhongNgu: jsonDecode(response.body)['content']['soPhongNgu'].toString().toInt(),
+      SoPhongVeSinh: jsonDecode(response.body)['content']['SoPhongVeSinh'].toString().toInt(),
+      field_huong: jsonDecode(response.body)['content']['field_huong'],
+      soTang: jsonDecode(response.body)['content']['soTang'].toString().toInt(),
+      thongTinPhapLy: jsonDecode(response.body)['content']['thongTinPhapLy'],
+      tinhTrangNoiThat: jsonDecode(response.body)['content']['tinhTrangNoiThat'].toString(),
+      field_gia: jsonDecode(response.body)['content']['field_gia'].toString().toDouble(),
+      donViTinhGia: jsonDecode(response.body)['content']['donViTinhGia'] == null ? null : DonViTinh(
+        tid: jsonDecode(response.body)['content']['donViTinhGia']['tid'].toString().toInt(),
+        name: jsonDecode(response.body)['content']['donViTinhGia']['name'],
       ),
-      giaBangSo: jsonDecode(response.body)['giaBangSo'].toString().toDouble(),
-      field_dien_tich: jsonDecode(response.body)['dienTichDat'].toString().toDouble(),
-      dienTichSuDung: jsonDecode(response.body)['dienTichDat'].toString().toDouble(),
-      chieuDai: jsonDecode(response.body)['chieuDai'].toString().toDouble(),
-      chieuRong: jsonDecode(response.body)['chieRong'].toString().toDouble(),
-      soTienCoc: jsonDecode(response.body)['soTienCoc'].toString().toDouble(),
-      ghiChu: jsonDecode(response.body)['ghiChu'],
+      giaBangSo: jsonDecode(response.body)['content']['giaBangSo'].toString().toDouble(),
+      field_dien_tich: jsonDecode(response.body)['content']['dienTichDat'].toString().toDouble(),
+      dienTichSuDung: jsonDecode(response.body)['content']['dienTichDat'].toString().toDouble(),
+      chieuDai: jsonDecode(response.body)['content']['chieuDai'].toString().toDouble(),
+      chieuRong: jsonDecode(response.body)['content']['chieRong'].toString().toDouble(),
+      soTienCoc: jsonDecode(response.body)['content']['soTienCoc'].toString().toDouble(),
+      ghiChu: jsonDecode(response.body)['content']['ghiChu'],
       hinhAnhs: (map['field_anh_san_pham'] as List).map((item) => item as String).toList()//jsonDecode(response.body)['field_anh_san_pham'] == null || jsonDecode(response.body)['field_anh_san_pham'] == '' ? [] : jsonDecode(response.body)['field_anh_san_pham'],
     );
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
   }
 
-  Future<void> getListNhuCau(String? type, int start, int limit) async{
-    print(RFGetNhuCauByPhanLoai);
-    // try
+  Future<void> getListNhuCau(String? type, Map<String, dynamic>? thongTinTimKiem, int start, int limit) async{
+    print(thongTinTimKiem);
+    try
     {
+      print(thongTinTimKiem);
       final response = await http.post(
           Uri.parse(RFGetNhuCauByPhanLoai),
           body: json.encode({
+            'thongTinTimKiem': thongTinTimKiem,
             'uid': this.uid,
             'auth': this.authToken,
             'type': type,
@@ -167,9 +171,9 @@ class NhuCaus with ChangeNotifier {
       //   throw HttpException(responseData['content']);
       notifyListeners();
     }
-    // catch(error){
-    //   throw error;
-    // }
+    catch(error){
+      throw error;
+    }
   }
 
   Future<void> delete(int? nid) async{

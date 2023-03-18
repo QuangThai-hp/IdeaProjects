@@ -122,7 +122,8 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       KhuVucs khuVucs = await Provider.of<KhuVucs>(context, listen: false);
       khuVucs.getListKhuVuc(
           type,
-          parentId
+          parentId,
+        context
       ).then((value){
         if(type == 'Quận huyện')
           setState(() {

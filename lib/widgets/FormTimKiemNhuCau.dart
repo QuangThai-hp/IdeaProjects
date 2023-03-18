@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/providers/KhuVuc.dart';
 import 'package:search_choices/search_choices.dart';
@@ -10,14 +11,20 @@ import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../providers/NhuCaus.dart';
+import '../providers/khuVucs.dart';
 import '../utils/RFWidget.dart';
 
 class FormTimKiemNhuCau extends StatefulWidget {
+  final Function(Map<String, dynamic>) callback;
+
+  FormTimKiemNhuCau({required this.callback});
+
   @override
   State<FormTimKiemNhuCau> createState() => _FormTimKiemNhuCauState();
 }
 
 class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
+
   List<DropdownMenuItem> nhuCaus = [
     DropdownMenuItem(
       value: 'Cần mua',
@@ -45,6 +52,16 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
   List<DropdownMenuItem> mucGiaBan = [];
   List<DropdownMenuItem> mucGia = [];
   List<DropdownMenuItem> dienTich = [];
+
+
+  List<dynamic> selectedList = [];
+  var selected;
+  String selectedNhuCau = '';
+  String selectedHuong = '';
+  List<String> selectedListHuong = [];
+  String? selectedValueQuan = null;
+  String? selectedValuePhuong = null;
+  bool gettingPhuongByQUan = false;
 
   List<DropdownMenuItem> listHuong = [ //'', '', '','', '', 'Đông ', '', 'Tây ', '', ''
     DropdownMenuItem(
@@ -100,7 +117,7 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
       if(this.mounted){
         setState(() {
           provider.khuVuc.forEach((element) {
-            listQuan.add(DropdownMenuItem(child: Text(element.name), value: element.tid,));
+            listQuan.add(DropdownMenuItem(child: Text(element.name), value: element.name,));
           });
         });
       }
@@ -108,14 +125,30 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
     // TODO: implement initState
     super.initState();
   }
+  Future<void> _loadPhuongXaByNameQuan(String nameQuan) async{
+    setState(() {
+      gettingPhuongByQUan = true;
+      selectedValuePhuong = null;
+      listPhuongXa = [];
+    });
 
-  late List selectedList;
-  var selected;
-  String selectedNhuCau = '';
-  String selectedHuong = '';
-  List<String> selectedListHuong = [];
-  int? selectedValueQuan = null;
-  TextEditingController textEditingController = TextEditingController();
+    {
+      KhuVucs khuVucs = await Provider.of<KhuVucs>(context, listen: false);
+      khuVucs.getListPhuongXaByNameQuan(
+          nameQuan,
+        context
+      ).then((value){
+        setState(() {
+          khuVucs.items.forEach((element) {
+            listPhuongXa.add(DropdownMenuItem(child: Text(element.name), value: element.name,));
+          });
+          gettingPhuongByQUan = false;
+        });
+      });
+    }
+
+  }
+
   // const FormTimKiemNhuCau({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -139,132 +172,128 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min, // To make the card compact
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                finish(context);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Tìm kiếm nhu cầu', style: boldTextStyle(color: appStore.textPrimaryColor, size: 20)),
-                  Container(padding: EdgeInsets.all(4), alignment: Alignment.centerRight, child: Icon(Icons.close, color: appStore.textPrimaryColor)),
-                ],
-              )
-            ),
-            SearchChoices.single(
-              items: nhuCaus,
-              value: selectedNhuCau,
-              hint: "Chọn nhu cầu",
-              searchHint: "Nhu cầu",
-              onChanged: (value) {
-                setState(() {
-                  print('nhu cầu ${value}');
-                  selectedNhuCau = value;
-                });
-              },
-              isExpanded: true,
-            ),
-            listQuan.length == 0 ? Center(child: CircularProgressIndicator(),) : SearchChoices.single(
-              items: listQuan,
-              value: selectedValueQuan,
-              hint: "Nhập tên Quận",
-              searchHint: "Tên Quận",
-              onChanged: (value) {
-                print(value);
-                setState(() {
-                  selectedValueQuan = value;
-                });
-                print(selectedValueQuan);
-              },
-              isExpanded: true,
-            ),
-            // SearchChoices.single(
-            //   items: listPhuongXa,
-            //   value: selectedValue,
-            //   hint: "Nhập tên Phường",
-            //   searchHint: "Tên Phường",
-            //   onChanged: (value) {
-            //     setState(() {
-            //       selectedValue = value;
-            //     });
-            //   },
-            //   isExpanded: true,
-            // ),
-            // SearchChoices.single(
-            //   items: mucGia,
-            //   value: selectedValue,
-            //   hint: "Mức giá",
-            //   searchHint: "Mức giá",
-            //   onChanged: (value) {
-            //     setState(() {
-            //       selectedValue = value;
-            //     });
-            //   },
-            //   isExpanded: true,
-            // ),
-            // SearchChoices.single(
-            //   items: dienTich,
-            //   value: selectedValue,
-            //   hint: "Diện tích",
-            //   searchHint: "Diện tích",
-            //   onChanged: (value) {
-            //     setState(() {
-            //       selectedValue = value;
-            //     });
-            //   },
-            //   isExpanded: true,
-            // ),
-            CustomSearchableDropDown(
-              initialValue: [],
-              items: listToSearch,
-              label: 'Chọn hướng',
-              multiSelectTag: 'Hướng',
-              multiSelectValuesAsWidget: true,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.blue
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min, // To make the card compact
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  finish(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Tìm kiếm nhu cầu', style: boldTextStyle(color: appStore.textPrimaryColor, size: 20)),
+                    Container(padding: EdgeInsets.all(4), alignment: Alignment.centerRight, child: Icon(Icons.close, color: appStore.textPrimaryColor)),
+                  ],
+                )
+              ),
+              SearchChoices.single(
+                items: nhuCaus,
+                value: selectedNhuCau,
+                hint: "Chọn nhu cầu",
+                searchHint: "Nhu cầu",
+                onChanged: (value) {
+                  setState(() {
+                    print('nhu cầu ${value}');
+                    selectedNhuCau = value;
+                  });
+                },
+                isExpanded: true,
+              ),
+              listQuan.length == 0 ? Center(child: CircularProgressIndicator(),) : SearchChoices.single(
+                items: listQuan,
+                value: selectedValueQuan,
+                hint: "Nhập tên Quận",
+                searchHint: "Tên Quận",
+                onChanged: (value) {
+                  print(value);
+                  setState(() {
+                    selectedValueQuan = value;
+                  });
+                  _loadPhuongXaByNameQuan(value);
+                  print(selectedValueQuan);
+                },
+                isExpanded: true,
+              ),
+              gettingPhuongByQUan ? Center(child: CircularProgressIndicator(),) : SearchChoices.single(
+                items: listPhuongXa,
+                value: selectedValuePhuong,
+                hint: "Nhập tên Phường",
+                searchHint: "Tên Phường",
+                onChanged: (value) {
+                  setState(() {
+                    selectedValuePhuong = value;
+                  });
+                },
+                isExpanded: true,
+              ),
+              CustomSearchableDropDown(
+                initialValue: [],
+                items: listToSearch,
+                label: 'Chọn hướng',
+                multiSelectTag: 'Hướng',
+                multiSelectValuesAsWidget: true,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Colors.blue
+                    ),
+                ),
+                multiSelect: true,
+                hint: 'Từ khoá tìm kiếm ...',
+                prefixIcon:  Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Icon(Icons.search),
+                ),
+                dropDownMenuItems: listToSearch.map((item) {
+                  return item;
+                }).toList() ?? [],
+                onChanged: (value){
+                  if(value!=null)
+                  {
+                    setState(() {
+                      selectedList = jsonDecode(value);
+                    });
+                  }
+                  else{
+                    selectedList.clear();
+                  }
+                },
+              ),
+              GestureDetector(
+                onTap: () {
+                  // finish(context);
+                },
+                child: Container(
+                  // width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(8),
+                  child: Center(
+                    child: OutlinedButton.icon(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff2192FF)) ,
+                      ),
+                        onPressed: (){
+                          widget.callback({
+                            "selectedValueQuan": selectedValueQuan,
+                            "selectedValuePhuong": selectedValuePhuong,
+                            "selectedHuong": selectedList,
+                            "selectedNhuCau": selectedNhuCau,
+                          });
+
+                          // print(selectedValueQuan);
+                        },
+                        icon: Icon(Ionicons.search, size: 16, color: Colors.white,),
+                        label: Text('Tìm kiếm', style: TextStyle(color: Colors.white),),
+                    ),
+                    // child: TextIcon(text: "Tìm kiếm", textStyle: boldTextStyle(color: white)),
                   ),
-              ),
-              multiSelect: true,
-              hint: 'Từ khoá tìm kiếm ...',
-              prefixIcon:  Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Icon(Icons.search),
-              ),
-              dropDownMenuItems: listToSearch.map((item) {
-                return item;
-              }).toList() ?? [],
-              onChanged: (value){
-                print(value.toString());
-                if(value!=null)
-                {
-                  selectedList = jsonDecode(value);
-                }
-                else{
-                  selectedList.clear();
-                }
-              },
-            ),
-            16.height,
-            GestureDetector(
-              onTap: () {
-                // finish(context);
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: boxDecoration(bgColor: Colors.indigo, radius: 10),
-                padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                child: Center(
-                  child: TextIcon(text: "Tìm kiếm", textStyle: boldTextStyle(color: white)),
                 ),
               ),
-            ),
-            16.height,
-          ],
+              16.height,
+            ],
+          ),
         ),
       ),
     );
