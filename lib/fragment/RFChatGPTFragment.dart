@@ -41,7 +41,7 @@ Future<String> generateResponse(String prompt) async {
 
   // Do something with the response
   Map<String, dynamic> newresponse =
-      jsonDecode(utf8.decode(response.bodyBytes));
+  jsonDecode(utf8.decode(response.bodyBytes));
 
   return newresponse['choices'][0]['text'];
 }
@@ -87,11 +87,10 @@ class _RFChatGPTFragmentState extends State<RFChatGPTFragment> {
                 ),
                 width: MediaQuery.of(context).size.width,
                 height: 45,
-                decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
-                        bottomRight: Radius.circular(16)))),
+                decoration: BoxDecoration(color: Colors.orange,
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16),bottomRight: Radius.circular(16))
+
+                )),
             //
             Expanded(
               child: _buildList(),
@@ -159,7 +158,7 @@ class _RFChatGPTFragmentState extends State<RFChatGPTFragment> {
           ),
           onPressed: () async {
             setState(
-              () {
+                  () {
                 _messages.add(
                   ChatMessage(
                     text: _textController.text,
@@ -225,65 +224,69 @@ class ChatMessageWidget extends StatelessWidget {
       padding: EdgeInsets.all(16),
       child: chatMessageType == ChatMessageType.bot
           ? Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  child: Image.asset(rf_logo_happyhome),
-                ),
-                10.width,
-                Container(
-                  padding: EdgeInsets.all(10),
-                  constraints: BoxConstraints(maxWidth: 300),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8), color: Colors.grey
-                      // gradient: LinearGradient(
-                      //   colors: [
-                      //     Color(0xFF4285F4),
-                      //     Color(0xFFDB4437),
-                      //     Color(0xFFF4B400),
-                      //     Color(0xFF0F9D58),
-                      //   ],
-                      //   begin: Alignment.topLeft,
-                      //   end: Alignment.bottomRight,
-                      // ),
-                      ),
-                  child: Text(
-                    text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: Colors.black, fontSize: 16),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  constraints: BoxConstraints(maxWidth: 300),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.blue),
-                  child: Text(
-                    text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: Colors.white, fontSize: 16),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                10.width,
-                CircleAvatar(
-                  child: Icon(
-                    Icons.person,
-                  ),
-                ),
-              ],
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            child: Image.asset(rf_logo_happyhome),
+          ),
+          10.width,
+          Container(
+            padding: EdgeInsets.all(10),
+            constraints: BoxConstraints(maxWidth: 300),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              color: Colors.grey
+              // gradient: LinearGradient(
+              //   colors: [
+              //     Color(0xFF4285F4),
+              //     Color(0xFFDB4437),
+              //     Color(0xFFF4B400),
+              //     Color(0xFF0F9D58),
+              //   ],
+              //   begin: Alignment.topLeft,
+              //   end: Alignment.bottomRight,
+              // ),
             ),
+
+            child: Text(
+              text,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black, fontSize: 16),
+              textAlign: TextAlign.left,
+            ),
+          ),
+        ],
+      )
+          : Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            constraints: BoxConstraints(maxWidth: 300),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+             color: Colors.blue
+            ),
+
+            child: Text(
+              text,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.white, fontSize: 16),
+              textAlign: TextAlign.right,
+            ),
+          ),
+          10.width,
+          CircleAvatar(
+            child: Icon(
+              Icons.person,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

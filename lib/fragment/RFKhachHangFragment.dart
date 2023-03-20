@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:room_finder_flutter/widgets/BangKhachHangList.dart';
 
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
+import 'package:room_finder_flutter/widgets/FormTimKiemKhachHang.dart';
 
 class RFKhachHangFragment extends StatefulWidget {
   static const routeName = '/khach-hang';
@@ -22,10 +23,7 @@ class RFKhachHangFragment extends StatefulWidget {
 }
 
 class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
-  TextEditingController tenKhachHangController = TextEditingController();
-  FocusNode tenKhachHangFocusNode = FocusNode();
-  DateTime? selectedDate;
-  FocusNode f4 = FocusNode();
+  BangKhachHangList bangkhachhang = new BangKhachHangList();
 
   @override
   void initState() {
@@ -33,8 +31,7 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
     init();
   }
 
-  void init() async {
-  }
+  void init() async {}
 
   @override
   void setState(fn) {
@@ -48,50 +45,39 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RFCommonAppComponent(
-        title: RFAppName,
-        subTitle: 'Danh sách khách hàng',
-        mainWidgetHeight: 150,
-        subWidgetHeight: 115,
-        cardWidget: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Tìm kiếm SĐT khách hàng', style: boldTextStyle(size: 18)),
-            16.height,
-            AppTextField(
-              controller: tenKhachHangController,
-              focus: tenKhachHangFocusNode,
-              textFieldType: TextFieldType.NAME,
-              decoration: rfInputDecoration(
-                lableText: "Nhập số điện thoại",
-                showLableText: true,
-                suffixIcon: Container(
-                  padding: EdgeInsets.all(2),
-                  decoration: boxDecorationWithRoundedCorners(boxShape: BoxShape.circle, backgroundColor: rf_rattingBgColor),
-                  child: Icon(Icons.done, color: Colors.white, size: 14),
-                ),
-              ),
-            ),
-            16.height,
-            AppButton(
-              color: rf_primaryColor,
-              elevation: 0.0,
-              child: Text('Tìm kiếm', style: boldTextStyle(color: white)),
-              width: context.width(),
-              onTap: () {
-              },
-            ),
-          ],
-        ),
-        subWidget: Stack(
+    return SafeArea(
+        child: Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search, color: appStore.textPrimaryColor),
+            onPressed: () async {
+              BangKhachHangList result = await showDialog(
+                context: context,
+                builder: (BuildContext context) => FormTimKiemKhachHang(),
+              );
+
+              setState(() {
+                bangkhachhang = result;
+
+              });
+            },
+          ),
+        ],
+      ),
+
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(top: 20, bottom: 30),
+        child: Stack(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               // height: context.height(),
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(left: 20 , right: 20),
+                padding: EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -101,12 +87,15 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
-                              child: Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),
+                              child: Text("Danh sách khách hàng",
+                                  style: boldTextStyle(size: 18)),
                             ),
-                            BangKhachHangList(),
+                            BangKhachHangList(
+                              name: bangkhachhang.name,
+                              phone: bangkhachhang.phone,
 
-                          ]
-                      ),
+                            ),
+                          ]),
                       // Text("Danh sách khách hàng", style: boldTextStyle(size: 18)),
                     )
                   ],
@@ -116,19 +105,6 @@ class _RFKhachHangFragmentState extends State<RFKhachHangFragment> {
           ],
         ),
       ),
-      // bottomNavigationBar: _bottomTab(),
-      floatingActionButton: FloatingActionButton(
-        heroTag: '1',
-        elevation: 5,
-        onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil('/form-bua-an', (route)=>false);
-          // toasty(context, 'Default FAB Button');
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
-    );
+    ));
   }
 }

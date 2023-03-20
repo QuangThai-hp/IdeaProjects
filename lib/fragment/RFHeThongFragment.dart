@@ -4,12 +4,12 @@ import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+
 import 'package:room_finder_flutter/screens/RFFormSuaMatKhau.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-
 
 class RFHeThongFragment extends StatefulWidget {
   @override
@@ -354,26 +354,30 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                   10.height,
                   TextButton(
                       onPressed: () {
-                       showDialog(context: context, builder: (BuildContext context)=> AlertDialog(
-                         title: const Text('Đăng xuất'),
-                         content: const Text('Bạn có chắc đăng xuất'),
-                         actions: <Widget>[
-                           TextButton(
-                             onPressed: (){
-                               finish(context);
-                             },
-                             child: const Text('Hủy'),
-                           ),
-                           TextButton(
-                             onPressed: (){
-                               RFEmailSignInScreen().launch(context).then((value){
-                                 finish(context);
-                               });
-                             },
-                             child: const Text('OK'),
-                           ),
-                         ],
-                       ),);
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Đăng xuất'),
+                            content: const Text('Bạn có chắc đăng xuất'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  finish(context);
+                                },
+                                child: const Text('Hủy'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => RFEmailSignInScreen(
+                                            clear: true,
+                                          )));
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       //  RFEmailSignInScreen().launch(v).then((value) {
                       //                             finish(context);

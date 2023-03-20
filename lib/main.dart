@@ -6,6 +6,7 @@ import 'package:room_finder_flutter/providers/customers.dart';
 import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/providers/khuVucs.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 import 'package:room_finder_flutter/screens/RFFormSuaKhachHang.dart';
 import 'package:room_finder_flutter/screens/RFFormSuaMatKhau.dart';
@@ -112,12 +113,13 @@ class MyApp extends StatelessWidget {
           // create: ,
         ),
         ChangeNotifierProxyProvider<Auth, KhachHangs>(
-          create: (_) => KhachHangs('', '', []),
+          create: (_) => KhachHangs('', '', [],0),
           update: (_, auth, previousKhachHangs) {
             return KhachHangs(
               auth.token,
               auth.userId,
               previousKhachHangs == null ? [] : previousKhachHangs.items,
+              0
             );
           },
           // create: ,
@@ -141,6 +143,7 @@ class MyApp extends StatelessWidget {
             RFFormNhuCauScreen.routeName: (ctx) => RFFormNhuCauScreen(),
             RFFormSuaKhachHang.routeName:(ctx)=>RFFormSuaKhachHang(),
             RFFormSuaMatKhau.routeName:(ctx)=>RFFormSuaMatKhau(),
+
 
           },
         ),

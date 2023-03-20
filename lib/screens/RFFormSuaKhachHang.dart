@@ -14,11 +14,10 @@ import '../utils/RFString.dart';
 
 import 'package:provider/provider.dart';
 
-
 class RFFormSuaKhachHang extends StatefulWidget {
   static const routeName = '/form-sua';
- final String? nid,name,phone;
-  RFFormSuaKhachHang({ this.nid, this.name, this.phone});
+  final String? nid, name, phone;
+  RFFormSuaKhachHang({this.nid, this.name, this.phone});
   @override
   _RFFormSuaKhachHangState createState() => _RFFormSuaKhachHangState();
 }
@@ -51,14 +50,11 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
     if (mounted) super.setState(fn);
   }
 
-
-
-
-
   Future<void> _submit() async {
     setState(() {
       _isLoading = true;
     });
+    print(dienThoaiController.text);
     try {
       await Provider.of<KhachHangs>(context, listen: false).editKhachHang(
         widget.nid,
@@ -79,7 +75,6 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
 
   @override
   Widget build(BuildContext context) {
-
     print(widget.nid);
     return Scaffold(
       body: RFCommonAppComponent(
@@ -139,18 +134,20 @@ class _RFFormSuaKhachHangState extends State<RFFormSuaKhachHang> {
                 elevation: 0,
                 onTap: () {
                   _submit();
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/home', (route) => false);
+
+                  RFHomeScreen rf_home = new RFHomeScreen();
+                  rf_home.selectedIndex = 1;
+                  rf_home.launch(context);
                   // RFHomeScreen().launch(context);
                 },
               ),
-            rfCommonRichText(title: "Huỷ nhập dữ liệu. ", subTitle: "Quay lại").paddingAll(8).onTap(
-                  () {
-
+            rfCommonRichText(title: "Huỷ nhập dữ liệu. ", subTitle: "Quay lại")
+                .paddingAll(8)
+                .onTap(
+              () {
                 RFHomeScreen rf_home = new RFHomeScreen();
                 rf_home.selectedIndex = 1;
                 rf_home.launch(context);
-
 
                 // rf_search.
                 // Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route)=>false);

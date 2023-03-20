@@ -13,45 +13,51 @@ class KhachHangs with ChangeNotifier {
   List<KhachHang> _items = [];
   final String? authToken;
   final String? uid;
+  late int _start;
 
-  KhachHangs(this.authToken, this.uid, this._items);
-  List<KhachHang> get items{
+  int get start => _start;
+
+  set start(int value) {
+    _start = value;
+  }
+
+  KhachHangs(this.authToken, this.uid, this._items, this._start);
+  List<KhachHang> get items {
     return [..._items];
   }
-  KhachHang findById(int id){
+
+  KhachHang findById(int id) {
     return _items.firstWhere((element) => element.nid == id);
   }
 
-  // Lấy danh sách sản phẩm theo loại (Mua bán / Cho thuê)
-  Future<void> getListKhachHang() async{
+  Future<void> getListKhachHang(int start, int limit,String? name, String? phone) async {
     // try
     {
-
-      // ncscs
-      final response = await http.post(
-          Uri.parse(RFGetKhachHang),
+      final response = await http.post(Uri.parse(RFGetKhachHang),
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
+            'start': start,
+            'length': limit,
+            'name': name,
+            'phone':phone
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'Charset': 'utf-8',
-          }
-      );
-
+          });
+      _start =
+          jsonDecode(response.body)['startBtn'].toString().toDouble().toInt();
       print(jsonDecode(response.body));
-      final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
+      final extractedData = List<Map<String, dynamic>>.from(
+          jsonDecode(response.body)[
+              'content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<KhachHang> loadedKhachHangs = [];
       extractedData.forEach((element) {
         loadedKhachHangs.add(KhachHang(
           nid: element['nid'],
           hoTen: element['hoTen'],
           field_dien_thoai: element['field_dien_thoai'],
-          field_dia_chi: element['field_dia_chi'],
-          field_trang_thai: element['field_trang_thai'],
-          field_ghi_chu: element['field_ghi_chu']
-
         ));
       });
       _items = loadedKhachHangs;
@@ -64,27 +70,26 @@ class KhachHangs with ChangeNotifier {
     // }
   }
 
-  Future<void> editKhachHang(String? nid,String? title,String?field_dien_thoai) async{
+
+
+  Future<void> editKhachHang(
+      String? nid, String? title, String? field_dien_thoai) async {
     // try
     {
-
       // ncscs
-      final response = await http.put(
-          Uri.parse(RFSuaKhachHang),
+      final response = await http.put(Uri.parse(RFSuaKhachHang),
           body: json.encode({
             'uid': this.uid,
             'auth': this.authToken,
-            'nid':nid,
-            'title':title,
-            'field_dien_thoai':field_dien_thoai
-
+            'nid': nid,
+            'title': title,
+            'field_dien_thoai': field_dien_thoai
           }),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'Charset': 'utf-8',
-          }
-      );
-
+          });
+      print(response.body);
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
       notifyListeners();
@@ -93,5 +98,4 @@ class KhachHangs with ChangeNotifier {
     //   throw error;
     // }
   }
-
 }
