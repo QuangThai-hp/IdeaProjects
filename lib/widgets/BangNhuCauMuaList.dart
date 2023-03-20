@@ -37,6 +37,7 @@ class BangNhuCauCanMuaList extends StatefulWidget {
 
 class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
   late List<NhuCau> nhuCaus = [];
+  String ketQuaNhuCau = '';
   int limit = 10;
 
   Future<void> _reloadNhuCau() async{
@@ -47,6 +48,8 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
           nhuCaus = provider.items;
           widget.start = provider.start;
           widget.isLoading = false;
+          if(nhuCaus.length == 0)
+            ketQuaNhuCau = 'Không có thông tin nhu cầu';
           // widget.reset = false;
         });
       }
@@ -188,11 +191,10 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                   ],
                 ),
               ) : SizedBox(),
-              (nhuCaus.length == 0 )  ? Text('Không có thông tin nhu cầu', style: TextStyle(color: Colors.red),).paddingAll(10) :
+              (ketQuaNhuCau != '')  ? Text(ketQuaNhuCau, style: TextStyle(color: Colors.red),).paddingAll(10) :
               Container(
                 child: Column(
                   children: [
-
                     ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: nhuCaus.length,

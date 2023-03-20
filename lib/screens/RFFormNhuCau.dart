@@ -94,6 +94,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   DateTime? selectedDate;
 
   bool _isLoading = false;
+  bool isGettingData = true;
   KhuVuc? selectedQuan;
   KhuVuc? selectedPhuongXa;
   DonViTinh? selectedDonViTinh;
@@ -175,6 +176,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   }
 
   Future<void> _loadNhuCau() async{
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      this.isGettingData = false;
+    });
     if(!nhuCauLoaded){
       print(widget.nid);
       NhuCaus nhuCaus = await Provider.of<NhuCaus>(context, listen: false);
@@ -205,6 +210,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
           // Load dữ liệu quận huyện đã chọn
           quanHuyen.forEach((element) {
+
             if(nhuCaus.nhuCau.quanHuyen?.name == element.name){
               selectedQuan = element;
               final phuongXa = nhuCaus.nhuCau.phuongXa;
@@ -235,23 +241,26 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   @override
   void initState() {
+    super.initState();
+
     if(this.initForm){
-      _loadKhuVuc('Quận huyện', null, null);
       _loadDVT();
+      _loadKhuVuc('Quận huyện', null, null);
+
+      if(widget.nid != null){
+        _loadNhuCau();
+      }else{
+        setState(() {
+          ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+        });
+      }
 
       setState(() {
         this.initForm = false;
       });
     }
 
-    if(widget.nid != null){
-      _loadNhuCau();
-    }else{
-      setState(() {
-        ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-      });
-    }
-    super.initState();
+
     init();
   }
 
@@ -430,7 +439,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         body: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.only(top: 20, bottom: 30),
-            child: Stack(
+            child: this.isGettingData ? Center(child: CircularProgressIndicator(),) : Stack(
               clipBehavior: Clip.none,
               children: [
                 Column(
