@@ -235,6 +235,14 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   @override
   void initState() {
+    if(this.initForm){
+      _loadKhuVuc('Quận huyện', null, null);
+      _loadDVT();
+
+      setState(() {
+        this.initForm = false;
+      });
+    }
 
     if(widget.nid != null){
       _loadNhuCau();
@@ -412,14 +420,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       }
     }
 
-    if(this.initForm){
-      _loadKhuVuc('Quận huyện', null, null);
-      _loadDVT();
 
-      setState(() {
-        this.initForm = false;
-      });
-    }
 
     return SafeArea(
       child: Scaffold(

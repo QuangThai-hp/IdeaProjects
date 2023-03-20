@@ -16,6 +16,28 @@ import 'SanPham.dart';
 class NhuCaus with ChangeNotifier {
   late List<NhuCau> _items = [];
   late List<KhuVuc> _khuVuc = [];
+  late List<Map<String, dynamic>> _mucGiaNhaBan = [];
+  late List<Map<String, dynamic>> _mucGiaThue = [];
+  late List<Map<String, dynamic>> _dienTich = [];
+
+  List<Map<String, dynamic>> get dienTich => _dienTich;
+
+  set dienTich(List<Map<String, dynamic>> value) {
+    _dienTich = value;
+  }
+
+  List<Map<String, dynamic>> get mucGiaThue => _mucGiaThue;
+
+  set mucGiaThue(List<Map<String, dynamic>> value) {
+    _mucGiaThue = value;
+  }
+
+  List<Map<String, dynamic>> get mucGiaNhaBan => _mucGiaNhaBan;
+
+  set mucGiaNhaBan(List<Map<String, dynamic>> value) {
+    _mucGiaNhaBan = value;
+  }
+
   final String authToken;
   final String uid;
   late NhuCau _nhuCau = NhuCau(hinhAnhs: []);
@@ -51,8 +73,6 @@ class NhuCaus with ChangeNotifier {
   }
 
   Future<void> getNhuCauByNid(int nid) async{
-    print(RFGetThongTinNhuCau);
-    print(nid);
     final response = await http.post(
         Uri.parse(RFGetThongTinNhuCau),
         body: json.encode({
@@ -113,14 +133,12 @@ class NhuCaus with ChangeNotifier {
   }
 
   Future<void> getListNhuCau(String? type, Map<String, dynamic>? thongTinTimKiem, int start, int limit) async{
-    print(thongTinTimKiem);
     try
     {
-      print(thongTinTimKiem);
       final response = await http.post(
           Uri.parse(RFGetNhuCauByPhanLoai),
           body: json.encode({
-            'thongTinTimKiem': thongTinTimKiem,
+            'thongTinTimKiem': thongTinTimKiem!['timKiem'] ? thongTinTimKiem : null,
             'uid': this.uid,
             'auth': this.authToken,
             'type': type,
@@ -142,7 +160,6 @@ class NhuCaus with ChangeNotifier {
       final String noImageUrl = 'https://happyhomehaiphong.com/images/da-luu/no-image.png';
 
       extractedData.forEach((element) {
-
         loadedNhuCaus.add(NhuCau(
           nid: element['nid'],
           field_dien_thoai: element['field_dien_thoai'],
@@ -163,9 +180,7 @@ class NhuCaus with ChangeNotifier {
           hoTen: element['hoTenNguoiNhap'] == null ? '' : element['hoTenNguoiNhap'],
           hinhAnhs: []
         ));
-
       });
-      print(loadedNhuCaus.length);
       _items = loadedNhuCaus;
       // if(!responseData['success'])
       //   throw HttpException(responseData['content']);
@@ -195,6 +210,7 @@ class NhuCaus with ChangeNotifier {
   }
 
   Future<void> khoiTaoTimKiemNhuCau() async{
+    _khuVuc.clear();
     print(RFBaseKhoiTaoTimKiemNhuCau);
     // try
         {
@@ -210,15 +226,34 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
+      print(jsonDecode(response.body));
       final listQuan = List<Map<String, dynamic>>.from(jsonDecode(response.body)['listQuan']);
-      // final mucGiaNhaBan = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaBan']);
-      // final mucGiaNhaChoThue = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaChoThue']);
-      // final khoangDienTich = List<Map<String, dynamic>>.from(jsonDecode(response.body)['khoangDienTich']);
+      final mucGiaNhaBan = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaBan']);
+      final mucGiaNhaChoThue = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaChoThue']);
+      final khoangDienTich = List<Map<String, dynamic>>.from(jsonDecode(response.body)['khoangDienTich']);
       listQuan.forEach((element) {
         _khuVuc.add(KhuVuc(
           tid: element['tid'].toString().toInt(),
           name: element['name']
         ));
+      });
+      mucGiaNhaBan.forEach((element) {
+        _mucGiaNhaBan.add({
+          "key": element['key'],
+          "value": element['value']
+        });
+      });
+      mucGiaNhaChoThue.forEach((element) {
+        _mucGiaThue.add({
+          "key": element['key'],
+          "value": element['value']
+        });
+      });
+      khoangDienTich.forEach((element) {
+        _dienTich.add({
+          "key": element['key'],
+          "value": element['value']
+        });
       });
       // _items = loadedNhuCaus;
       // if(!responseData['success'])

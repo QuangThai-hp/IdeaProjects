@@ -61,6 +61,9 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
   List<String> selectedListHuong = [];
   String? selectedValueQuan = null;
   String? selectedValuePhuong = null;
+  String? selectedValueMucGiaBan = null;
+  String? selectedValueMucGiaThue = null;
+  String? selectedValueDienTich = null;
   bool gettingPhuongByQUan = false;
 
   List<DropdownMenuItem> listHuong = [ //'', '', '','', '', 'Đông ', '', 'Tây ', '', ''
@@ -114,10 +117,40 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
   void initState() {
     final provider = Provider.of<NhuCaus>(context, listen: false);
     provider.khoiTaoTimKiemNhuCau().then((value){
+      setState(() {
+        listQuan = [];
+        listPhuongXa.clear();
+        mucGia.clear();
+        mucGiaBan.clear();
+        mucGiaChoThue.clear();
+        dienTich.clear();
+      });
+
+
       if(this.mounted){
-        setState(() {
-          provider.khuVuc.forEach((element) {
+        provider.khuVuc.forEach((element) {
+          setState(() {
             listQuan.add(DropdownMenuItem(child: Text(element.name), value: element.name,));
+          });
+        });
+        provider.mucGiaNhaBan.forEach((element) {
+          setState(() {
+            mucGiaBan.add(DropdownMenuItem(child: Text(element['value']), value: element['value'],));
+          });
+        });
+        provider.mucGiaThue.forEach((element) {
+          setState(() {
+            mucGiaChoThue.add(DropdownMenuItem(child: Text(element['value']), value: element['value'],));
+          });
+        });
+        provider.mucGiaThue.forEach((element) {
+          setState(() {
+            mucGiaChoThue.add(DropdownMenuItem(child: Text(element['value']), value: element['value'],));
+          });
+        });
+        provider.dienTich.forEach((element) {
+          setState(() {
+            dienTich.add(DropdownMenuItem(child: Text(element['value']), value: element['value'],));
           });
         });
       }
@@ -146,7 +179,6 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
         });
       });
     }
-
   }
 
   // const FormTimKiemNhuCau({Key? key}) : super(key: key);
@@ -197,8 +229,8 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                 searchHint: "Nhu cầu",
                 onChanged: (value) {
                   setState(() {
-                    print('nhu cầu ${value}');
                     selectedNhuCau = value;
+
                   });
                 },
                 isExpanded: true,
@@ -209,12 +241,10 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                 hint: "Nhập tên Quận",
                 searchHint: "Tên Quận",
                 onChanged: (value) {
-                  print(value);
                   setState(() {
                     selectedValueQuan = value;
                   });
                   _loadPhuongXaByNameQuan(value);
-                  print(selectedValueQuan);
                 },
                 isExpanded: true,
               ),
@@ -226,6 +256,43 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                 onChanged: (value) {
                   setState(() {
                     selectedValuePhuong = value;
+                  });
+                },
+                isExpanded: true,
+              ),
+              selectedNhuCau == "Cần mua" || selectedNhuCau == "Cần bán" ? SearchChoices.single(
+                items: mucGiaBan,
+                value: selectedValueMucGiaBan,
+                hint: "Mức giá bán",
+                searchHint: "Mức giá",
+                onChanged: (value) {
+                  setState(() {
+                    selectedValueMucGiaBan = value;
+                  });
+                },
+                isExpanded: true,
+              ) : (
+                  selectedNhuCau == "Cần thuê" || selectedNhuCau == "Cho thuê" ? SearchChoices.single(
+                    items: mucGiaChoThue,
+                    value: selectedValueMucGiaThue,
+                    hint: "Mức giá thuê",
+                    searchHint: "Mức giá",
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValueMucGiaThue = value;
+                      });
+                    },
+                    isExpanded: true,
+                  ) : SizedBox()
+              ),
+              SearchChoices.single(
+                items: dienTich,
+                value: selectedValueDienTich,
+                hint: "Khoảng diện tích",
+                searchHint: "Diện tích",
+                onChanged: (value) {
+                  setState(() {
+                    selectedValueDienTich = value;
                   });
                 },
                 isExpanded: true,
@@ -262,33 +329,42 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                   }
                 },
               ),
-              GestureDetector(
-                onTap: () {
-                  // finish(context);
-                },
-                child: Container(
-                  // width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.all(8),
-                  child: Center(
-                    child: OutlinedButton.icon(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff2192FF)) ,
-                      ),
-                        onPressed: (){
-                          widget.callback({
-                            "selectedValueQuan": selectedValueQuan,
-                            "selectedValuePhuong": selectedValuePhuong,
-                            "selectedHuong": selectedList,
-                            "selectedNhuCau": selectedNhuCau,
-                          });
-
-                          // print(selectedValueQuan);
-                        },
-                        icon: Icon(Ionicons.search, size: 16, color: Colors.white,),
-                        label: Text('Tìm kiếm', style: TextStyle(color: Colors.white),),
+              Container(
+                // width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(8),
+                child: Center(
+                  child: OutlinedButton.icon(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff2192FF)) ,
                     ),
-                    // child: TextIcon(text: "Tìm kiếm", textStyle: boldTextStyle(color: white)),
+                    onPressed: (){
+                      print({
+                        "selectedValueQuan": selectedValueQuan,
+                        "selectedValuePhuong": selectedValuePhuong,
+                        "selectedHuong": selectedList,
+                        "selectedNhuCau": selectedNhuCau,
+                        "selectedValueMucGiaBan": selectedValueMucGiaBan,
+                        "selectedValueMucGiaThue": selectedValueMucGiaThue,
+                        "selectedValueDienTich": selectedValueDienTich,
+                        "timKiem": true
+                        });
+                      widget.callback({
+                        "selectedValueQuan": selectedValueQuan,
+                        "selectedValuePhuong": selectedValuePhuong,
+                        "selectedHuong": selectedList,
+                        "selectedNhuCau": selectedNhuCau,
+                        "selectedValueMucGiaBan": selectedValueMucGiaBan,
+                        "selectedValueMucGiaThue": selectedValueMucGiaThue,
+                        "selectedValueDienTich": selectedValueDienTich,
+                        "timKiem": true
+                      });
+
+                      // print(selectedValueQuan);
+                    },
+                    icon: Icon(Ionicons.search, size: 16, color: Colors.white,),
+                    label: Text('Tìm kiếm', style: TextStyle(color: Colors.white),),
                   ),
+                  // child: TextIcon(text: "Tìm kiếm", textStyle: boldTextStyle(color: white)),
                 ),
               ),
               16.height,

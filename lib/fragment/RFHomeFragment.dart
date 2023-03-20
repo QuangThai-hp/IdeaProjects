@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFString.dart';
-import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
 import 'package:room_finder_flutter/widgets/FormTimKiemNhuCau.dart';
-import 'package:room_finder_flutter/widgets/Select2.dart';
-import 'package:provider/provider.dart';
-
-import '../widgets/CusomerList.dart';
 
 class RFHomeFragment extends StatefulWidget {
   @override
@@ -35,8 +27,8 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   ];
   int selectCategoryIndex = 0;
   bool locationWidth = true;
-  Map<String, dynamic>? thongTinTimKiem;
-  bool timKiem = false;
+  Map<String, dynamic> thongTinTimKiem = {"timKiem": false};
+  int start = 0;
 
   Widget appBarTitle = Text("Nhu cầu", style: boldTextStyle(color: appStore.textPrimaryColor));
   FocusNode focusNode = FocusNode();
@@ -92,10 +84,10 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                     builder: (BuildContext context) => FormTimKiemNhuCau(
                       callback: (value){
                         setState(() {
-                          thongTinTimKiem = value;
+                          this.thongTinTimKiem = value;
+                          _isLoading = true;
                         });
-                    },
-                    ),
+                    },),
                   );
                 },
               ),
@@ -121,8 +113,8 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                             onTap: () {
                               setState(() {
                                 selectCategoryIndex = index;
-                                timKiem = false;
-                                thongTinTimKiem = null;
+                                _isLoading = true;
+                                start = 0;
                               });
                             },
                             child: Container(
@@ -148,13 +140,12 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                         children: [
                           Text('Nhu cầu: ${categoryData[selectCategoryIndex]}', style: boldTextStyle()),
                         ],
-                      ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-                      _isLoading ? Center(
-                        child: CircularProgressIndicator(),
-                      ) : BangNhuCauCanMuaList(
+                      ).paddingOnly(left: 8, right: 8, top: 16, bottom: 8),
+                      BangNhuCauCanMuaList(
                         phanLoai: categoryData[selectCategoryIndex],
-                        reset: true,
-                        thongTinTimKiem: thongTinTimKiem,
+                        isLoading: this._isLoading,
+                        start: this.start,
+                        thongTinTimKiem: this.thongTinTimKiem
                       )
                     ],
                   ),
