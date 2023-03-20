@@ -420,11 +420,9 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       }
     }
 
-
-
     return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
+        child: Scaffold(
+        appBar: AppBar(
             title: Text('Cập nhật thông tin nhu cầu', style: boldTextStyle(color: appStore.textPrimaryColor)),
             backgroundColor: Colors.white,
             leading: leadingWidget(),

@@ -338,16 +338,6 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                       backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff2192FF)) ,
                     ),
                     onPressed: (){
-                      print({
-                        "selectedValueQuan": selectedValueQuan,
-                        "selectedValuePhuong": selectedValuePhuong,
-                        "selectedHuong": selectedList,
-                        "selectedNhuCau": selectedNhuCau,
-                        "selectedValueMucGiaBan": selectedValueMucGiaBan,
-                        "selectedValueMucGiaThue": selectedValueMucGiaThue,
-                        "selectedValueDienTich": selectedValueDienTich,
-                        "timKiem": true
-                        });
                       widget.callback({
                         "selectedValueQuan": selectedValueQuan,
                         "selectedValuePhuong": selectedValuePhuong,

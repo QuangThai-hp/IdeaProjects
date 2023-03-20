@@ -68,6 +68,7 @@ class NhuCaus with ChangeNotifier {
   NhuCau get nhuCau => _nhuCau;
 
   NhuCaus(this.authToken, this.uid, this._items, this._start);
+
   List<NhuCau> get items{
     return [..._items];
   }
@@ -226,7 +227,6 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
-      print(jsonDecode(response.body));
       final listQuan = List<Map<String, dynamic>>.from(jsonDecode(response.body)['listQuan']);
       final mucGiaNhaBan = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaBan']);
       final mucGiaNhaChoThue = List<Map<String, dynamic>>.from(jsonDecode(response.body)['mucGiaNhaChoThue']);

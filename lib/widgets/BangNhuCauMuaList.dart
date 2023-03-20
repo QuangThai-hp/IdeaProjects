@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/screens/ChiTietNhuCau.dart';
 import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -336,7 +337,11 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                         ),
                                       ),
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) => ChiTietNhuCau(nid: nhuCaus[index].nid.toInt(),)
+                                          ));
+                                        },
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.white
 
@@ -360,8 +365,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                         onPressed: () {
                                           Navigator.of(context).push(MaterialPageRoute(
                                               builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)
-                                          )
-                                          );
+                                          ));
                                         },
                                         style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                                         child: Column(
