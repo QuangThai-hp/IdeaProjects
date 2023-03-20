@@ -2,11 +2,18 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/KhuVuc.dart';
+import 'package:room_finder_flutter/utils/RFColors.dart';
 
 import '../main.dart';
+import '../main/utils/dots_indicator/src/dots_decorator.dart';
+import '../main/utils/dots_indicator/src/dots_indicator.dart';
 import '../providers/NhuCau.dart';
 import '../providers/NhuCaus.dart';
+import '../utils/RFString.dart';
 import '../utils/RFWidget.dart';
 import 'RFHomeScreen.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +32,7 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   var currentIndexPage = 0;
   bool nhuCauLoaded = false;
-  NhuCau? nhuCau = null;
+  NhuCau nhuCau = NhuCau(hinhAnhs: [RFNoImage], quanHuyen: KhuVuc(tid: 0, name: '', type: ''), phuongXa: KhuVuc(tid: 0, name: '', type: ''));
 
   @override
   void initState() {
@@ -34,7 +41,7 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
       // print(currentIndexPage)
       setState(() {
         currentIndexPage = currentIndexPage + 1;
-        if(currentIndexPage > 2)
+        if(currentIndexPage == nhuCau.hinhAnhs.length)
           currentIndexPage = 0;
         pageController.animateToPage(currentIndexPage, duration: Duration(seconds: 1), curve: Curves.easeIn);
       })
@@ -53,10 +60,18 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
           nhuCauLoaded = true;
           nhuCau = nhuCaus.nhuCau;
         });
-        print(nhuCau?.hinhAnhs);
+        print(nhuCau.hinhAnhs);
       });
     }
 
+  }
+
+  List<Widget> getSlider(){
+    List<Widget> sliders = [];
+    nhuCau.hinhAnhs.forEach((element) {
+      sliders.add(Slider(file: element));
+    });
+    return sliders;
   }
 
   @override
@@ -66,9 +81,10 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
         color: appStore.textPrimaryColor,
         onPressed: () {
           // toasty(context, 'Back button');
-          RFHomeScreen rf_home = new RFHomeScreen();
-          rf_home.selectedIndex = 0;
-          rf_home.launch(context);
+          // RFHomeScreen rf_home = new RFHomeScreen();
+          // rf_home.selectedIndex = 0;
+          // rf_home.launch(context);
+          Navigator.pop(context);
         },
       );
     }
@@ -81,34 +97,15 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
       ),
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.only(top: 20, bottom: 30),
-        child: Stack(
-          clipBehavior: Clip.none,
+        padding: EdgeInsets.only(top: 0, bottom: 20),
+        child: Column(
           children: [
             Container(
               width: context.width(),
               height: context.width() * 0.55,
               child: PageView(
                 controller: pageController,
-                children: <Widget>[
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: nhuCau?.hinhAnhs.length,
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    padding: EdgeInsets.all(10),
-                    itemBuilder: (BuildContext context, int index) {
-                      String? urlLink = 'https://happyhomehaiphong.com/images/da-luu/no-image.png';
-                      if(nhuCau != null)
-                        urlLink = nhuCau?.hinhAnhs[index];
-                      return
-                        Slider(file: urlLink!);
-                    },
-                  ),
-                  // Slider(file: widget.sanPham!.images![0].replaceAll("//", "https://")),
-                  // Slider(file: widget.sanPham!.images![0].replaceAll("//", "https://")),
-                  // Slider(file: widget.sanPham!.images![0].replaceAll("//", "https://")),
-                ],
+                children: getSlider(),
                 onPageChanged: (int i) {
                   setState(() {
                     currentIndexPage = i;
@@ -116,7 +113,78 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
                 },
               ),
             ),
-            8.height,
+            new Padding(
+              padding: EdgeInsets.all(0),
+              child: DotsIndicator(
+                  dotsCount: nhuCau.hinhAnhs.length,
+                  position: currentIndexPage,
+                  decorator: DotsDecorator(
+                    size: Size.square(8.0),
+                    activeSize: Size.square(10.0),
+                    color: t1_view_color,
+                    activeColor: rf_primaryColor,
+                  )
+
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: Column(
+                children: [
+                  Container(
+                    child: Text(nhuCau.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                    alignment: Alignment.topLeft,
+                  ),
+                  8.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Nhu cầu', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.help_circle, size: 18,),),
+                      Text(nhuCau.nhuCau, style: secondaryTextStyle()),
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Quận huyện', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.map_sharp, size: 18,),),
+                      Text(nhuCau.quanHuyen.name, style: secondaryTextStyle()),
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Phường xã', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.navigate, size: 18,),),
+                      Text(nhuCau.phuongXa.name, style: secondaryTextStyle()),
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Giá bán', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Icons.monetization_on_sharp, size: 18,),),
+                      text(
+                          NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCau.giaBangSo == null ? 0 : nhuCau.giaBangSo), textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Diện tích', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.expand_outline, size: 18,),),
+                      text(
+                          "${NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCau.dienTichSuDung)} m2",
+                          textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                ],
+              ),
+            )
+
           ],
         ),
       )
@@ -143,6 +211,7 @@ class Slider extends StatelessWidget {
             placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
             imageUrl: file,
             fit: BoxFit.cover,
+            errorWidget: (context, url, error) => Material(child: Icon(Icons.broken_image, size:  20,),),
           )),
     );
   }

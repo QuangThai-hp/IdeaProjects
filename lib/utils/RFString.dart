@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 const RFAppName = "HappyHome";
 const RFAppSubTitle = "Quản lý dữ liệu BĐS";
 const RFBaseUrl = "https://happyhomehaiphong.com/api/";
@@ -21,5 +23,7 @@ const RFDanhSachNhuCau="https://happyhomehaiphong.com/api/danh-sach-nhu-cau-by-i
 const RFGetThongTinNhuCau="https://happyhomehaiphong.com/api/get-nhu-cau-by-nid";
 const RFSuaKhachHang="https://happyhomehaiphong.com/api/sua-khach-hang";
 const RFXoaNhuCau="https://happyhomehaiphong.com/api/xoa-nhu-cau";
+const RFNoImage = 'https://happyhomehaiphong.com/images/da-luu/no-image.png';
 
 const textSizeSMedium = 14.0;
+const t1_view_color = Color(0XFFDADADA);

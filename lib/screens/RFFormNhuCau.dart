@@ -252,6 +252,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       }else{
         setState(() {
           ngayNhapController.text = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+          this.isGettingData = false;
         });
       }
 
@@ -391,9 +392,10 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         color: appStore.textPrimaryColor,
         onPressed: () {
           // toasty(context, 'Back button');
-          RFHomeScreen rf_home = new RFHomeScreen();
-          rf_home.selectedIndex = 0;
-          rf_home.launch(context);
+          // RFHomeScreen rf_home = new RFHomeScreen();
+          // rf_home.selectedIndex = 0;
+          // rf_home.launch(context);
+          Navigator.pop(context);
         },
       );
     }

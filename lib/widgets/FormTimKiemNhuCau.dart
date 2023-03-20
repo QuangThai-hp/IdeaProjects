@@ -338,6 +338,16 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                       backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff2192FF)) ,
                     ),
                     onPressed: (){
+                      print({
+                        "selectedValueQuan": selectedValueQuan,
+                        "selectedValuePhuong": selectedValuePhuong,
+                        "selectedHuong": selectedList,
+                        "selectedNhuCau": selectedNhuCau,
+                        "selectedValueMucGiaBan": selectedValueMucGiaBan,
+                        "selectedValueMucGiaThue": selectedValueMucGiaThue,
+                        "selectedValueDienTich": selectedValueDienTich,
+                        "timKiem": true
+                      });
                       widget.callback({
                         "selectedValueQuan": selectedValueQuan,
                         "selectedValuePhuong": selectedValuePhuong,
@@ -348,7 +358,7 @@ class _FormTimKiemNhuCauState extends State<FormTimKiemNhuCau> {
                         "selectedValueDienTich": selectedValueDienTich,
                         "timKiem": true
                       });
-
+                      Navigator.of(context, rootNavigator: true).pop();
                       // print(selectedValueQuan);
                     },
                     icon: Icon(Ionicons.search, size: 16, color: Colors.white,),

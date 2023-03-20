@@ -41,7 +41,10 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
   int limit = 10;
 
   Future<void> _reloadNhuCau() async{
-    final provider = Provider.of<NhuCaus>(context, listen: false);
+    setState(() {
+      ketQuaNhuCau = '';
+    });
+    final provider = await Provider.of<NhuCaus>(context, listen: false);
     provider.getListNhuCau(widget.phanLoai, widget.thongTinTimKiem, widget.start, this.limit).then((value){
       if(this.mounted){
         setState(() {
@@ -150,21 +153,6 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              child: Text('Hướng: ', style: TextStyle(fontWeight: FontWeight.bold),),
-                              alignment: Alignment.topLeft,
-                            ),
-                            5.width,
-                            Container(
-                              width: c_width,
-                              child: Text((widget.thongTinTimKiem['selectedHuong'].length) > 0 ? widget.thongTinTimKiem['selectedHuong'].join(', ') : ''),
-
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
                               child: Text('Diện tích: ', style: TextStyle(fontWeight: FontWeight.bold),),
                               alignment: Alignment.topLeft,
                             ),
@@ -186,12 +174,13 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             widget.thongTinTimKiem.putIfAbsent("timKiem", () => false);
                             widget.isLoading = true;
                             widget.start = 0;
+                            this.ketQuaNhuCau = '';
                           });
                         }, icon: Icon(Ionicons.refresh, size: 16, color: Colors.white,), label: Text('Khôi phục danh sách', style: TextStyle(color: Colors.white),))
                   ],
                 ),
               ) : SizedBox(),
-              (ketQuaNhuCau != '')  ? Text(ketQuaNhuCau, style: TextStyle(color: Colors.red),).paddingAll(10) :
+              (ketQuaNhuCau != '')  ? Text(ketQuaNhuCau, style: TextStyle(color: Colors.red),).paddingAll(10) : SizedBox(),
               Container(
                 child: Column(
                   children: [
@@ -315,59 +304,39 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      TextButton(
-                                        onPressed: () {
+                                      Expanded(
+                                        child: TextButton(
+                                          onPressed: () {
 
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white,
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.white,
 
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Row(
+                                                children: [
+                                                  Icon(Ionicons.search_outline,color: rf_primaryColor, size: 18, ), // icon
+                                                  2.width,
+                                                  Text("Tìm kết nối",style: TextStyle(fontSize: 12,color: rf_primaryColor)), // text
+                                                ],
+                                              )
+
+                                            ],
+                                          ),
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Row(
-                                              children: [
-                                                Icon(Ionicons.git_branch_outline,color: rf_primaryColor, size: 18, ), // icon
-                                                2.width,
-                                                Text("Kết nối",style: TextStyle(fontSize: 12,color: rf_primaryColor)), // text
-                                              ],
-                                            )
-
-                                          ],
-                                        ),
+                                        flex: 3,
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).push(MaterialPageRoute(
-                                              builder: (context) => ChiTietNhuCau(nid: nhuCaus[index].nid.toInt(),)
-                                          ));
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.white
-
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Icon(Ionicons.eye_outline,color: rf_primaryColor, size: 18, ), // icon
-                                                2.width,
-                                                Text("Chi tiết",style: TextStyle(color: rf_primaryColor, fontSize: 12
-                                                )), // text
-                                              ],
-                                            )
-
-                                          ],
-                                        ),
-                                      ),
-                                      TextButton(
+                                      Expanded(child: TextButton(
                                         onPressed: () {
                                           Navigator.of(context).push(MaterialPageRoute(
                                               builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)
-                                          ));
+                                          )
+                                          );
                                         },
                                         style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                                         child: Column(
@@ -375,9 +344,9 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                           children: [
                                             Row(
                                               children: [
-                                                Icon(Ionicons.pencil_sharp,color: rf_primaryColor, size: 18, ), // icon
+                                                Icon(Ionicons.link_outline, color: rf_primaryColor, size: 18, ), // icon
                                                 2.width,
-                                                Text("Sửa",style: TextStyle(
+                                                Text("Kết nối ngay",style: TextStyle(
                                                     color: rf_primaryColor,
                                                     fontSize: 12
                                                 )), // text
@@ -386,8 +355,8 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
 
                                           ],
                                         ),
-                                      ),
-                                      TextButton(
+                                      ), flex: 3,),
+                                      Expanded(child: TextButton(
                                         onPressed: () {
                                           Navigator.of(context).push(MaterialPageRoute(
                                               builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)
@@ -411,36 +380,55 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
 
                                           ],
                                         ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          final provider = Provider.of<NhuCaus>(context);
-                                          provider.delete(nhuCaus[index].nid.toInt(),);
-                                          setState(() {
+                                      ), flex: 2,),
+                                      Expanded(
+                                        child: PopupMenuButton(
+                                          icon: Icon(
+                                            Icons.more_vert,
+                                            color: appStore.textPrimaryColor,
+                                          ),
+                                          onSelected: (dynamic value) {
+                                            if(value == 'Xem chi tiết'){
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => ChiTietNhuCau(nid: nhuCaus[index].nid.toInt(),)),
+                                              );
+                                            }
+                                            else if(value == 'Sửa'){
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => RFFormNhuCauScreen(nid: nhuCaus[index].nid.toInt(),)),
+                                              );
+                                            }
+                                            else{
 
-                                          });
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.white
-
+                                            }
+                                          },
+                                          itemBuilder: (context) {
+                                            List<PopupMenuEntry<Object>> list = [];
+                                            list.add(
+                                              PopupMenuItem(
+                                                child: TextIcon(text: "Xem chi tiết", textStyle: primaryTextStyle(), prefix: Icon(Ionicons.eye, size: 18,),),
+                                                value: 'Xem chi tiết',
+                                              ),
+                                            );
+                                            list.add(
+                                              PopupMenuItem(
+                                                child: TextIcon(text: "Sửa nhu cầu", textStyle: primaryTextStyle(), prefix: Icon(Ionicons.pencil, size: 18,),),
+                                                value: 'Sửa',
+                                              ),
+                                            );
+                                            list.add(
+                                              PopupMenuItem(
+                                                child: TextIcon(text: "Xoá nhu cầu", textStyle: primaryTextStyle(color: Colors.red), prefix: Icon(Ionicons.trash, size: 18, color: Colors.red,),),
+                                                value: 'Xoá',
+                                              ),
+                                            );
+                                            return list;
+                                          },
                                         ),
-
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Row(
-                                              children: [
-                                                Icon(Ionicons.trash, color:Colors.red, size: 18, ), // icon
-                                                2.width,
-                                                Text("Xoá",style: TextStyle(
-                                                    color: Colors.redAccent,
-                                                    fontSize: 12
-                                                )), // text
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                        flex: 1,
+                                      )
                                     ],
                                   ),
                                   Divider(height: 0.5, color: t7view_color, thickness: 1),

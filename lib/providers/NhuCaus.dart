@@ -40,7 +40,7 @@ class NhuCaus with ChangeNotifier {
 
   final String authToken;
   final String uid;
-  late NhuCau _nhuCau = NhuCau(hinhAnhs: []);
+  late NhuCau _nhuCau = NhuCau(hinhAnhs: ['https://happyhomehaiphong.com/images/da-luu/no-image.png'], quanHuyen: KhuVuc(tid: 0, name: '', type: ''), phuongXa: KhuVuc(tid: 0, name: '', type: ''));
   List<String> file_images = [];
   late int _start;
   List<KhuVuc> get khuVuc => _khuVuc;
@@ -101,11 +101,11 @@ class NhuCaus with ChangeNotifier {
 
       nhuCau: jsonDecode(response.body)['content']['nhuCau'],
       ngayNhap: jsonDecode(response.body)['content']['ngayNhap'],
-      quanHuyen: jsonDecode(response.body)['content']['quanHuyen'] == null ? null : KhuVuc(
+      quanHuyen: KhuVuc(
         tid: jsonDecode(response.body)['content']['quanHuyen']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['content']['quanHuyen']['name'],
       ),
-      phuongXa: jsonDecode(response.body)['content']['phuongXa'] == null ? null : KhuVuc(
+      phuongXa: KhuVuc(
         tid: jsonDecode(response.body)['content']['phuongXa']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['content']['phuongXa']['name'],
       ),
@@ -127,14 +127,14 @@ class NhuCaus with ChangeNotifier {
       chieuRong: jsonDecode(response.body)['content']['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['content']['soTienCoc'].toString().toDouble(),
       ghiChu: jsonDecode(response.body)['content']['ghiChu'],
-      hinhAnhs: (map['field_anh_san_pham'] as List).map((item) => item as String).toList()//jsonDecode(response.body)['field_anh_san_pham'] == null || jsonDecode(response.body)['field_anh_san_pham'] == '' ? [] : jsonDecode(response.body)['field_anh_san_pham'],
+      hinhAnhs: (map['field_anh_san_pham'] as List).map((item) => item as String).toList()
     );
     //json.decode(response.body) as Map<String, dynamic>;
     notifyListeners();
   }
 
   Future<void> getListNhuCau(String? type, Map<String, dynamic>? thongTinTimKiem, int start, int limit) async{
-    try
+    // try
     {
       final response = await http.post(
           Uri.parse(RFGetNhuCauByPhanLoai),
@@ -152,6 +152,7 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
+      print(jsonDecode(response.body));
       _start = jsonDecode(response.body)['startBtn'].toString().toDouble().toInt();
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
@@ -179,7 +180,8 @@ class NhuCaus with ChangeNotifier {
             dienThoai: element['field_dien_thoai'] == null ? "" : element['field_dien_thoai'],
           ),
           hoTen: element['hoTenNguoiNhap'] == null ? '' : element['hoTenNguoiNhap'],
-          hinhAnhs: []
+          hinhAnhs: [],
+          quanHuyen: KhuVuc(tid: 0, name: '', type: ''), phuongXa:  KhuVuc(tid: 0, name: '', type: '')
         ));
       });
       _items = loadedNhuCaus;
@@ -187,9 +189,9 @@ class NhuCaus with ChangeNotifier {
       //   throw HttpException(responseData['content']);
       notifyListeners();
     }
-    catch(error){
-      throw error;
-    }
+    // catch(error){
+    //   throw error;
+    // }
   }
 
   Future<void> delete(int? nid) async{

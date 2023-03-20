@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/main.dart';
+import 'package:room_finder_flutter/screens/RFFormNhuCau.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/widgets/BangNhuCauMuaList.dart';
 import 'package:room_finder_flutter/widgets/FormTimKiemNhuCau.dart';
@@ -158,7 +159,11 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             heroTag: '1',
             elevation: 5,
             onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil('/form-nhu-cau', (route)=>false);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RFFormNhuCauScreen()),
+              );
+              // Navigator.of(context).pushNamedAndRemoveUntil('/form-nhu-cau', (route)=>false);
               // toasty(context, 'Default FAB Button');
             },
             child: Icon(

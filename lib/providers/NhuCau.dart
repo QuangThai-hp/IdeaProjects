@@ -7,7 +7,7 @@ import 'package:room_finder_flutter/providers/DonViTinh.dart';
 class NhuCau with ChangeNotifier {
   String? nid;
   final String? ngayNhap;
-  final String? nhuCau;
+  String nhuCau = '';
   final KhachHangChuNha? khachHangChuNha;
   final String? hoTen;
   final String? field_dien_thoai;
@@ -22,8 +22,8 @@ class NhuCau with ChangeNotifier {
   final String? ghiChu;
   final String? field_huong;
   final String? field_phuong_xa;
-  final KhuVuc? phuongXa;
-  final KhuVuc? quanHuyen;
+  KhuVuc phuongXa = KhuVuc(tid: 0, name: '');
+  KhuVuc quanHuyen = KhuVuc(tid: 0, name: '');
   final DonViTinh? donViTinhGia;
 final int? soPhongNgu;
 final int? SoPhongVeSinh;
@@ -36,14 +36,14 @@ final String? tinhTrangNoiThat;
   final String field_anh_san_pham;
   final String field_trang_thai_nhu_cau;
   final String field_don_vi_tinh;
-  List<String> hinhAnhs = [];
+  List<String> hinhAnhs = ['https://happyhomehaiphong.com/images/da-luu/no-image.png'];
 
   NhuCau({
     this.nid = '',
     this.hoTen,
     this.khachHangChuNha = null,
     this.ngayNhap,
-    this.nhuCau,
+    this.nhuCau = '',
     this.field_dien_thoai,
     this.title = '',
     this.field_dien_tich = 0,
@@ -61,15 +61,15 @@ final String? tinhTrangNoiThat;
     this.SoPhongVeSinh,
     this.soTang,
     this.donViTinhGia,
-    this.phuongXa,
+    required this.phuongXa,
 
-    this.quanHuyen=null ,
+    required this.quanHuyen,
     this.thongTinPhapLy,
     this.tinhTrangNoiThat,
-     this.field_phuong_xa,
-     this.field_quan_huyen,
-     this.field_nhom_nhu_cau = '',
-     this.field_anh_san_pham = '',
+    this.field_phuong_xa,
+    this.field_quan_huyen,
+    this.field_nhom_nhu_cau = '',
+    this.field_anh_san_pham = '',
     this.field_trang_thai_nhu_cau = '',
     this.field_don_vi_tinh = '',
     required this.hinhAnhs
