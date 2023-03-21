@@ -337,7 +337,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
     }
     catch (error){
       print(error);
-      showErrorDialog('Could not authentication you. Please again later', context);
+      // showErrorDialog('Could not authentication you. Please again later', context);
     }
     setState(() {
       _isLoading = false;
@@ -400,37 +400,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
       );
     }
 
-    if(widget.nid == null){
-      if(widget.nhom == 'Khách hàng'){
-        tenForm = 'Thêm khách và nhu cầu mua / thuê';
-        doiTuong = 'Khách hàng';
-      }
-      else if(widget.nhom == 'Chủ nhà'){
-        tenForm = 'Thêm chủ nhà và nhu cầu bán / thuê';
-        doiTuong = 'Chủ nhà';
-      }
-      else if(widget.nhom == 'Cần Mua'){
-        tenForm = 'Thêm nhu cầu mua và thông tin KH';
-        doiTuong = 'Khách hàng';
-        nhomNhuCau = 'Cần mua';
-      }
-      else if(widget.nhom == 'Cần Bán'){
-        doiTuong = 'Chủ nhà';
-        tenForm = 'Thêm nhu cầu bán và thông tin chủ nhà';
-        nhomNhuCau = 'Cần bán';
-      }
-      else if(widget.nhom == 'Cho thuê'){
-        doiTuong = 'Chủ nhà';
-        tenForm = 'Thêm chủ nhà và nhu cầu cho thuê';
-        nhomNhuCau = 'Cho thuê';
-      }
-      else{
-        doiTuong = 'Khách hàng';
-        tenForm = 'Thêm khách hàng và nhu cầu cần thuê';
-        nhomNhuCau = 'Cần thuê';
-      }
-    }
-
     return SafeArea(
         child: Scaffold(
         appBar: AppBar(
@@ -491,6 +460,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                         color: Colors.deepPurpleAccent,
                                       ),
                                       onChanged: (newValue) {
+                                        print(newValue);
                                         setState(() {
                                           nhomNhuCau = newValue;
                                         });

@@ -41,7 +41,6 @@ class SanPhams with ChangeNotifier {
           }
       );
       final responseData = json.decode(response.body);
-      print(json.decode(response.body));
 
       if(!responseData['success'])
         throw HttpException(responseData['content']);
