@@ -89,11 +89,16 @@ class NhuCaus with ChangeNotifier {
     if(!jsonDecode(response.body)['success'])
       throw HttpException(jsonDecode(response.body)['content']);
 
+    print("Ghi chú: ${jsonDecode(response.body)['content']['field_ghi_chu']}");
     map['field_anh_san_pham'] = jsonDecode(response.body)['content']['field_anh_san_pham'];
 
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['content']['nid'],
       title: jsonDecode(response.body)['content']['title'],
+      hoTen: jsonDecode(response.body)['content']['hoTenNguoiNhap'],
+      field_dien_thoai: jsonDecode(response.body)['content']['dienThoaiNguoiNhap'], // số điện thoại của sale
+      ghiChu: jsonDecode(response.body)['content']['ghiChu'],
+
       khachHangChuNha: jsonDecode(response.body)['content']['KhachHangChuNha'] == null ? null : KhachHangChuNha(
         hoTen: jsonDecode(response.body)['content']['KhachHangChuNha']['hoTen'] == null ? '' : jsonDecode(response.body)['content']['KhachHangChuNha']['hoTen'],
         dienThoai: jsonDecode(response.body)['content']['KhachHangChuNha']['dienThoai'] == null ? '' : jsonDecode(response.body)['content']['KhachHangChuNha']['dienThoai'],
@@ -126,7 +131,6 @@ class NhuCaus with ChangeNotifier {
       chieuDai: jsonDecode(response.body)['content']['chieuDai'].toString().toDouble(),
       chieuRong: jsonDecode(response.body)['content']['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['content']['soTienCoc'].toString().toDouble(),
-      ghiChu: jsonDecode(response.body)['content']['ghiChu'],
       hinhAnhs: (map['field_anh_san_pham'] as List).map((item) => item as String).toList()
     );
     //json.decode(response.body) as Map<String, dynamic>;
@@ -152,7 +156,6 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
-      print(jsonDecode(response.body));
       _start = jsonDecode(response.body)['startBtn'].toString().toDouble().toInt();
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;

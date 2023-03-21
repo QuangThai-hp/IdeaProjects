@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -136,6 +137,37 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
                     alignment: Alignment.topLeft,
                   ),
                   8.height,
+                  Container(
+                    child: Text(nhuCau.ghiChu),
+                    alignment: Alignment.topLeft,
+                  ),
+                  8.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Sale', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.person, size: 18,),),
+                      Container(
+                        child: InkWell(
+                          child: Text(nhuCau.hoTen, style: TextStyle(color: rf_primaryColor, fontWeight: FontWeight.bold, fontSize: 16)),
+                          onTap: () => {
+                            Clipboard.setData(ClipboardData(text: nhuCau.field_dien_thoai))
+                                .then((value) { //only if ->
+                              final snackBar = SnackBar(
+                                content: Text('Đã sao chép số điện thoại người nhập'),
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () {},
+                                ),
+                              );
+
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar); // -> show a notification
+                            })
+                          },
+                        ),
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -173,6 +205,14 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      TextIcon(text: 'Hướng', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.compass, size: 18,),),
+                      // Text(nhuCau.field_huong, style: TextStyle(fontSize: 18),)
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       TextIcon(text: 'Diện tích', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.expand_outline, size: 18,),),
                       text(
                           "${NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCau.dienTichSuDung)} m2",
@@ -181,6 +221,60 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
                     ],
                   ).paddingOnly(top: 8, bottom: 8),
                   Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Phòng ngủ', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.bed, size: 18,),),
+                      text(
+                          nhuCau.soPhongNgu.toString(),
+                          textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'WC', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Row(
+                        children: [
+                          Icon(Ionicons.man, size: 18,),
+                          Icon(Ionicons.woman, size: 18,),
+                        ],
+                      ),),
+                      text(
+                          nhuCau.SoPhongVeSinh.toString(),
+                          textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Pháp lý', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Row(
+                        children: [
+                          Icon(Ionicons.document, size: 18,),
+                        ],
+                      ),),
+                      text(
+                          nhuCau.thongTinPhapLy.toString(),
+                          textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Container(
+                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    child: Text('Tình trạng nội thất', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                    alignment: Alignment.topLeft,
+                  ),
+                  Container(
+                    child: Text(nhuCau.tinhTrangNoiThat == '' ? 'Không có thông tin' : nhuCau.tinhTrangNoiThat),
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(bottom: 8),
+                  ),
+                  Divider(color: context.dividerColor, height: 0),
+
                 ],
               ),
             )

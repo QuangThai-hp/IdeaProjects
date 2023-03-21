@@ -9,7 +9,7 @@ class NhuCau with ChangeNotifier {
   final String? ngayNhap;
   String nhuCau = '';
   final KhachHangChuNha? khachHangChuNha;
-  final String? hoTen;
+  String hoTen = '';
   final String? field_dien_thoai;
   final String title;
   final double field_dien_tich;
@@ -19,9 +19,10 @@ class NhuCau with ChangeNotifier {
   final double? chieuDai;
   final double? chieuRong;
   final double? soTienCoc;
-  final String? ghiChu;
+  String ghiChu = '';
   final String? field_huong;
   final String? field_phuong_xa;
+  String field_ghi_chu = '';
   KhuVuc phuongXa = KhuVuc(tid: 0, name: '');
   KhuVuc quanHuyen = KhuVuc(tid: 0, name: '');
   final DonViTinh? donViTinhGia;
@@ -29,7 +30,7 @@ final int? soPhongNgu;
 final int? SoPhongVeSinh;
 final int? soTang;
 final String? thongTinPhapLy;
-final String? tinhTrangNoiThat;
+String tinhTrangNoiThat = '';
 
   final String? field_quan_huyen;
   final String field_nhom_nhu_cau;
@@ -40,7 +41,7 @@ final String? tinhTrangNoiThat;
 
   NhuCau({
     this.nid = '',
-    this.hoTen,
+    this.hoTen = '',
     this.khachHangChuNha = null,
     this.ngayNhap,
     this.nhuCau = '',
@@ -54,7 +55,7 @@ final String? tinhTrangNoiThat;
     this.chieuDai,
     this.chieuRong,
     this.soTienCoc,
-    this.ghiChu,
+    this.ghiChu = '',
 
     this.field_huong  = '',
     this.soPhongNgu,
@@ -65,7 +66,7 @@ final String? tinhTrangNoiThat;
 
     required this.quanHuyen,
     this.thongTinPhapLy,
-    this.tinhTrangNoiThat,
+    this.tinhTrangNoiThat = '',
     this.field_phuong_xa,
     this.field_quan_huyen,
     this.field_nhom_nhu_cau = '',

@@ -371,7 +371,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                               children: [
                                                 Icon(Ionicons.copy_outline, color: rf_primaryColor, size: 18, ), // icon
                                                 2.width,
-                                                Text("Copy",style: TextStyle(
+                                                Text("Nhân bản",style: TextStyle(
                                                     color: rf_primaryColor,
                                                     fontSize: 12
                                                 )), // text
@@ -380,7 +380,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
 
                                           ],
                                         ),
-                                      ), flex: 2,),
+                                      ), flex: 3,),
                                       Expanded(
                                         child: PopupMenuButton(
                                           icon: Icon(
@@ -436,13 +436,10 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                               ),
                             ),
                             onTap: (){
-                              // Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context) => RFChiTietDinhDuongNgayScreen(ngayDinhDuong : data.field_ngay_dinh_duong!.substring(0, 10))), (route) => false);
-
-                              // Provider.of<SanPham>(context).field_ngay_dinh_duong = data.field_ngay_dinh_duong!.substring(0, 10);
-                              // pushNamedAndRemoveUntil
-                              // Navigator.of(context)
-                              //     .pushNamedAndRemoveUntil(RFChiTietDinhDuongNgayScreen.routeName, (route)=>false);
-                              // RFChiTietDinhDuongNgayScreen().launch(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ChiTietNhuCau(nid: nhuCaus[index].nid.toInt(),)),
+                              );
                             },
                           );
                       },
