@@ -89,9 +89,9 @@ class NhuCaus with ChangeNotifier {
     if(!jsonDecode(response.body)['success'])
       throw HttpException(jsonDecode(response.body)['content']);
 
-    print("Ghi chú: ${jsonDecode(response.body)['content']['field_ghi_chu']}");
     map['field_anh_san_pham'] = jsonDecode(response.body)['content']['field_anh_san_pham'];
 
+    print(jsonDecode(response.body)['content']);
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['content']['nid'],
       title: jsonDecode(response.body)['content']['title'],
@@ -131,6 +131,10 @@ class NhuCaus with ChangeNotifier {
       chieuDai: jsonDecode(response.body)['content']['chieuDai'].toString().toDouble(),
       chieuRong: jsonDecode(response.body)['content']['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['content']['soTienCoc'].toString().toDouble(),
+      field_san_pham_chinh_chu: jsonDecode(response.body)['content']['field_san_pham_chinh_chu'].toString().toInt(),
+      field_xep_hang_san_pham: jsonDecode(response.body)['content']['field_xep_hang_san_pham'] == null ? null :jsonDecode(response.body)['content']['field_xep_hang_san_pham'].toString(),
+      field_do_rong_ngo: jsonDecode(response.body)['content']['field_do_rong_ngo'].toString().toDouble(),
+      field_duong_pho: jsonDecode(response.body)['content']['field_duong_pho'].toString(),
       hinhAnhs: (map['field_anh_san_pham'] as List).map((item) => item as String).toList()
     );
     //json.decode(response.body) as Map<String, dynamic>;

@@ -26,17 +26,21 @@ class NhuCau with ChangeNotifier {
   KhuVuc phuongXa = KhuVuc(tid: 0, name: '');
   KhuVuc quanHuyen = KhuVuc(tid: 0, name: '');
   final DonViTinh? donViTinhGia;
-final int? soPhongNgu;
-final int? SoPhongVeSinh;
-final int? soTang;
-final String? thongTinPhapLy;
-String tinhTrangNoiThat = '';
+  final int? soPhongNgu;
+  final int? SoPhongVeSinh;
+  final int? soTang;
+  final String? thongTinPhapLy;
+  String tinhTrangNoiThat = '';
 
   final String? field_quan_huyen;
   final String field_nhom_nhu_cau;
   final String field_anh_san_pham;
   final String field_trang_thai_nhu_cau;
   final String field_don_vi_tinh;
+  double field_do_rong_ngo = 0;
+  String? field_xep_hang_san_pham = 'Thường';
+  String? field_duong_pho = '';
+  int field_san_pham_chinh_chu = 0;
   List<String> hinhAnhs = ['https://happyhomehaiphong.com/images/da-luu/no-image.png'];
 
   NhuCau({
@@ -73,7 +77,11 @@ String tinhTrangNoiThat = '';
     this.field_anh_san_pham = '',
     this.field_trang_thai_nhu_cau = '',
     this.field_don_vi_tinh = '',
-    required this.hinhAnhs
+    required this.hinhAnhs,
+    this.field_san_pham_chinh_chu = 0,
+    this.field_xep_hang_san_pham = 'Thường',
+    this.field_do_rong_ngo = 0,
+    this.field_duong_pho = ''
   });
 
 

@@ -47,6 +47,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   TextEditingController ngayNhapController = TextEditingController();
   TextEditingController hoTenKhachHangController = TextEditingController();
+  TextEditingController duongPhoController = TextEditingController();
   TextEditingController dienThoaiController = TextEditingController();
   TextEditingController soPhongNguController = TextEditingController();
   TextEditingController soPhongVeSinhController = TextEditingController();
@@ -59,12 +60,15 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   TextEditingController dienTichSuDungController = TextEditingController();
   TextEditingController chieuDaiController = TextEditingController();
   TextEditingController chieuRongController = TextEditingController();
+  TextEditingController doRongNgoController = TextEditingController();
   TextEditingController tienDatCocController = TextEditingController();
   TextEditingController tieuDeSanPhamController = TextEditingController();
   TextEditingController ghiChuController = TextEditingController();
 
   String? huongNhuCau = null;
   String? nhomNhuCau = null;
+  String? xepLoaiSanPham = null;
+  String? sanPhamChinhChu = null;
   String? chonDonViTinh = null;
   String tenForm = '';
   String doiTuong = '';
@@ -73,6 +77,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   FocusNode ngayNhapFocusNode = FocusNode();
   FocusNode hoTenKhachHangFocusNode = FocusNode();
+  FocusNode duongPhoFocusNode = FocusNode();
   FocusNode dienThoaiFocusNode = FocusNode();
   FocusNode soPhongNguFocusNode = FocusNode();
   FocusNode soPhongVeSinhFocusNode = FocusNode();
@@ -86,6 +91,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   FocusNode dienTichSuDugFocusNode = FocusNode();
   FocusNode chieuDaiFocusNode = FocusNode();
   FocusNode chieuRongFocusNode = FocusNode();
+  FocusNode doRongNgoFocusNode = FocusNode();
   FocusNode tienDatCocFocusNode = FocusNode();
   FocusNode tieuDeSanPhamFocusNode = FocusNode();
   FocusNode ghiChuFocusNode = FocusNode();
@@ -189,9 +195,13 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           nhuCauLoaded = true;
           huongNhuCau = nhuCaus.nhuCau.field_huong;
           nhomNhuCau = nhuCaus.nhuCau.nhuCau;
+          xepLoaiSanPham = nhuCaus.nhuCau.field_xep_hang_san_pham;
+          sanPhamChinhChu = nhuCaus.nhuCau.field_san_pham_chinh_chu == 1 ? 'Sản phẩm chính chủ' : 'Sản phẩm không chính chủ';
+
           ngayNhapController.text = nhuCaus.nhuCau.ngayNhap!;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
           hoTenKhachHangController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.hoTen : '');
+          duongPhoController.text = nhuCaus.nhuCau.field_duong_pho!;
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
           soTangController.text = nhuCaus.nhuCau.soTang.toString();
           soPhongNguController.text = nhuCaus.nhuCau.soPhongNgu.toString();
@@ -206,12 +216,12 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           chieuDaiController.text = nhuCaus.nhuCau.chieuDai.toString();
           chieuRongController.text = nhuCaus.nhuCau.chieuRong.toString();
           ghiChuController.text = nhuCaus.nhuCau.ghiChu.toString();
+          doRongNgoController.text = intl.NumberFormat.decimalPattern().format(nhuCaus.nhuCau.field_do_rong_ngo);
           hinhAnhs = nhuCaus.nhuCau.hinhAnhs;
 
           // Load dữ liệu quận huyện đã chọn
           quanHuyen.forEach((element) {
-
-            if(nhuCaus.nhuCau.quanHuyen?.name == element.name){
+            if(nhuCaus.nhuCau.quanHuyen.name == element.name){
               selectedQuan = element;
               final phuongXa = nhuCaus.nhuCau.phuongXa;
               if(phuongXa != null){
@@ -260,7 +270,6 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         this.initForm = false;
       });
     }
-
 
     init();
   }
@@ -318,7 +327,11 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
         "field_so_tien_coc": tienDatCocController.text,
         "field_ghi_chu": ghiChuController.text,
         "field_anh_san_pham": sanPham.field_anh_san_pham,
-        "field_deleted_anh_san_pham": sanPham.field_deleted_anh_san_pham
+        "field_deleted_anh_san_pham": sanPham.field_deleted_anh_san_pham,
+        'field_san_pham_chinh_chu': sanPhamChinhChu,
+        'field_xep_hang_san_pham': xepLoaiSanPham,
+        'field_do_rong_ngo': doRongNgoController.text,
+        'field_duong_pho': duongPhoController.text,
       };
       print(toJson());
       await Provider.of<SanPhams>(context, listen: false).save(
@@ -387,6 +400,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
   @override
   Widget build(BuildContext context) {
 
+    print('2 xin chao');
     Widget leadingWidget() {
       return BackButton(
         color: appStore.textPrimaryColor,
@@ -474,6 +488,37 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                     ),
                                   ))
                                 ],
+                              ),
+                              16.height,
+                              Container(
+                                decoration: boxDecorationWithRoundedCorners(
+                                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                  backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                ),
+                                padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                child: DropdownButton<String>(
+                                  value: sanPhamChinhChu,
+                                  elevation: 16,
+                                  style: primaryTextStyle(),
+                                  hint: Text('Sản phẩm chính chủ / không chính chủ', style: primaryTextStyle()),
+                                  isExpanded: true,
+                                  underline: Container(
+                                    height: 0,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  onChanged: (newValue) {
+                                    print(newValue);
+                                    setState(() {
+                                      sanPhamChinhChu = newValue;
+                                    });
+                                  },
+                                  items: <String>['Sản phẩm chính chủ', 'Sản phẩm không chính chủ'].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                               16.height,
                               Container(
@@ -586,6 +631,17 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                         ),
                                       )),
                                 ],
+                              ),
+                              16.height,
+                              AppTextField(
+                                controller: duongPhoController,
+                                focus: duongPhoFocusNode,
+                                nextFocus: soPhongNguFocusNode,
+                                textFieldType: TextFieldType.NAME,
+                                decoration: rfInputDecoration(
+                                  lableText: "Đường phố",
+                                  showLableText: true,
+                                ),
                               ),
                               16.height,
                               Row(
@@ -740,19 +796,59 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 ],
                               ),
                               16.height,
-                              AppTextField(
-                                controller: giaBangSoController,
-                                focus: giaBangSoFocusNode,
-                                nextFocus: dienTichFocusNode,
-                                decoration: rfInputDecoration(
-                                  showLableText: true,
-                                  lableText: 'Giá bằng số (1000000) *',
-                                ),
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true),
+
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: AppTextField(
+                                      controller: giaBangSoController,
+                                      focus: giaBangSoFocusNode,
+                                      nextFocus: dienTichFocusNode,
+                                      decoration: rfInputDecoration(
+                                        showLableText: true,
+                                        lableText: 'Giá bằng số (1000000) *',
+                                      ),
+                                      inputFormatters: [
+                                        ThousandsFormatter(allowFraction: true),
+                                      ],
+                                      keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                      textFieldType: TextFieldType.NUMBER,
+                                    ),
+                                  ),
+                                  8.width,
+                                  Expanded(
+                                      child: Container(
+                                        decoration: boxDecorationWithRoundedCorners(
+                                          borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                                          backgroundColor: appStore.isDarkModeOn ? cardDarkColor : editTextBgColor,
+                                        ),
+                                        padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                                        child: DropdownButton<String>(
+                                          value: xepLoaiSanPham,
+                                          elevation: 16,
+                                          style: primaryTextStyle(),
+                                          hint: Text('Xếp loại SP', style: primaryTextStyle()),
+                                          isExpanded: true,
+                                          underline: Container(
+                                            height: 0,
+                                            color: Colors.deepPurpleAccent,
+                                          ),
+                                          onChanged: (newValue) {
+                                            print(newValue);
+                                            setState(() {
+                                              xepLoaiSanPham = newValue;
+                                            });
+                                          },
+                                          items: <String>['Bạc', 'Vàng', 'Kim cương', 'Thường'].map<DropdownMenuItem<String>>((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                  ),
                                 ],
-                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                textFieldType: TextFieldType.NUMBER,
                               ),
                               16.height,
                               Row(
@@ -810,7 +906,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                   Expanded(child: AppTextField(
                                     controller: chieuRongController,
                                     focus: chieuRongFocusNode,
-                                    nextFocus: tienDatCocFocusNode,
+                                    nextFocus: doRongNgoFocusNode,
                                     decoration: rfInputDecoration(
                                       showLableText: true,
                                       lableText: 'Chiều rộng',
@@ -824,19 +920,40 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                 ],
                               ),
                               16.height,
-                              AppTextField(
-                                controller: tienDatCocController,
-                                focus: tienDatCocFocusNode,
-                                nextFocus: ghiChuFocusNode,
-                                decoration: rfInputDecoration(
-                                  showLableText: true,
-                                  lableText: 'Số tiền cọc (triệu đồng)',
-                                ),
-                                inputFormatters: [
-                                  ThousandsFormatter(allowFraction: true),
+                              Row(
+                                children: [
+                                  Expanded(child: AppTextField(
+                                    controller: doRongNgoController,
+                                    focus: doRongNgoFocusNode,
+                                    nextFocus: tienDatCocFocusNode,
+                                    decoration: rfInputDecoration(
+                                      showLableText: true,
+                                      lableText: 'Độ rộng ngõ',
+                                    ),
+                                    inputFormatters: [
+                                      ThousandsFormatter(allowFraction: true),
+                                    ],
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    textFieldType: TextFieldType.NUMBER,
+                                  )),
+                                  8.width,
+                                  Expanded(
+                                      child: AppTextField(
+                                        controller: tienDatCocController,
+                                        focus: tienDatCocFocusNode,
+                                        nextFocus: ghiChuFocusNode,
+                                        decoration: rfInputDecoration(
+                                          showLableText: true,
+                                          lableText: 'Số tiền cọc (triệu đồng)',
+                                        ),
+                                        inputFormatters: [
+                                          ThousandsFormatter(allowFraction: true),
+                                        ],
+                                        keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                        textFieldType: TextFieldType.NUMBER,
+                                      ),
+                                  ),
                                 ],
-                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                textFieldType: TextFieldType.NUMBER,
                               ),
                               16.height,
                               AppTextField(
