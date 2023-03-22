@@ -72,12 +72,13 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
       this.deleting = true;
     });
     final provider = await Provider.of<NhuCaus>(context, listen: false);
-    provider.delete(nid).then((value){
+    provider.delete(nid, context).then((value){
       setState(() {
         this.deleting = false;
-        _reloadNhuCau(refresh: true);
       });
+      _reloadNhuCau(refresh: true);
     });
+
   }
 
   @override

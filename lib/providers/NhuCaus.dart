@@ -10,6 +10,7 @@ import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
 import 'package:room_finder_flutter/providers/KhuVuc.dart';
 import 'package:room_finder_flutter/providers/NhuCau.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
+import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 
 import 'SanPham.dart';
 
@@ -213,25 +214,36 @@ class NhuCaus with ChangeNotifier {
     }
   }
 
-  Future<void> delete(int? nid) async{
-    final response = await http.post(
-        Uri.parse(RFXoaNhuCau),
-        body: json.encode({
-          'uid': this.uid,
-          'auth': this.authToken,
-          'nid': nid
-        }),
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
-        }
-    );
+  Future<void> delete(int? nid, BuildContext context) async{
+    try{
+      final response = await http.post(
+          Uri.parse(RFXoaNhuCau),
+          body: json.encode({
+            'uid': this.uid,
+            'auth': this.authToken,
+            'nid': nid
+          }),
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+          }
+      );
 
-    if(!jsonDecode(response.body)['success'])
-      throw HttpException(jsonDecode(response.body)['content']);
+      if(!jsonDecode(response.body)['success'])
+        throw HttpException(jsonDecode(response.body)['content']);
 
-    toast(jsonDecode(response.body)['content']);
-    notifyListeners();
+      toast(jsonDecode(response.body)['content']);
+      notifyListeners();
+    }on HttpException catch(error){
+      RFWidget.showErrorDialog(error.message, context);
+    }catch (error){
+      print(error);
+      // showInDialog(context, barrierDismissible: true, builder: (context) {
+      //   return RFCongratulatedDialog();
+      // });
+      RFWidget.showErrorDialog(error.toString(), context);
+    }
+
   }
 
   Future<void> khoiTaoTimKiemNhuCau() async{
