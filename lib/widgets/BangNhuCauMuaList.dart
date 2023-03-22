@@ -20,6 +20,7 @@ class BangNhuCauCanMuaList extends StatefulWidget {
   String phanLoai = 'Tất cả';
   bool isLoading = false;
   int start = 0;
+  int currentStart = 0;
 
   // bool reset;
   Map<String, dynamic> thongTinTimKiem = <String, dynamic> {"timKiem": false};
@@ -39,23 +40,43 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
   late List<NhuCau> nhuCaus = [];
   String ketQuaNhuCau = '';
   int limit = 10;
+  bool deleting = false;
 
-  Future<void> _reloadNhuCau() async{
+  Future<void> _reloadNhuCau({bool refresh = false}) async{
     setState(() {
       ketQuaNhuCau = '';
     });
     final provider = await Provider.of<NhuCaus>(context, listen: false);
+    if(refresh)
+      setState(() {
+        widget.start = widget.currentStart;
+      });
+
     provider.getListNhuCau(widget.phanLoai, widget.thongTinTimKiem, widget.start, this.limit).then((value){
       if(this.mounted){
         setState(() {
           nhuCaus = provider.items;
           widget.start = provider.start;
+          widget.currentStart = provider.currentStart;
+
           widget.isLoading = false;
           if(nhuCaus.length == 0)
             ketQuaNhuCau = 'Không có thông tin nhu cầu';
           // widget.reset = false;
         });
       }
+    });
+  }
+  Future<void> _deleteNhuCau(int nid) async{
+    setState(() {
+      this.deleting = true;
+    });
+    final provider = await Provider.of<NhuCaus>(context, listen: false);
+    provider.delete(nid).then((value){
+      setState(() {
+        this.deleting = false;
+        _reloadNhuCau(refresh: true);
+      });
     });
   }
 
@@ -181,7 +202,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                 ),
               ) : SizedBox(),
               (ketQuaNhuCau != '')  ? Text(ketQuaNhuCau, style: TextStyle(color: Colors.red),).paddingAll(10) : SizedBox(),
-              Container(
+              deleting ? Center(child: CircularProgressIndicator(),) : Container(
                 child: Column(
                   children: [
                     ListView.builder(
@@ -401,7 +422,38 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                               );
                                             }
                                             else{
-
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: context.cardColor,
+                                                    title: Text("Thông báo", style: boldTextStyle(color: appStore.textPrimaryColor)),
+                                                    content: Text(
+                                                      "Bạn có chắc chắn muốn xoá dữ liệu này?",
+                                                      style: secondaryTextStyle(color: appStore.textSecondaryColor),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: Text(
+                                                          "Có",
+                                                          style: primaryTextStyle(color: Colors.red),
+                                                        ),
+                                                        onPressed: () {
+                                                          _deleteNhuCau(nhuCaus[index].nid.toInt()).then((value){
+                                                            Navigator.of(context).pop();
+                                                          });
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                        child: Text("Không", style: primaryTextStyle(color: appColorPrimary)),
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                      )
+                                                    ],
+                                                  );
+                                                },
+                                              );
                                             }
                                           },
                                           itemBuilder: (context) {

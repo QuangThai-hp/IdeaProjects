@@ -103,7 +103,7 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
           children: [
             Container(
               width: context.width(),
-              height: context.width() * 0.55,
+              height: context.width(),
               child: PageView(
                 controller: pageController,
                 children: getSlider(),

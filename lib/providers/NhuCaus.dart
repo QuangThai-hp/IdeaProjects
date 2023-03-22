@@ -43,6 +43,14 @@ class NhuCaus with ChangeNotifier {
   late NhuCau _nhuCau = NhuCau(hinhAnhs: ['https://happyhomehaiphong.com/images/da-luu/no-image.png'], quanHuyen: KhuVuc(tid: 0, name: '', type: ''), phuongXa: KhuVuc(tid: 0, name: '', type: ''));
   List<String> file_images = [];
   late int _start;
+  late int _currentStart;
+
+  int get currentStart => _currentStart;
+
+  set currentStart(int value) {
+    _currentStart = value;
+  }
+
   List<KhuVuc> get khuVuc => _khuVuc;
 
   set khuVuc(List<KhuVuc> value) {
@@ -91,7 +99,6 @@ class NhuCaus with ChangeNotifier {
 
     map['field_anh_san_pham'] = jsonDecode(response.body)['content']['field_anh_san_pham'];
 
-    print(jsonDecode(response.body)['content']);
     _nhuCau = new NhuCau(
       nid: jsonDecode(response.body)['content']['nid'],
       title: jsonDecode(response.body)['content']['title'],
@@ -143,7 +150,7 @@ class NhuCaus with ChangeNotifier {
   }
 
   Future<void> getListNhuCau(String? type, Map<String, dynamic>? thongTinTimKiem, int start, int limit) async{
-    // try
+    try
     {
       final response = await http.post(
           Uri.parse(RFGetNhuCauByPhanLoai),
@@ -161,7 +168,13 @@ class NhuCaus with ChangeNotifier {
           }
       );
 
+      if(!jsonDecode(response.body)['success'])
+        throw HttpException(jsonDecode(response.body)['content']);
+      print("currentStart ${jsonDecode(response.body)['currentStart']}");
+      print("startBtn ${jsonDecode(response.body)['startBtn']}");
+
       _start = jsonDecode(response.body)['startBtn'].toString().toDouble().toInt();
+      _currentStart = jsonDecode(response.body)['currentStart'].toString().toDouble().toInt();
 
       final extractedData = List<Map<String, dynamic>>.from(jsonDecode(response.body)['content']); //json.decode(response.body) as Map<String, dynamic>;
       final List<NhuCau> loadedNhuCaus = [];
@@ -193,13 +206,11 @@ class NhuCaus with ChangeNotifier {
         ));
       });
       _items = loadedNhuCaus;
-      // if(!responseData['success'])
-      //   throw HttpException(responseData['content']);
       notifyListeners();
     }
-    // catch(error){
-    //   throw error;
-    // }
+    catch(error){
+      throw error;
+    }
   }
 
   Future<void> delete(int? nid) async{
@@ -216,7 +227,10 @@ class NhuCaus with ChangeNotifier {
         }
     );
 
-    //json.decode(response.body) as Map<String, dynamic>;
+    if(!jsonDecode(response.body)['success'])
+      throw HttpException(jsonDecode(response.body)['content']);
+
+    toast(jsonDecode(response.body)['content']);
     notifyListeners();
   }
 
