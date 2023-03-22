@@ -114,6 +114,7 @@ class NhuCaus with ChangeNotifier {
         tid: jsonDecode(response.body)['content']['phuongXa']['tid'].toString().toInt(),
         name: jsonDecode(response.body)['content']['phuongXa']['name'],
       ),
+      field_don_vi_tinh: jsonDecode(response.body)['content']['donViTinhGia']['name'],
       soPhongNgu: jsonDecode(response.body)['content']['soPhongNgu'].toString().toInt(),
       SoPhongVeSinh: jsonDecode(response.body)['content']['SoPhongVeSinh'].toString().toInt(),
       field_huong: jsonDecode(response.body)['content']['field_huong'],
@@ -132,7 +133,7 @@ class NhuCaus with ChangeNotifier {
       chieuRong: jsonDecode(response.body)['content']['chieRong'].toString().toDouble(),
       soTienCoc: jsonDecode(response.body)['content']['soTienCoc'].toString().toDouble(),
       field_san_pham_chinh_chu: jsonDecode(response.body)['content']['field_san_pham_chinh_chu'].toString().toInt(),
-      field_xep_hang_san_pham: jsonDecode(response.body)['content']['field_xep_hang_san_pham'] == null ? null :jsonDecode(response.body)['content']['field_xep_hang_san_pham'].toString(),
+      field_xep_hang_san_pham: jsonDecode(response.body)['content']['field_xep_hang_san_pham'].toString(),
       field_do_rong_ngo: jsonDecode(response.body)['content']['field_do_rong_ngo'].toString().toDouble(),
       field_duong_pho: jsonDecode(response.body)['content']['field_duong_pho'].toString(),
       hinhAnhs: (map['field_anh_san_pham'] as List).map((item) => item as String).toList()

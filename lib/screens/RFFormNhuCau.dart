@@ -201,7 +201,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           ngayNhapController.text = nhuCaus.nhuCau.ngayNhap!;
           tieuDeSanPhamController.text = nhuCaus.nhuCau.title;
           hoTenKhachHangController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.hoTen : '');
-          duongPhoController.text = nhuCaus.nhuCau.field_duong_pho!;
+          duongPhoController.text = nhuCaus.nhuCau.field_duong_pho;
           dienThoaiController.text = (nhuCaus.nhuCau.khachHangChuNha != null ? nhuCaus.nhuCau.khachHangChuNha!.dienThoai : '');
           soTangController.text = nhuCaus.nhuCau.soTang.toString();
           soPhongNguController.text = nhuCaus.nhuCau.soPhongNgu.toString();

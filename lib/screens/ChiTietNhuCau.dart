@@ -195,10 +195,26 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      TextIcon(text: 'Đường phố', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.trail_sign, size: 18,),),
+                      Text(nhuCau.field_duong_pho, style: secondaryTextStyle()),
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Ngõ', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Ionicons.pause, size: 18,),),
+                      Text("${nhuCau.field_do_rong_ngo.toString()} m", style: secondaryTextStyle()),
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       TextIcon(text: 'Giá bán', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Icon(Icons.monetization_on_sharp, size: 18,),),
                       text(
-                          NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCau.giaBangSo == null ? 0 : nhuCau.giaBangSo), textColor: t7textColorSecondary, fontSize: textSizeSMedium
-                      )
+                          NumberFormat.currency(locale: 'vi', symbol: '').format( nhuCau.field_gia == null ? 0 : nhuCau.field_gia), textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      ),
                     ],
                   ).paddingOnly(top: 8, bottom: 8),
                   Divider(color: context.dividerColor, height: 0),
@@ -258,6 +274,36 @@ class _ChiTietNhuCauState extends State<ChiTietNhuCau> {
                       ),),
                       text(
                           nhuCau.thongTinPhapLy.toString(),
+                          textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Xếp loại', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Row(
+                        children: [
+                          Icon(Ionicons.star, size: 18,),
+                        ],
+                      ),),
+                      text(
+                          nhuCau.field_xep_hang_san_pham.toString(),
+                          textColor: t7textColorSecondary, fontSize: textSizeSMedium
+                      )
+                    ],
+                  ).paddingOnly(top: 8, bottom: 8),
+                  Divider(color: context.dividerColor, height: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextIcon(text: 'Chính chủ', textStyle: TextStyle(fontWeight: FontWeight.bold), prefix: Row(
+                        children: [
+                          Icon(Ionicons.checkmark_circle, size: 18,),
+                        ],
+                      ),),
+                      text(
+                          nhuCau.field_san_pham_chinh_chu.toString() == 0 ? 'Không chính chủ' : 'SP Chính chủ',
                           textColor: t7textColorSecondary, fontSize: textSizeSMedium
                       )
                     ],

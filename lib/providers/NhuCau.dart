@@ -39,7 +39,7 @@ class NhuCau with ChangeNotifier {
   final String field_don_vi_tinh;
   double field_do_rong_ngo = 0;
   String? field_xep_hang_san_pham = 'Thường';
-  String? field_duong_pho = '';
+  String field_duong_pho = '';
   int field_san_pham_chinh_chu = 0;
   List<String> hinhAnhs = ['https://happyhomehaiphong.com/images/da-luu/no-image.png'];
 
