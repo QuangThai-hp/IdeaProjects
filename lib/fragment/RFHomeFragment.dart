@@ -89,7 +89,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                           _isLoading = true;
                         });
                     },),
-                  );
+                  ).then((value) => null);
                 },
               ),
             ],

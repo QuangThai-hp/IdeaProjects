@@ -11,6 +11,8 @@ import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
+import '../screens/RFThongTinCaNhan.dart';
+
 class RFHeThongFragment extends StatefulWidget {
   @override
   State<RFHeThongFragment> createState() => _RFHeThongFragmentState();
@@ -287,6 +289,7 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
                 ],
               ),
             ),
+            //
             Container(
               height: 42.0,
               width: SizeConfig.screenWidth,
@@ -297,7 +300,11 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
               child: Column(
                 children: [
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => RFThongTinCaNhan(
+                            )));
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

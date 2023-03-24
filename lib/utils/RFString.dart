@@ -24,6 +24,6 @@ const RFGetThongTinNhuCau="https://happyhomehaiphong.com/api/get-nhu-cau-by-nid"
 const RFSuaKhachHang="https://happyhomehaiphong.com/api/sua-khach-hang";
 const RFXoaNhuCau="https://happyhomehaiphong.com/api/xoa-nhu-cau";
 const RFNoImage = 'https://happyhomehaiphong.com/images/da-luu/no-image.png';
-
+const RFProfile ="https://happyhomehaiphong.com/api/get-profile";
 const textSizeSMedium = 14.0;
 const t1_view_color = Color(0XFFDADADA);

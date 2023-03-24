@@ -1,17 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/KhachHangChuNha.dart';
+import 'package:room_finder_flutter/providers/KhuVuc.dart';
+import 'package:room_finder_flutter/providers/DonViTinh.dart';
 
-class proFile with ChangeNotifier {
-  String? nid;
-  final String? hoTen;
+class Profile with ChangeNotifier {
+  String? uid;
+  final String? name;
+  final String? mail;
   final String? field_dien_thoai;
   final String? field_dia_chi;
-  final String? field_trang_thai;
 
-  proFile({
-    this.nid = '',
-     this.hoTen,
-     this.field_dien_thoai,
+  Profile({
+    this.uid = '',
+    this.name,
+    this.mail,
+    this.field_dien_thoai,
     this.field_dia_chi,
-     this.field_trang_thai,
   });
+
+
 }
