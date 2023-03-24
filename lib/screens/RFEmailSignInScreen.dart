@@ -141,9 +141,9 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
       RFWidget.showErrorDialog(error.message, context);
     } catch (error) {
       print(error);
-      showInDialog(context, barrierDismissible: true, builder: (context) {
-        return RFCongratulatedDialog();
-      });
+      // showInDialog(context, barrierDismissible: true, builder: (context) {
+      //   return RFCongratulatedDialog();
+      // });
       RFWidget.showErrorDialog(
           'Could not authentication you. Please again later', context);
     }

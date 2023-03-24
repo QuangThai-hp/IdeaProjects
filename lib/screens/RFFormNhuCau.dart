@@ -67,7 +67,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
 
   String? huongNhuCau = null;
   String? nhomNhuCau = null;
-  String? xepLoaiSanPham = null;
+  String xepLoaiSanPham = 'Thường';
   String? sanPhamChinhChu = null;
   String? chonDonViTinh = null;
   String tenForm = '';
@@ -195,7 +195,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
           nhuCauLoaded = true;
           huongNhuCau = nhuCaus.nhuCau.field_huong;
           nhomNhuCau = nhuCaus.nhuCau.nhuCau;
-          xepLoaiSanPham = nhuCaus.nhuCau.field_xep_hang_san_pham;
+          xepLoaiSanPham = nhuCaus.nhuCau.field_xep_hang_san_pham!;
           sanPhamChinhChu = nhuCaus.nhuCau.field_san_pham_chinh_chu == 1 ? 'Sản phẩm chính chủ' : 'Sản phẩm không chính chủ';
 
           ngayNhapController.text = nhuCaus.nhuCau.ngayNhap!;
@@ -836,7 +836,7 @@ class _RFFormNhuCauScreenState extends State<RFFormNhuCauScreen> {
                                           onChanged: (newValue) {
                                             print(newValue);
                                             setState(() {
-                                              xepLoaiSanPham = newValue;
+                                              xepLoaiSanPham = newValue!;
                                             });
                                           },
                                           items: <String>['Bạc', 'Vàng', 'Kim cương', 'Thường'].map<DropdownMenuItem<String>>((String value) {

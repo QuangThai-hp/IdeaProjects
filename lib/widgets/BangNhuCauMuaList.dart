@@ -52,7 +52,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
         widget.start = widget.currentStart;
       });
 
-    provider.getListNhuCau(widget.phanLoai, widget.thongTinTimKiem, widget.start, this.limit).then((value){
+    provider.getListNhuCau(widget.phanLoai, widget.thongTinTimKiem, widget.start, this.limit, context).then((value){
       if(this.mounted){
         setState(() {
           nhuCaus = provider.items;
@@ -97,8 +97,8 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
     if(widget.isLoading)
       _reloadNhuCau();
 
-    return
-    Column(
+    print('Xin chào build bảng nhu cầu');
+    return Column(
       children: [
         widget.isLoading == true ?  Container(child: CircularProgressIndicator(),) : SizedBox(),
         Column(
@@ -146,7 +146,7 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                             children: [
                               Text('Mức giá: ', style: TextStyle(fontWeight: FontWeight.bold),),
                               Text((widget.thongTinTimKiem['selectedNhuCau'] == 'Cần bán' || widget.thongTinTimKiem['selectedNhuCau'] == 'Cần mua') ?
-                                (widget.thongTinTimKiem['selectedValueMucGiaBan'] == null ? '' : widget.thongTinTimKiem['selectedValueMucGiaBan']) :
+                              (widget.thongTinTimKiem['selectedValueMucGiaBan'] == null ? '' : widget.thongTinTimKiem['selectedValueMucGiaBan']) :
                               (widget.thongTinTimKiem['selectedValueMucGiaThue'] == null ? '' : widget.thongTinTimKiem['selectedValueMucGiaThue'])
                               )
                             ],
@@ -228,20 +228,21 @@ class _BangNhuCauCanMuaListState extends State<BangNhuCauCanMuaList> {
                                   Row(
                                     children: [
                                       Container(
-                                        height: width * 0.25,
+                                        // height: width * 0.25,
                                         width: width * 0.25,
                                         child: Stack(
                                           children: <Widget>[
                                             Container(
                                               child: ClipRRect(
-                                                borderRadius: new BorderRadius.circular(12.0),
-                                                child: CachedNetworkImage(
-                                                  placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
-                                                  imageUrl: nhuCaus[index].field_anh_san_pham,
-                                                  fit: BoxFit.cover,
-                                                  height: width * 0.32,
-                                                  width: width * 0.32,
-                                                ),
+                                                borderRadius: new BorderRadius.circular(8.0),
+                                                child: Image.network(nhuCaus[index].field_anh_san_pham, cacheWidth: 360,)
+                                                // child: CachedNetworkImage(
+                                                //   placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
+                                                //   imageUrl: nhuCaus[index].field_anh_san_pham,
+                                                //   fit: BoxFit.cover,
+                                                //   height: width * 0.32,
+                                                //   width: width * 0.32,
+                                                // ),
                                               ),
                                             )
                                           ],

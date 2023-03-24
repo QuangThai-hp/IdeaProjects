@@ -150,8 +150,8 @@ class NhuCaus with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getListNhuCau(String? type, Map<String, dynamic>? thongTinTimKiem, int start, int limit) async{
-    try
+  Future<void> getListNhuCau(String? type, Map<String, dynamic>? thongTinTimKiem, int start, int limit, BuildContext context) async{
+    // try
     {
       final response = await http.post(
           Uri.parse(RFGetNhuCauByPhanLoai),
@@ -171,6 +171,7 @@ class NhuCaus with ChangeNotifier {
 
       if(!jsonDecode(response.body)['success'])
         throw HttpException(jsonDecode(response.body)['content']);
+
       print("currentStart ${jsonDecode(response.body)['currentStart']}");
       print("startBtn ${jsonDecode(response.body)['startBtn']}");
 
@@ -209,9 +210,14 @@ class NhuCaus with ChangeNotifier {
       _items = loadedNhuCaus;
       notifyListeners();
     }
-    catch(error){
-      throw error;
-    }
+    // on HttpException catch (error) {
+    //   RFWidget.showErrorDialog(error.message, context);
+    // }
+    // catch(error){
+    //   RFWidget.showErrorDialog(error.toString(), context);
+    //
+    //   throw error;
+    // }
   }
 
   Future<void> delete(int? nid, BuildContext context) async{

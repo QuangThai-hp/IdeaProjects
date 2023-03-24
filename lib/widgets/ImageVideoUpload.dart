@@ -13,6 +13,8 @@ import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
+import '../utils/RFWidget.dart';
+
 class ImageVideoUpload extends StatefulWidget {
   List<String> images = [];
 
@@ -176,71 +178,83 @@ class _ImageVideoUploadState extends State<ImageVideoUpload> {
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = context.width() / 2;
+    double cardWidth = context.width() / 3;
     double cardHeight = context.height() / 3.5;
 
     return
-        Column(
-          children: [
-            widget.images!.length > 0 ?
-            (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),)  :
-            GridView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: widget.images!.length,
-              padding: EdgeInsets.all(8),
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: cardWidth / cardHeight
+    Column(
+      children: [
+        Container(
+          child: widget.images.length > 0 ?
+          (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),)  :
+          GridView.builder(
+            scrollDirection: Axis.vertical,
+            physics: ScrollPhysics(),
+            itemCount: widget.images.length,
+            // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 16, mainAxisSpacing: 16),
+            padding: EdgeInsets.all(8),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: cardWidth / cardHeight
+            ),
+            itemBuilder: (context, index) => Container(
+              padding: EdgeInsets.only(
+                left: 8, right: 8,
+                top: 10,
               ),
-              itemBuilder: (context, index) => Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: new BorderRadius.circular(12.0),
-                      child:GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                                return FullScreenImageViewer(
-                                  imageUrl: widget.images![index],
-                                  tag: "generate_a_unique_tag",
-                                );
-                              }));
-                        },
-                        child: Hero(
-                          child: Image(
-                            image: NetworkImage(widget.images![index]),
+              decoration: boxDecoration(
+                  radius: 8, showShadow: true, bgColor: context.scaffoldBackgroundColor
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: new BorderRadius.circular(12.0),
+                    child:GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) {
+                              return FullScreenImageViewer(
+                                imageUrl: widget.images[index],
+                                tag: "generate_a_unique_tag",
+                              );
+                            }));
+                      },
+                      child: Column(
+                        children: [
+                          Image.network(
+                            widget.images[index],
+                            cacheWidth: 360,
+                            height: cardHeight * 0.5,
+                            width: cardWidth,
                             fit: BoxFit.cover,
-                            height: context.height() / 6,
-                            width: MediaQuery.of(context).size.width,
                           ),
-                          tag: widget.images![index],
-                        ),
+                          TextButton.icon(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.red,
+                            ),
+                            onPressed: () {
+                              // print(_images[index]);
+                              deleteImageFromServer(widget.images[index]);
+                            },
+                            icon: Icon(Icons.delete, size: 14.0,),
+                            label: Text('Xóa', style: TextStyle(fontSize: 14),),
+                          ),
+                        ],
+                        // height: context.height() / 2,
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: TextButton.icon(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.red,
-                        ),
-                        onPressed: () {
-                          // print(_images[index]);
-                          deleteImageFromServer(widget.images![index]);
-                        },
-                        icon: Icon(Icons.delete, size: 16.0,),
-                        label: Text('Xóa'),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+
+                ],
               ),
-            )) :
-            (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),) : Center(child: Text("Chưa chọn hình ảnh"))),
-            TextButton(onPressed: () => myAlert(), child: Icon(Icons.upload))
-          ],
+            ),
+          )) :
+          (_dangUploadHinhAnh == true ? Center(child: CircularProgressIndicator(),) : Center(child: Text("Chưa chọn hình ảnh")))
+        ),
+        TextButton(onPressed: () => myAlert(), child: Icon(Icons.upload))
+      ],
     );
   }
 }
