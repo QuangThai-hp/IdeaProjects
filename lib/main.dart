@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/providers/Profiles.dart';
 import 'package:room_finder_flutter/providers/auth.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/customers.dart';
@@ -14,6 +15,7 @@ import 'package:room_finder_flutter/screens/RFFormSuaMatKhau.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
+import 'package:room_finder_flutter/screens/RFSuaThongTinCaNhan.dart';
 import 'package:room_finder_flutter/store/AppStore.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
@@ -124,6 +126,16 @@ class MyApp extends StatelessWidget {
           },
           // create: ,
         ),
+        ChangeNotifierProxyProvider<Auth, Profiles>(
+          create: (_) => Profiles('', 0),
+          update: (_, auth, previousPr) {
+            return Profiles(
+                auth.token,
+                auth.userId.toInt(),
+            );
+          },
+          // create: ,
+        ),
 
       ],
       child: Consumer<Auth>(
@@ -143,8 +155,7 @@ class MyApp extends StatelessWidget {
             RFFormNhuCauScreen.routeName: (ctx) => RFFormNhuCauScreen(),
             RFFormSuaKhachHang.routeName:(ctx)=>RFFormSuaKhachHang(),
             RFFormSuaMatKhau.routeName:(ctx)=>RFFormSuaMatKhau(),
-
-
+            RFSuaThongTinCaNhan.routeName:(ctx)=>RFSuaThongTinCaNhan(),
           },
         ),
       ),

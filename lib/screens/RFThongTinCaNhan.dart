@@ -15,6 +15,7 @@ import 'package:room_finder_flutter/providers/NhuCaus.dart';
 import 'package:room_finder_flutter/providers/SanPhams.dart';
 import 'package:room_finder_flutter/providers/donViTinhs.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
+import 'package:room_finder_flutter/screens/RFSuaThongTinCaNhan.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
@@ -33,32 +34,28 @@ import 'package:room_finder_flutter/utils/RFWidget.dart' as RFWidget;
 import 'package:intl/intl.dart' as intl;
 
 class RFThongTinCaNhan extends StatefulWidget {
-  String? email ;
-  RFThongTinCaNhan({this.email});
   @override
   _RFThongTinCaNhan createState() => _RFThongTinCaNhan();
 }
 
 class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
-  String? email = '123124124';
-  String? nameUser = '';
-  String? phone;
-  String? diaChi = '';
+  Profile proFile = Profile();
   bool load = false;
 
-  Future<void> _loadProfile(BuildContext context) async{
-    Profiles provider = Provider.of<Profiles>(context, listen: false);
-    print('asd');
-    provider.getProfile().then((value){
-      if (this.mounted) {
+  @override
+  void initState() {
+    _loadProfile();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  Future<void> _loadProfile() async{
+    Profiles profile = Provider.of<Profiles>(context, listen: false);
+    profile.getProfile().then((value){
         setState(() {
-          widget.email = provider.ProFiless.mail;
-          nameUser = provider.ProFiless.name;
-          phone = provider.ProFiless.field_dien_thoai;
-          diaChi = provider.ProFiless.field_dia_chi;
+          proFile = profile.ProFiless;
           load == true;
         });
-      }
     });
   }
 
@@ -89,8 +86,8 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
           children: <Widget>[
             SizedBox(height: 50),
             16.height,
-            // Text('Ho ten: ${nameUser}', style: boldTextStyle(size: 18)),
-            Text('Email: ${widget.email}',
+            Text('Ho ten: ${proFile.name}', style: boldTextStyle(size: 18)),
+            Text('Email: ${proFile.mail}',
               style: TextStyle(color: color_primary_black, fontSize: 14),),
             SizedBox(height: 16),
             Padding(
@@ -101,22 +98,21 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
         ),
       ),
     );
-
-    if(load == false){
-      _loadProfile(context);
-    }
-    return load==false ? Center(
-      child: CircularProgressIndicator(),
-    )
-        :
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
             title: Text('Thông tin cá nhân', style: boldTextStyle(color: appStore.textPrimaryColor)),
             backgroundColor: Colors.white,
             actions: [
               IconButton(
                   onPressed: (){
-
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => RFSuaThongTinCaNhan(
+                          uid: proFile.uid,
+                          email: proFile.mail,
+                          name: proFile.field_ho_ten,
+                          phone: proFile.field_dien_thoai,
+                          diaChi: proFile.field_dia_chi,
+                        )));
                   },
                   icon: Icon(Icons.edit, color: appStore.isDarkModeOn ? white : rf_primaryColor, size: 20),
               ),
@@ -162,10 +158,9 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                   SizedBox(
                                     width: 44,
                                   ),
-
-                                  // Text('hoTen: ${diaChi}',
-                                  //   style: TextStyle(color: color_primary_black, fontSize: 16),
-                                  // ),
+                                  Text('${proFile.field_ho_ten}',
+                                    style: TextStyle(color: color_primary_black, fontSize: 16),
+                                  ),
                                 ],
                               ),
                               24.height,
@@ -175,7 +170,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                     width: 44,
                                   ),
                                   Text(
-                                    'Email: ${widget.email}',
+                                    '${proFile.field_ngay_sinh}',
                                     style: TextStyle(
                                         color: color_primary_black, fontSize: 16),
                                   ),
@@ -188,7 +183,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                     width: 44,
                                   ),
                                   Text(
-                                    '',
+                                    '${proFile.field_dia_chi}',
                                     style: TextStyle(
                                         color: color_primary_black, fontSize: 16),
                                   ),
@@ -229,7 +224,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                 SizedBox(
                                   width: 44,
                                 ),
-                                Text('',
+                                Text('${proFile.field_dien_thoai}',
                                   style: TextStyle(color: color_primary_black, fontSize: 16),
                                 ),
                               ],
@@ -241,46 +236,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                   width: 44,
                                 ),
                                 Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: color_primary_black, fontSize: 16),
-                                ),
-                              ],
-                            ),
-                            16.height,
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 44,
-                                ),
-                                Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: color_primary_black, fontSize: 16),
-                                ),
-                              ],
-                            ),
-                            16.height,
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 44,
-                                ),
-                                Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: color_primary_black, fontSize: 16),
-                                ),
-                              ],
-                            ),
-                            16.height,
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 44,
-                                ),
-                                Text(
-                                  '',
+                                  '${proFile.mail}',
                                   style: TextStyle(
                                       color: color_primary_black, fontSize: 16),
                                 ),
@@ -288,7 +244,6 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                             ),
                           ],
                         ),
-
                       ],
                     ),
                   ),
