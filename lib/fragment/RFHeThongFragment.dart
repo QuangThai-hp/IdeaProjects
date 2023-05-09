@@ -88,7 +88,7 @@ class _RFHeThongFragmentState extends State<RFHeThongFragment> {
         subWidget: Column(
           children: [
             16.height,
-            Text('Pham the Manh', style: boldTextStyle(size: 18)),
+            Text('TÀI KHOẢN NHÂN VIÊN', style: boldTextStyle(size: 18)),
             8.height,
             16.height,
             Row(

@@ -86,8 +86,8 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
           children: <Widget>[
             SizedBox(height: 50),
             16.height,
-            Text('Ho ten: ${proFile.name}', style: boldTextStyle(size: 18)),
-            Text('Email: ${proFile.mail}',
+            Text('Tên đăng nhập: ${proFile.name}', style: boldTextStyle(size: 18)),
+            Text('${proFile.mail}',
               style: TextStyle(color: color_primary_black, fontSize: 14),),
             SizedBox(height: 16),
             Padding(
@@ -158,7 +158,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                   SizedBox(
                                     width: 44,
                                   ),
-                                  Text('${proFile.field_ho_ten}',
+                                  Text('Họ và tên: Thái${proFile.field_ho_ten}',
                                     style: TextStyle(color: color_primary_black, fontSize: 16),
                                   ),
                                 ],
@@ -170,7 +170,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                     width: 44,
                                   ),
                                   Text(
-                                    '${proFile.field_ngay_sinh}',
+                                    'Ngày sinh: ${proFile.field_ngay_sinh}',
                                     style: TextStyle(
                                         color: color_primary_black, fontSize: 16),
                                   ),
@@ -183,7 +183,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                     width: 44,
                                   ),
                                   Text(
-                                    '${proFile.field_dia_chi}',
+                                    'Địa chỉ: ${proFile.field_dia_chi}',
                                     style: TextStyle(
                                         color: color_primary_black, fontSize: 16),
                                   ),
@@ -224,7 +224,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                 SizedBox(
                                   width: 44,
                                 ),
-                                Text('${proFile.field_dien_thoai}',
+                                Text('Số điện thoại: ${proFile.field_dien_thoai}',
                                   style: TextStyle(color: color_primary_black, fontSize: 16),
                                 ),
                               ],
@@ -236,7 +236,7 @@ class _RFThongTinCaNhan extends State<RFThongTinCaNhan> {
                                   width: 44,
                                 ),
                                 Text(
-                                  '${proFile.mail}',
+                                  'Email: ${proFile.mail}',
                                   style: TextStyle(
                                       color: color_primary_black, fontSize: 16),
                                 ),
