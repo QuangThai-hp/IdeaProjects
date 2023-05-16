@@ -142,7 +142,7 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           scrollBehavior: SBehavior(),
           navigatorKey: navigatorKey,
-          title: 'Nhóm 07',
+          title: 'Happy Home',
           debugShowCheckedModeBanner: false,
           theme: AppThemeData.lightTheme,
           darkTheme: AppThemeData.darkTheme,

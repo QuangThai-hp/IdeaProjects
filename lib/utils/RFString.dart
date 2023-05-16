@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-const RFAppName = "Nhóm 07";
+const RFAppName = "HappyHome";
 const RFAppSubTitle = "Quản lý dữ liệu BĐS";
 const RFBaseUrl = "https://happyhomehaiphong.com/api/";
 const RFBaseLogin = "https://happyhomehaiphong.com/api/login";

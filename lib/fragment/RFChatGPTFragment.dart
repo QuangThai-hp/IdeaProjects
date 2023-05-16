@@ -78,7 +78,7 @@ class _RFChatGPTFragmentState extends State<RFChatGPTFragment> {
             Container(
                 alignment: Alignment.center,
                 child: Text(
-                  'Chat with Nhóm 07',
+                  'Chat with Happyhome',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
